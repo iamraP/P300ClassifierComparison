@@ -67,7 +67,7 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
 
         #mean_amplitudes.to_csv(r"D:\Master\Masterarbeit\Data\Amplitudes\average_amplitudes_350_600.csv")
     if sess_name == 'all':
-        sess= 'all'
+        sess = 'all'
     for data_path in data_paths:
         with open(data_path, "rb") as file:
             data_tuple = pickle.load(file)
@@ -108,7 +108,7 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
 
         r_value_mat = np.empty((n_channels,n_samples))
         r_value_mat[:] = np.nan # empty doesn't create an empty array!!
-        y_mat = np.tile(y.reshape(1,1,-1).T, (1,n_channels, n_samples))
+        y_mat = np.tile(y.reshape(1,1,-1).T, (1,n_channels, n_samples))  # TODO  should you really use reshape here? check again
 
 
         for timepoint in range(n_samples):
@@ -206,12 +206,13 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
     raw = mne.concatenate_raws(raw_list) if calib_runs != 1 else raw
     events, event_id = mne.events_from_annotations(raw)
     event_id.pop('10') 
-    epochs = mne.Epochs(raw, events, event_id=event_id, tmin=0, tmax=0.8, preload=True,
+    epochs = mne.Epochs(raw, events, event_id=event_id, tmin=0, tmax=0.85, preload=True,
                         event_repeated='merge',baseline=None,picks=picks)  # timewindow -0.85 so its' 0.8 after resampling baselien=(-0.100,0)
 
 
     # prepare data for covariance estimation
     X = epochs.copy().resample(20).get_data() if resampled_riemann else epochs.get_data()
+    epochs_for_swlda = epochs.copy()
 
     new_event_id = {} # empty dictionary
     for key, value in epochs.event_id.items(): # set all targets to 1, non_targets to 0
@@ -243,7 +244,7 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
         edf_td = epochs.to_data_frame(time_format='timedelta')
         edf_filtered = edf_td[["time", "condition", "epoch"]]
         feature_names = ["feature_" + str(i) for i in range(filtered_epochs.shape[1])]
-        edf_filtered[feature_names] = filtered_epochs.reshape(edf_td.shape[0],filtered_epochs.shape[1])
+        edf_filtered[feature_names] = filtered_epochs.reshape(edf_td.shape[0],filtered_epochs.shape[1]) # TODO  should you really use reshape here? check again
         edf=edf_filtered
     else:
         epochs_resampled = epochs.copy().resample(20)
@@ -274,7 +275,7 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
     epoch_df = epoch_df.rename(columns={0:"condition",1:"tactilo",2:"epoch"}).reset_index(drop=True)
     epoch_info_df = epoch_df[["condition","tactilo","epoch"]]
     x = epoch_df.drop(columns=["condition","tactilo","epoch"])
-    return x,y, epoch_info_df,cov_estimator, cov_matrices,spatial_filter
+    return x,y, epochs_for_swlda, epoch_info_df,cov_estimator, cov_matrices,spatial_filter
 
 
 ''' LOAD INFO'''
