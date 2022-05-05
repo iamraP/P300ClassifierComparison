@@ -7,10 +7,11 @@ from sklearn.feature_selection import f_classif,SelectKBest
 from pyriemann.classification import FgMDM,MDM
 from sklearn import metrics
 import time
-import swlda
+import swlda as sw
 import numpy as np
 from scipy.spatial import distance
 import py3gui
+from sklearn import preprocessing
 
 '''This script was used for testing the classifiers, usining the '''
 ################################################
@@ -25,7 +26,7 @@ classification = True #if only analysis is done don't load data in the complex w
 investigate_sessionwise = False  #used for evaluation, figure plotting etc
 investigate_several_sessions = False #set range in script, used for averaging of several sessions
 sess_list = range(1,14)  #range(1,50) #list(range(1,50)) #neues Setup ab Session 21 (12. Messtag)
-data_origin = r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis"
+data_origin = r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\pickle_files"
 ################################################
 '''SETTINGS STOP'''
 ################################################
@@ -138,171 +139,108 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
             ################################################
 
 
-            #train classifiers and evaluate classifiers
+            #data_train_res classifiers and evaluate classifiers
             if not resampled_riemann:
 
-                from sklearn import preprocessing
+
 
             #SWLDA
-                data_train = epochs_train.get_data().swapaxes(1,2)*1e6
-                channels, weights, weights_resampled = swlda.swlda(data_train,y_train,512,[0,800],20)
+                # get feature weights
+                data_train = epochs_train.copy().get_data()*1e6
+                data_test = epochs_test.copy().get_data() * 1e6
+                channels, weights, weights_resampled,downsampled = sw.swlda(data_train.swapaxes(1,2),y_train,512,[0,800],20)
+
+                #get resampled responses
+                data_train_res = epochs_train.copy().resample(20).get_data()*1e6
+                data_test_res = epochs_test.copy().resample(20).get_data()*1e6
+
+                #evaluate using the py3GUI algorithm with the resampled weights and data
+                #create full matrix from sparse matrix
+                weights_resampled_full = np.zeros((data_test_res.shape[2], data_test_res.shape[1]))
+                weights_resampled_full[weights_resampled[:, 1].astype(int), weights_resampled[:, 0].astype(int)-1] = weights_resampled[:,3] # channels are 1-based therefore -1!
+
+                ac_swlda = py3gui.test_weights(data_test_res.swapaxes(1, 2), y_test, weights_resampled_full, [1, 6], 8)
+
+                #evaluate using the py3GUI and reversing the resampling (as in the original PY3GUI script)
+                #create full matrix from sparse matrix
+                full_weight_matrix = np.zeros((data_test.shape[2], data_test.shape[1]))
+                full_weight_matrix[weights[:, 1].astype(int), weights[:, 0].astype(int)-1] = weights[:,3]
+
+                ac_swlda = py3gui.test_weights(data_test.swapaxes(1, 2), y_test, full_weight_matrix, [1, 6], 8)
 
 
-
-
-                train = epochs_train.copy().resample(20).get_data()*1e6
-
-
-                X_swTrain = np.zeros((weights_resampled.shape[0], train.shape[0]))
+                # extract weighted features
+                X_swTrain = np.zeros((weights_resampled.shape[0], data_train_res.shape[0]))
                 for i, feature in enumerate(weights_resampled):
-                    X_swTrain[i, :] = train[:, feature[0].astype(int), feature[1].astype(int)]#* feature[3]
-
+                    X_swTrain[i, :] = data_train_res[:, feature[0].astype(int), feature[1].astype(int)] #* feature[3]
                 X_swTrain = X_swTrain.swapaxes(0, 1)
-                scaler = preprocessing.StandardScaler().fit(X_swTrain, y_train)
-                X_swTrain = scaler.transform(X_swTrain)
 
+                X_swTest= np.zeros((weights_resampled.shape[0], data_test_res.shape[0]))
+                for i, feature in enumerate(weights_resampled):
+                    X_swTest[i, :] = data_test_res[:, feature[0].astype(int), feature[1].astype(int)] #* feature[3]
+                X_swTest=X_swTest.swapaxes(0,1)
+
+                # sum weighted features:
+                swlda_result = X_swTest.sum(axis=1)
+                swlda_y_pred_prob =np.array([swlda_result,swlda_result*-1]).swapaxes(0,1)
+                ac_swlda =  dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
+
+                #calculate distance (tried this with whitend data, didn't work) / maybe try malhanobis
+
+                #Whiten Data?
+                scaler = preprocessing.StandardScaler()
+                scaler = scaler.fit(X_swTrain,y_train)
+
+                X_swTrain = scaler.transform(X_swTrain)
+                X_swTest = scaler.transform(X_swTest)
+
+                #find target/ non targets
                 target = X_swTrain[y_train==1]
                 non_target = X_swTrain[y_train==0]
 
-                test = epochs_test.copy().resample(20).get_data()*1e6
-                X_swTest= np.zeros((weights_resampled.shape[0], test.shape[0]))
-                for i, feature in enumerate(weights_resampled):
-                    X_swTest[i, :] = test[:, feature[0].astype(int), feature[1].astype(int)]# * feature[3]
-
-                X_swTest=X_swTest.swapaxes(0,1)
-                X_swTest = scaler.transform(X_swTest)
-
                 distance_to_target = np.array([np.linalg.norm(X_swTest[i] - target.mean(axis=0)) for i in range(X_swTest.shape[0])])
                 distance_to_nontarget = np.array([np.linalg.norm(X_swTest[i] - non_target.mean(axis=0)) for i in range(X_swTest.shape[0])])
-                result = np.array((distance_to_nontarget / (distance_to_target + distance_to_nontarget),
-                                   distance_to_target / (distance_to_target + distance_to_nontarget))).swapaxes(0, 1)
-
-
-                test_t = X_swTest - target.mean(axis=0)
-                test_nt = X_swTest - non_target.mean(axis=0)
-                #test_t_weighted = test_t * weights_resampled[:, 3]
-                #test_nt_weighted = test_nt * weights_resampled[:, 3]
-                test_t_results = test_t.sum(axis=1)
-                test_nt_results = test_nt.sum(axis=1)
-                result = np.array((test_nt_results / (test_t_results + test_nt_results),test_t_results / (test_t_results + test_nt_results))).swapaxes(0,1)
+                result = np.array((distance_to_nontarget / (distance_to_target + distance_to_nontarget), distance_to_target / (distance_to_target + distance_to_nontarget))).swapaxes(0, 1)
                 ac_swlda = dp.evaluate_independent_epochs(result, epoch_info_test)
 
 
+                #try to use a normal LDA with the selected features - try to add the feature weights? # intercept not known? looking at the sklearn documentation coef_ seems to be not the feature weights
                 swlda = LinearDiscriminantAnalysis(solver='svd', shrinkage=None, priors=None, n_components=None,
                                                    store_covariance=None, tol=0.0001, covariance_estimator=None)
-                swlda.fit(swlda_train.swapaxes(0, 1), y_train)
-                # swlda.coef_ = weights_resampled[:, 3].reshape(1, 17)
-                swlda_y_pred_prob = swlda.predict_proba(
-                    swlda_result.swapaxes(0, 1))  # returns list : [[nontarget,target],[nt,t],[nt,t]...]
+                swlda.fit(X_swTrain, y_train)
+                swlda.coef_ = weights_resampled[:, 3].reshape(1, 17)
+                swlda_y_pred_prob = swlda.predict_proba(X_swTest)  # returns arrray : [[nontarget,target],[nt,t],[nt,t]...]
                 ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
 
-                ac_swlda = py3gui.test_weights(test, y_test, weights_resampled, [1,6], 8)
-            # data = epochs_train.copy().get_data(picks=channels)
-                # X_train_swlda = np.zeros((data.shape[0],weights.shape[0]))
-                # start_idx = 0
-                # for channel  in np.unique(weights[:,0]):
-                #     weight = weights[weights[:, 0] == channel][:,[1,3]]
-                #     stop_idx = start_idx + weight.shape[0]
-                #     X_train_swlda[:,start_idx:stop_idx] = data[:,1,weight[:,0].astype(int)] *weight[:,1]
-                #     start_idx = stop_idx
 
+                # # trying to load feature weights into lda by scikit learn / changing parameters manually - also didn't work properly, also i don't know what i'm actually doing here
+                swlda = LinearDiscriminantAnalysis(solver='svd', shrinkage=None, priors=None, n_components=None,
+                                                 store_covariance=None, tol=0.0001, covariance_estimator=None)
+                swlda.classes_ = np.array((0,1))
+                swlda.coef_ = weights_resampled[:, 3].reshape(1, 17)
+                #explained_variance_ratio = 1 ? vermutlich falsch
+                swlda.means_ = np.array((target.mean(axis=0), non_target.mean(axis=0)))
+                swlda._max_components = 17
+                swlda.n_features_in_ = None
+                #priors =None
+                #priors_ = [0.8,0,2] ? vermutlich auch falsch
+                #estimate priors from sample:
+                _, y_t = np.unique(y_train, return_inverse=True)  # non-negative ints
+                swlda.priors_ = np.bincount(y_t) / float(len(y_train))
+                swlda.scalings_ = (17,1)
+                #shrinkage = None
+                #solver = svd
+                #store_covariance = None
+                #tol =0.0001
+                trials, ch,  samples = data_train_res.shape
+                swlda._solve_svd(data_train_res.reshape(trials,samples*ch),y_train)
+                coef = np.dot(swlda.means_ - swlda.xbar_, swlda.scalings_)
+                swlda.intercept_ = -0.5 * np.sum(coef ** 2, axis=1) + np.log(swlda.priors_)
+                swlda.intercept_ -= np.dot(swlda.xbar_, swlda.coef_.T)
 
-
-
-                # # trying to load feature weights into lda by scikit learn
-                # swlda = LinearDiscriminantAnalysis(solver='svd', shrinkage=None, priors=None, n_components=None,
-                #                                  store_covariance=None, tol=0.0001, covariance_estimator=None)
-                # swlda.classes_ = np.array((0,1))
-                # swlda.coef_ = weights_resampled[:, 3].reshape(1, 17)
-                # #explained_variance_ratio = 1 ? vermutlich falsch
-                # swlda.means_ = np.array((target.mean(axis=0), non_target.mean(axis=0)))
-                # swlda._max_components = 17
-                # swlda.n_features_in_ = 17
-                # #priors =None
-                # #priors_ = [0.8,0,2] ? vermutlich auch falsch
-                # #estimate priors from sample:
-                # _, y_t = np.unique(y_train, return_inverse=True)  # non-negative ints
-                # swlda.priors_ = np.bincount(y_t) / float(len(y_train))
-                # swlda.scalings_ = (17,1)
-                # #shrinkage = None
-                # #solver = svd
-                # #store_covariance = None
-                # #tol =0.0001
-                # swlda._solve_svd(swlda_train.swapaxes(0, 1),y_train)
-                # coef = np.dot(swlda.means_ - swlda.xbar_, swlda.scalings_)
-                # swlda.intercept_ = -0.5 * np.sum(coef ** 2, axis=1) + np.log(swlda.priors_)
-                # swlda.intercept_ -= np.dot(swlda.xbar_, swlda.coef_.T)
-                #
-                #
-                # swlda_prob_pred = swlda.predict_proba(swlda_result.swapaxes(0, 1))
-                #
-                #
-                # result = swlda_result.sum(axis=0)
-                # #result = result >0
-                # ac_swlda = dp.evaluate_independent_epochs(np.array((result)), epoch_info_test)
-                # result = result[result == y_test]
-                # print(result.shape[0]/y_test.shape[0])
-                #
-                #
-                #
-                # # mean_of_targets =  X_train_swlda[y_train == 1].sum(axis=0)
-                # # mean_of_nontargets = X_train_swlda[y_train == 0].sum(axis=0)
-                # data_test = epochs_test.copy().get_data()*1e6
-                # data_test = epochs_test.copy().get_data(picks=channels)
-                # X_test_swlda = np.zeros((data_test.shape[0],weights.shape[0]))
-                # start_idx = 0
-                # for channel  in np.unique(weights[:,0]):
-                #     weight = weights[weights[:, 0] == channel][:,[1,3]]
-                #     stop_idx = start_idx + weight.shape[0]
-                #     X_test_swlda[:,start_idx:stop_idx] = data_test[:,1,weight[:,0].astype(int)] *weight[:,1]
-                #     start_idx = stop_idx
-                #
-                # test = np.array((X_test_swlda.sum(axis=1)> 0,X_test_swlda.sum(axis=1)< 0))
-                # ac_swlda = dp.evaluate_independent_epochs(test.swapaxes(0,1), epoch_info_test)
-                #
-                # ac_swlda = y_test[y_test==test].sum()/len(y_test)
-                # print("The Accuracy with the py3gui " + swlda_name + " is: {}".format(ac_swlda))
-
-                #create full matrix from sparse matrix
-                # full_weight_matrix = np.zeros((data_test.shape[1], data_test.shape[2]))
-                # full_weight_matrix[weights[:, 1].astype(int), weights[:, 0].astype(int)] = weights[:,3]
-                #
-                # train = data_train * full_weight_matrix
-                # test = data_test * full_weight_matrix
-                #
-                #
-                #
-                # train = train.reshape(train.shape[0], train.shape[1] * train.shape[2])
-                # test = test.reshape(test.shape[0], test.shape[1] * test.shape[2])
-                # ac_swlda = py3gui.test_weights(data_test, y_test, full_weight_matrix, [6,6], 8)
-                # print("The Accuracy with the py3gui " + swlda_name + " is: {}".format(ac_swlda))
-                # prediction0 = np.zeros((2,X_test_swlda.shape[0]))
-                # prediction0[0]= [distance.euclidean(X_test_swlda[i],mean_of_targets) for i in range(X_test_swlda.shape[0])]
-                # prediction0[1] = [distance.euclidean(X_test_swlda[i],mean_of_nontargets) for i in range(X_test_swlda.shape[0])]
-                #
-                # prediction1 = np.zeros((2, X_test_swlda.shape[0]))
-                # prediction1[0] = [np.linalg.norm(X_test_swlda[i]-mean_of_targets) for i in range(X_test_swlda.shape[0])]
-                # prediction1[1] = [np.linalg.norm(X_test_swlda[i]- mean_of_nontargets) for i in range(X_test_swlda.shape[0])]
-                #
-                #
-                #
-                #
-                #
-                #
-                # swlda_y_pred_prob = np.array((X_test_swlda.sum(axis=1)<0,X_test_swlda.sum(axis=1)>0)).swapaxes(0,1)
-
-                # testi = np.array((train.sum(axis=1)>0,train.sum(axis=1)<0))
-                # ac_swlda = dp.evaluate_independent_epochs(testi, epoch_info_test)
-                #
-                # lda = LinearDiscriminantAnalysis(solver='lsqr', shrinkage=None , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
-                # lda.fit(train,y_train)
-                # swlda_y_pred_prob = lda.predict_proba(test) #returns list : [[nontarget,target],[nt,t],[nt,t]...]
-                # ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob,epoch_info_test)
-                # # temp_df = dp.results_template(ac_swlda,swlda_name,sess)
-                # # classifier_results =classifier_results.append(temp_df,ignore_index=True)
-                # #
-                # # roc_values[lda_name].append(metrics.roc_curve(y_test,swlda_y_pred_prob[:,1]))
-                # print("The Accuracy with the features put into the lda" + lda_name + " is: {}".format(ac_swlda))
+                trials, ch, samples = data_test_res.shape
+                swlda_prob_pred = swlda.predict_proba(data_test_res.reshape(trials,samples*ch))
+                ac_swlda = dp.evaluate_independent_epochs(swlda_prob_pred, epoch_info_test)
 
 
 

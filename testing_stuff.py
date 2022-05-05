@@ -6,7 +6,6 @@ sys.path.append('..')
 
 from BCpy2000.BCI2000Tools.FileReader import bcistream, ParseParam
 from BCpy2000.BCI2000Tools.DataFiles import load
-import py3gui
 
 __all__ = ['load_data', 'load_weights']
 
@@ -254,6 +253,4 @@ classifier = load_weights(r"D:\test_weights_bci2000.prm")
 result = load_data(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\dat_files\tacFreeS001R01.dat", [0, classifier.shape[0]],None, True)
 result1 = test_weights(result[0], result[1], classifier,[6,6], 8)
 
-result = testweights.test_weights(data, type, classifier,
-                                  matrixshape, repetitions)
-print("hello")
+result = testweights.test_weights(data, type, classifier, matrixshape, repetitions)

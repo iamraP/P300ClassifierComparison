@@ -1,0 +1,37 @@
+closest to BCI 2000
+
+channel set 1:12
+-> classifer weights seem simmilar, gleiche channels, gewicht minimale abweichungen <0.2?
+-> nope! same channels still true for other sessions, more features included in the BCI2000
+-> Py3GUI also uses some kind of spatial filter: NO, seems to be just a diagonal matrix ==1 
+
+
+Accuracy Calculation still differs from BCI2000 even if same classifier is loaded
+
+-> implementation in own script:
+	calculate feature weights with script from Py3GUI
+	extract features from data and
+		 load into an LDA? -> should reduce dimensionality again by 1
+		 take sum of the features, classify > 0 as target? ---> nope
+			there should be an offset/ constant - where the hell is the constant???
+	- tried whitening and calculating the MDM (euclidean) - LDA is usuallay Malanhobis (but not when whitened)?
+		after applying feature weights worse than just extracting the features - are feature weights scaling the data already?
+
+
+->Py3GUI resamples to extract the features (20Hz), for classification the resampling is "revesed", (single feature (channel/timepoint) extended to channel/several timepoints covered by the resampled one)
+
+
+ -> even if I load .prm from BCI2000 Py3GUI calculates a different accuracy
+--> float/ integer issues python2
+	solved by from __future__ import division
+--> WARNING "VisualizeSourceBufferSize"// "PreSequenceDuration"
+	did not change anything in classification
+
+
+Resampling:
+Py3GUI creates one sample less (410 samples, decimated by 26, 290 (15) last fit)
+
+
+TODO:
+- compare resampling during calculation of swlda-featureweights to resampling during response collection (my script)
+-

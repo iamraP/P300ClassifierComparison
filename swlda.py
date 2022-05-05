@@ -47,13 +47,13 @@ def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
     #    trials, samples, channels
 
     indices = np.arange(response_window[0], response_window[1] - dec_factor + 1,
-        dec_factor, dtype = int) # for downsampling not a mean is chosen but only every xth data point?, no they take the mean, see next lines
+        dec_factor, dtype = int)
     downsampled = np.zeros((trials, indices.size, channels))
     for i in range(indices.size):
         index = indices[i]
-        downsampled[:, i, :] = \
-            responses[:, index:index + dec_factor, :].mean(axis = 1)
+        downsampled[:, i, :] =  responses[:, index:index + dec_factor, :].mean(axis = 1)
 
+    response_20Hz = downsampled
     # ``downsampled'' is now (trials x indices.size x channels).
 
     target = type.nonzero()[0]
@@ -102,7 +102,7 @@ def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
     ] # remove anything past where we actually recorded data
 
     # channels is zero based
-    return whichchannels , restored_weights,weights
+    return whichchannels , restored_weights,weights,response_20Hz
 
 def load_weights(fname):
     f = open(fname, 'rb')
