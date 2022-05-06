@@ -1,5 +1,8 @@
 closest to BCI 2000
 
+#best approach at the moment_
+calculate probability to belong to target class of each feature, sum the proabilities and evaluate
+
 channel set 1:12
 -> classifer weights seem simmilar, gleiche channels, gewicht minimale abweichungen <0.2?
 -> nope! same channels still true for other sessions, more features included in the BCI2000

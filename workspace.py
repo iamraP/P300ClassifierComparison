@@ -1,5 +1,6 @@
 #from __future__ import print_function
 import data_prep as dp
+import matplotlib.pyplot as plt
 import pandas as pd
 import pickle
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
@@ -10,6 +11,8 @@ import time
 import swlda as sw
 import numpy as np
 from scipy.spatial import distance
+from scipy import stats
+import matplotlib.pyplot as plt
 import py3gui
 from sklearn import preprocessing
 
@@ -148,7 +151,7 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
                 # get feature weights
                 data_train = epochs_train.copy().get_data()*1e6
                 data_test = epochs_test.copy().get_data() * 1e6
-                channels, weights, weights_resampled,downsampled = sw.swlda(data_train.swapaxes(1,2),y_train,512,[0,800],20)
+                channels, weights, weights_resampled,downsampled = sw.swlda(data_train.swapaxes(1,2),y_train,512,[0,800],20,mne_res = epochs_train.copy().resample(20).get_data()*1e6)
 
                 #get resampled responses
                 data_train_res = epochs_train.copy().resample(20).get_data()*1e6
@@ -172,23 +175,49 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
                 # extract weighted features
                 X_swTrain = np.zeros((weights_resampled.shape[0], data_train_res.shape[0]))
                 for i, feature in enumerate(weights_resampled):
-                    X_swTrain[i, :] = data_train_res[:, feature[0].astype(int), feature[1].astype(int)] #* feature[3]
+                    X_swTrain[i, :] = data_train_res[:, feature[0].astype(int), feature[1].astype(int)] * feature[3]
                 X_swTrain = X_swTrain.swapaxes(0, 1)
 
                 X_swTest= np.zeros((weights_resampled.shape[0], data_test_res.shape[0]))
                 for i, feature in enumerate(weights_resampled):
-                    X_swTest[i, :] = data_test_res[:, feature[0].astype(int), feature[1].astype(int)] #* feature[3]
+                    X_swTest[i, :] = data_test_res[:, feature[0].astype(int), feature[1].astype(int)] * feature[3]
                 X_swTest=X_swTest.swapaxes(0,1)
 
                 # sum weighted features:
+                # so far the "best" results if the features are not weighted?! - accuracy declines, the more epochs are averaged - this seems terribly wrong
                 swlda_result = X_swTest.sum(axis=1)
                 swlda_y_pred_prob =np.array([swlda_result,swlda_result*-1]).swapaxes(0,1)
                 ac_swlda =  dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
 
-                #calculate distance (tried this with whitend data, didn't work) / maybe try malhanobis
+                #sum weighted features, get targets
+                swlda_result = X_swTest.sum(axis=1)>0
+                swlda_y_pred_prob = np.array([X_swTest.sum(axis=1)>0, X_swTest.sum(axis=1)<0]).swapaxes(0, 1)*1
+                ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
+
+
+                # train target/non targets mean + std
+                tar_train = X_swTrain[y_train == 1]
+                nontar_train = X_swTrain[y_train == 0]
+
+                # PDF for Target/non targets
+
+                P_X_tar = stats.norm.pdf(X_swTest, loc=tar_train.mean(),
+                                         scale=tar_train.std())  # probability to have feature, given target
+                P_X_ntar = stats.norm.pdf(X_swTest, loc=nontar_train.mean(),
+                                          scale=nontar_train.std())  # probability to have feature, given nontarget
+
+                #Bayes for prediction
+                P_tar_X = (P_X_tar * (1 / 2)) / (P_X_tar * (1 / 2) + P_X_ntar * (1 / 2))
+                swlda_y_pred_prob = np.array([1-P_tar_X,P_tar_X]).swapaxes(0, 1).sum(axis=2)/17
+                ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
+                print(ac_swlda)
+
+
+
+            #calculate distance (tried this with whitend data, didn't work) / maybe try malhanobis
 
                 #Whiten Data?
-                scaler = preprocessing.StandardScaler()
+                scaler = preprocessing.Normalizer()
                 scaler = scaler.fit(X_swTrain,y_train)
 
                 X_swTrain = scaler.transform(X_swTrain)
@@ -241,6 +270,42 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
                 trials, ch, samples = data_test_res.shape
                 swlda_prob_pred = swlda.predict_proba(data_test_res.reshape(trials,samples*ch))
                 ac_swlda = dp.evaluate_independent_epochs(swlda_prob_pred, epoch_info_test)
+
+                #plot distributions
+                plt_swlda_train = X_swTrain.sum(axis=1)
+                plt_swlda_train = np.array([plt_swlda_train[y_train==0],plt_swlda_train[y_train==1]])
+                fig,ax = plt.subplots()
+                ax.violinplot(plt_swlda_train,[0,1])
+                plt.show()
+
+                plt_swlda_test = X_swTest.sum(axis=1)
+                plt_swlda_test = np.array([plt_swlda_test[y_test == 0], plt_swlda_test[y_test == 1]])
+                fig, ax = plt.subplots()
+                ax.violinplot(plt_swlda_test, [0, 1])
+                plt.show()
+
+
+
+                tar_for_pdf = plt_swlda_train[y_train==1]
+                tar_test_pdf = plt_swlda_test[y_test==1]
+                pdf_t = stats.norm.pdf(tar_test_pdf,loc=tar_for_pdf.mean(),scale=tar_for_pdf.std())
+
+                plt.scatter(tar_for_pdf, pdf_t)
+                plt.xlabel('x-data')
+                plt.ylabel('pdf_value')
+                plt.title("PDF of Target Normal Distribution with mean={} and sigma={}".format(round(tar_for_pdf.mean(), 2),
+                                                                                          round(tar_for_pdf.std(), 2)))
+                plt.show()
+
+                nontar_for_pdf = plt_swlda_train[y_train == 0]
+                pdf_nt = stats.norm.pdf(nontar_for_pdf, loc=nontar_for_pdf.mean(), scale=nontar_for_pdf.std())
+
+                plt.scatter(nontar_for_pdf, pdf_nt)
+                plt.xlabel('x-data')
+                plt.ylabel('pdf_value')
+                plt.title("PDF of  NonTarget Normal Distribution with mean={} and sigma={}".format(round(nontar_for_pdf.mean(),2),round(nontar_for_pdf.std(),2)))
+                plt.show()
+
 
 
 

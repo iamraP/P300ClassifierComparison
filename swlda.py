@@ -5,7 +5,7 @@ import numpy as np
 from stepwise import stepwisefit
 
 def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
-    max_model_features = 60, penter = 0.1, premove = 0.15):
+    max_model_features = 60, penter = 0.1, premove = 0.15,mne_res=None):
     """
     Stepwise Linear Discriminant Analysis
     ``responses'' must be a (trials x samples x channels) array containing
@@ -31,7 +31,7 @@ def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
     assert np.shape(response_window) == (2,)
     # End housekeeping
 
-    dec_factor = int(np.round(float(sampling_rate) / decimation_frequency))
+    dec_factor = int(np.round(float(sampling_rate) / decimation_frequency))-1
     response_window = np.asarray(np.round(
         response_window * sampling_rate / 1000.), dtype = int)
     trials, samples, channels = responses.shape
