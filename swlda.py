@@ -31,7 +31,7 @@ def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
     assert np.shape(response_window) == (2,)
     # End housekeeping
 
-    dec_factor = int(np.round(float(sampling_rate) / decimation_frequency))-1
+    dec_factor = int(np.round(float(sampling_rate) / decimation_frequency))
     response_window = np.asarray(np.round(
         response_window * sampling_rate / 1000.), dtype = int)
     trials, samples, channels = responses.shape
