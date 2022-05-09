@@ -1,167 +1,59 @@
-#!/usr/bin/python
-
 import numpy as np
-
+from dataclasses import dataclass,field
+import numpy as np
 from stepwise import stepwisefit
+from scipy import stats
 
-def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
-    max_model_features = 60, penter = 0.1, premove = 0.15,mne_res=None):
-    """
-    Stepwise Linear Discriminant Analysis
-    ``responses'' must be a (trials x samples x channels) array containing
-    responses to a stimulus.
-    ``type'' must be a one-dimensional array of bools of length trials.
-    ``sampling_rate'' is the sampling rate of the data.
-    ``response_window'' is of the form [begin, end] in milliseconds.
-    ``decimation_frequency'' is the frequency at which to resample.
-    ``max_model_features'' is the maximum allowed number of features to be
-        chosen by stepwisefit.
-    ``penter'' and ``premove'' are the thresholds for adding and removing
-        features from the model.
+@dataclass
+class swlda:
+    response_window: list = field(default_factory=lambda: [0,800])
+    decimation_frequency:int = 20
+    max_model_features: int = 60
+    penter: float = 0.1
+    premove:float = 0.15
 
-    """
 
-    # Housekeeping
-    responses = np.asarray(responses, dtype = float)
-    type = np.asarray(type, dtype = bool)
-    response_window = np.asarray(response_window)
-    if np.size(response_window) == 1:
-        # Make response_window into an array of length 2.
-        response_window = np.asarray([0, np.ravel(response_window)[0]])
-    assert np.shape(response_window) == (2,)
-    # End housekeeping
+    def fit(self,responses, type):
+       # trials, samples, channels = responses.shape
+        responses = responses.to_numpy()
+        type = type.astype(bool)
+        target = type.nonzero()[0]
+        nontarget = (~type).nonzero()[0]
+        target_then_nontarget = np.concatenate((target, nontarget))
+        sorted = responses[target_then_nontarget]
+        labels = type[target_then_nontarget] * 2 - 1
+        b, se, pval, inmodel, stats, nextstep, history = stepwisefit(
+            sorted, labels, maxiter=self.max_model_features,
+            penter=self.penter, premove=self.premove
+        )
+        if not inmodel.any():
+            return 'Could not find an appropriate model.'
 
-    dec_factor = int(np.round(float(sampling_rate) / decimation_frequency))-1
-    response_window = np.asarray(np.round(
-        response_window * sampling_rate / 1000.), dtype = int)
-    trials, samples, channels = responses.shape
+        self.weights = b * 10 / abs(b).max() # why?
 
-    # The following pieces of information are now known:
-    #    response_window ([begin, end] in samples)
-    #    sampling_rate (in Hz)
-    #    decimation_frequency (in Hz)
-    #    max_model_features (total number of features allowed in final model)
-    #    random_sampling (% of responses to be randomly selected for creating
-    #        model)
-    #    dec_factor (number of samples that should be decimated into one)
-    #    trials, samples, channels
+        weighted_features = responses.dot(self.weights)
 
-    indices = np.arange(response_window[0], response_window[1] - dec_factor + 1,
-        dec_factor, dtype = int)
-    downsampled = np.zeros((trials, indices.size, channels))
-    for i in range(indices.size):
-        index = indices[i]
-        downsampled[:, i, :] =  responses[:, index:index + dec_factor, :].mean(axis = 1)
+        target = weighted_features[type==1]
+        nontarget = weighted_features[type==0]
+        self.target_std = target.std()
+        self.target_mean = target.mean()
+        self.nontarget_std = nontarget.std()
+        self.nontarget_mean = nontarget.mean()
 
-    response_20Hz = downsampled
-    # ``downsampled'' is now (trials x indices.size x channels).
 
-    target = type.nonzero()[0]
-    nontarget = (~type).nonzero()[0]
-    target_then_nontarget = np.concatenate((target, nontarget))
-    unraveled_sorted = np.swapaxes(downsampled, 1, 2).reshape(
-        (trials, indices.size * channels)
-    )[target_then_nontarget]
-    labels = type[target_then_nontarget] * 2 - 1
+    def predict_proba(self,responses):
+        responses = responses.to_numpy()
+        weighted_features = responses.dot(self.weights)
 
-    # ``unraveled_sorted'' is now (trials x (indices.size * channels)) and is
-    # sorted into target and non-target stimuli.
-    # ``labels'' contains 1s and -1s in the order of ``unraveled_sorted''.
+        # PDF for Target/non targets
 
-    b, se, pval, inmodel, stats, nextstep, history = stepwisefit(
-        unraveled_sorted, labels, maxiter = max_model_features,
-        penter = penter, premove = premove
-    )
-    if not inmodel.any():
-        return 'Could not find an appropriate model.'
+        P_X_tar = stats.norm.pdf(weighted_features, loc=self.target_mean,
+                                 scale=self.target_std)  # probability to have feature, given target
+        P_X_ntar = stats.norm.pdf(weighted_features, loc=self.nontarget_mean,
+                                  scale=self.nontarget_std)  # probability to have feature, given nontarget
 
-    b = b * 10 / abs(b).max()
-    b = b.reshape((channels, -1))
-    inmodel = inmodel.reshape((channels, -1)).nonzero()
-    whichchannels = np.unique(inmodel[0])
-    inv_channel_map = np.zeros(whichchannels.max() + 1)
-    inv_channel_map[whichchannels] = np.arange(1, whichchannels.size + 1)
-    # ``inv_channel_map'' contains the 1-based index of each channel at the
-    # index described by that channel (and zeros everyhere else).
-
-    weights = np.zeros((inmodel[0].size, 4))
-    # ``weights'' will contain three columns: channel number, sample number,
-    # and the weight as assigned by stepwisefit (after being adjusted).
-    weights[:, 0] = inv_channel_map[inmodel[0]] # already 1-based
-    weights[:, 1] = inmodel[1]
-    weights[:, 2] = 1 # channel out (for P300, this is always 1)
-    weights[:, 3] = b[inmodel]
-
-    restored_weights = np.tile(weights, (1, dec_factor)).reshape((-1, 4))
-    for i in range(0, restored_weights.shape[0], dec_factor):
-        start_val = restored_weights[i, 1] * dec_factor + 1 # 1-based
-        restored_weights[i:i + dec_factor, 1] = \
-            np.arange(start_val, start_val + dec_factor)
-    restored_weights = restored_weights[
-        restored_weights[:, 1] <= response_window[1]
-    ] # remove anything past where we actually recorded data
-
-    # channels is zero based
-    return whichchannels , restored_weights,weights,response_20Hz
-
-def load_weights(fname):
-    f = open(fname, 'rb')
-    prefices = [
-        'Filtering:LinearClassifier',
-        'Filtering:SpatialFilter',
-        'Source:Online%20Processing',
-    ]
-    params = {
-        'Classifier': None,
-        'SpatialFilter': None,
-        'TransmitChList': None,
-    }
-    for line in f:
-        if '\0' in line:
-            break
-        for prefix in prefices:
-            if line.startswith(prefix):
-                info = ParseParam(line)
-                if info['name'] in params:
-                    params[info['name']] = info['val']
-    try:
-        errormsg = ''
-        for key in params:
-            if params[key] == None:
-                errormsg += '    Missing %s\n' % key
-        if errormsg != '':
-            return ('Could not find all required parameters:\n' + \
-                errormsg).strip()
-        params['SpatialFilter'] = np.asarray(params['SpatialFilter'],
-            dtype = float)
-        if len(params['SpatialFilter'].shape) != 2 or \
-            params['SpatialFilter'].shape[0] != \
-                params['SpatialFilter'].shape[1] or \
-            (abs(params['SpatialFilter'] - \
-                np.eye(params['SpatialFilter'].shape[0])) > \
-                16 * np.finfo(float).eps).any():
-            return 'Only identity matrices are supported for SpatialFilter.'
-        params['Classifier'] = np.asarray(params['Classifier'], dtype = float)
-        if len(params['Classifier'].shape) != 2 or \
-            params['Classifier'].shape[1] != 4 or \
-            params['Classifier'][:, 0].min() < 1 or \
-            (params['Classifier'][:, 2] != 1).any():
-            raise ValueError
-        params['TransmitChList'] = np.asarray(params['TransmitChList'],
-            dtype = int)
-        if len(params['TransmitChList'].shape) != 1 or \
-            params['TransmitChList'].size < np.unique(
-                params['Classifier'][:, 0]).size or\
-            params['TransmitChList'].size < np.max(
-                params['Classifier'][:, 0]):
-            raise ValueError
-    except (TypeError, ValueError):
-        return 'Parameter format wrong or unexpected.'
-    channels = params['TransmitChList'][
-        params['Classifier'][:, 0].astype(int) - 1
-    ] - 1
-    samples = (params['Classifier'][:, 1] - 1).astype(int)
-    classifier = np.zeros((samples.max() + 1, channels.max() + 1))
-    classifier[samples, channels] = params['Classifier'][:, 3]
-    return classifier
-
+        # Bayes for prediction
+        #TODO find out if you should use 1/6 or 1/2 for target probability and find out if it makes sense to set NaN values 0
+        P_tar_X = (P_X_tar * (1 / 6)) / (P_X_tar * (1 / 6) + P_X_ntar * (5 / 6)) # probability of target, given the feature set
+        P_tar_X = np.nan_to_num(P_tar_X)
+        return np.array([1 - P_tar_X, P_tar_X]).swapaxes(0, 1).sum(axis=2) #return probability in the same way as numpy
