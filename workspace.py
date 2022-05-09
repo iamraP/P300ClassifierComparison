@@ -15,6 +15,7 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import py3gui
 from sklearn import preprocessing
+import swlda_class as sc
 
 '''This script was used for testing the classifiers, usining the '''
 ################################################
@@ -29,7 +30,7 @@ classification = True #if only analysis is done don't load data in the complex w
 investigate_sessionwise = False  #used for evaluation, figure plotting etc
 investigate_several_sessions = False #set range in script, used for averaging of several sessions
 sess_list = range(1,14)  #range(1,50) #list(range(1,50)) #neues Setup ab Session 21 (12. Messtag)
-data_origin = r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\pickle_files"
+data_origin = r"D:\Google Drive\Master\Masterarbeit\Data\mne_raw_pickle"
 ################################################
 '''SETTINGS STOP'''
 ################################################
@@ -145,13 +146,23 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
             #data_train_res classifiers and evaluate classifiers
             if not resampled_riemann:
 
-
-
             #SWLDA
-                # get feature weights
+                swlda = sc.swlda()
+                swlda.fit(X_train,y_train)
+                swlda_y_pred_prob = swlda.predict_proba(X_test)
+                ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
+
+            # get feature weights
                 data_train = epochs_train.copy().get_data()*1e6
                 data_test = epochs_test.copy().get_data() * 1e6
-                channels, weights, weights_resampled,downsampled = sw.swlda(data_train.swapaxes(1,2),y_train,512,[0,800],20,mne_res = epochs_train.copy().resample(20).get_data()*1e6)
+
+                swlda = swlda_class.swlda()
+
+                #take resampled data from mne, calculate feature weights and finally calculate classification results without upsampling
+                channels, weights, weights_resampled, downsampled = sw.swlda(data_train.swapaxes(1, 2), y_train, 512,[0,800],20,  mne_res=X_train)
+
+                # get feature weights from raw data
+                #channels, weights, weights_resampled,downsampled = sw.swlda(data_train.swapaxes(1,2),y_train,512,[0,800],20,mne_res = None)
 
                 #get resampled responses
                 data_train_res = epochs_train.copy().resample(20).get_data()*1e6
