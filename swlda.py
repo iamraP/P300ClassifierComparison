@@ -4,18 +4,18 @@ import numpy as np
 from stepwise import stepwisefit
 from scipy import stats
 
-@dataclass
 class swlda:
-    response_window: list = field(default_factory=lambda: [0,800])
-    decimation_frequency:int = 20
-    max_model_features: int = 60
-    penter: float = 0.1
-    premove:float = 0.15
-
+    def __init__(self, response_window = [0,800],decimation_frequency:int = 20,max_model_features: int = 60, penter: float = 0.1,premove:float = 0.15):
+        self.response_window = response_window
+        self.decimation_frequency = decimation_frequency
+        self.max_model_features = max_model_features
+        self.penter = penter
+        self.premove = premove
 
     def fit(self,responses, type):
        # trials, samples, channels = responses.shape
-        responses = responses.to_numpy()
+        if not isinstance(responses,np.ndarray):
+            responses = responses.to_numpy()
         type = type.astype(bool)
         target = type.nonzero()[0]
         nontarget = (~type).nonzero()[0]
@@ -42,7 +42,8 @@ class swlda:
 
 
     def predict_proba(self,responses):
-        responses = responses.to_numpy()
+        if not isinstance(responses,np.ndarray):
+            responses = responses.to_numpy()
         weighted_features = responses.dot(self.weights)
 
         # PDF for Target/non targets
@@ -54,6 +55,6 @@ class swlda:
 
         # Bayes for prediction
         #TODO find out if you should use 1/6 or 1/2 for target probability and find out if it makes sense to set NaN values 0
-        P_tar_X = (P_X_tar * (1 / 6)) / (P_X_tar * (1 / 6) + P_X_ntar * (5 / 6)) # probability of target, given the feature set
+        P_tar_X = (P_X_tar * (1 / 2)) / (P_X_tar * (1 / 2) + P_X_ntar * (1 / 2)) # probability of target, given the feature set
         P_tar_X = np.nan_to_num(P_tar_X)
-        return np.array([1 - P_tar_X, P_tar_X]).swapaxes(0, 1).sum(axis=2) #return probability in the same way as numpy
+        return np.squeeze(np.array([1 - P_tar_X, P_tar_X])).swapaxes(0, 1) #return probability in the same way as numpy
