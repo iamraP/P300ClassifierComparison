@@ -148,79 +148,11 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
                 swlda.fit(X_train,y_train)
                 swlda_y_pred_prob = swlda.predict_proba(X_test)
                 ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
-                print("The Accuracy with " + swlda_name + " averaged after classification is: {}".format(ac_swlda[-1]))
+                temp_df = dp.results_template(ac_swlda, swlda_name, sess)
+                classifier_results = classifier_results.append(temp_df, ignore_index=True)
 
-                ep2avg = 10
-                X_train_mean = np.zeros((int(X_train.shape[0] / ep2avg), X_train.shape[1]))
-                y_train_mean = np.zeros((int(X_train.shape[0] / ep2avg)))
-                tactilo_mean = np.zeros((int(X_train.shape[0] / ep2avg)))
-                trial_mean = np.zeros((int(X_train.shape[0] / ep2avg)))
-                idx = 0
-                for tactilo in range(6):
-                    trial_idx = np.split(epoch_info_train["epoch"].loc[(epoch_info_train["tactilo"] == tactilo + 1)].unique(),
-                                         18)  # 18 weil 3 Runs a 6 "Runden" pro Taktilo (1*Target, 5*Non-Target)
-                    # trial idx gibt an welche epoch zu einem Trial gehören (von dem aktuellen Taktilo)
-                    for trial in range(len(trial_idx)):
-                        ground_truth = epoch_info_train["condition"].loc[epoch_info_train["epoch"].isin(
-                            trial_idx[trial])].mean()  # bildet den mittelwert aus ep2avg epochen (single value)
-                        assert ground_truth == 1 or ground_truth == 0  # make sure the epochs didn't mix
-                        epoch_mean = X_train.loc[epoch_info_train["epoch"].isin(trial_idx[trial])][
-                                     :ep2avg].mean()  # mittelwert aus ep2avg Epochen (should be a single epoch)
-
-                        X_train_mean[idx, :] = epoch_mean
-                        y_train_mean[idx] = ground_truth
-                        tactilo_mean[idx] = tactilo
-                        trial_mean[idx] = trial
-                        idx += 1
-
-
-                swlda = sw.swlda()
-                swlda.fit(X_train_mean,y_train_mean)
-
-                # test data
-
-
-
-                ep2avg = 8
-                X_test_mean= np.zeros((int(X_test.shape[0]/ep2avg),X_test.shape[1]))
-                y_test_mean = np.zeros(18)
-                tactilo_mean = np.zeros((int(X_test.shape[0]/ep2avg)))
-                trial_mean = np.zeros((int(X_test.shape[0]/ep2avg)))
-                idx=0
-                for tactilo in range(6):
-                    trial_idx = np.split(epoch_info_test["epoch"].loc[(epoch_info_test["tactilo"] == tactilo + 1)].unique(),
-                                         18)  # 18 weil 3 Runs a 6 "Runden" pro Taktilo (1*Target, 5*Non-Target)
-                    # trial idx gibt an welche epoch zu einem Trial gehören (von dem aktuellen Taktilo)
-                    for trial in range(len(trial_idx)):
-                        ground_truth = epoch_info_test["condition"].loc[epoch_info_test["epoch"].isin(
-                            trial_idx[trial])].mean()  # bildet den mittelwert aus ep2avg epochen (single value)
-                        assert ground_truth == 1 or ground_truth == 0  # make sure the epochs didn't mix
-                        epoch_mean = X_test.loc[epoch_info_test["epoch"].isin(trial_idx[trial])][
-                                     :ep2avg].mean()  # mittelwert aus ep2avg Epochen (should be a single epoch)
-
-                        X_test_mean[idx,:] = epoch_mean
-                        if ground_truth ==1:
-                            y_test_mean[trial] = tactilo
-                        tactilo_mean [idx] = tactilo
-                        trial_mean[idx] = trial
-                        idx +=1
-                swlda_y_pred_prob = swlda.predict_proba(X_test_mean)
-                eval_array = np.zeros((6, 18))
-                for trial in range(18):
-
-                    for tactilo in range(6):
-                        eval_array[tactilo,trial] = swlda_y_pred_prob[((tactilo_mean==tactilo) &  (trial_mean==trial))][0][1]
-
-
-
-                    ac_swlda = (eval_array.argmax(axis=0)== y_test_mean).sum()/len(y_test_mean)
-
-                # ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
-                # temp_df = dp.results_template(ac_swlda, swlda_name, sess)
-                # classifier_results = classifier_results.append(temp_df, ignore_index=True)
-                #
-                # roc_values[swlda_name].append(metrics.roc_curve(y_test, swlda_y_pred_prob[:, 1]))
-                print("The Accuracy with " + swlda_name + " averaged before classification is: {}".format(ac_swlda))
+                roc_values[swlda_name].append(metrics.roc_curve(y_test, swlda_y_pred_prob[:, 1]))
+                print("The Accuracy with " + swlda_name + " is: {}".format(ac_swlda[-1]))
             # #LDA
             #     lda = LinearDiscriminantAnalysis(solver='svd', shrinkage=None , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
             #     lda.fit(X_train,y_train)

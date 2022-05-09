@@ -55,6 +55,7 @@ class swlda:
 
         # Bayes for prediction
         #TODO find out if you should use 1/6 or 1/2 for target probability and find out if it makes sense to set NaN values 0
-        P_tar_X = (P_X_tar * (1 / 2)) / (P_X_tar * (1 / 2) + P_X_ntar * (1 / 2)) # probability of target, given the feature set
+        # 1/2 yields better results, but I guess it should be 1/6
+        P_tar_X = (P_X_tar * (1 / 2)) / (P_X_tar * (1 /2) + P_X_ntar * (1 / 2)) # probability of target, given the feature set
         P_tar_X = np.nan_to_num(P_tar_X)
         return np.squeeze(np.array([1 - P_tar_X, P_tar_X])).swapaxes(0, 1) #return probability in the same way as numpy
