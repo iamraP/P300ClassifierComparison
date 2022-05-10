@@ -37,4 +37,10 @@ Py3GUI creates one sample less (410 samples, decimated by 26, 290 (15) last fit)
 
 TODO:
 - compare resampling during calculation of swlda-featureweights to resampling during response collection (my script)
--
+    of course it's different - use mne resampled data to create feature matrix - currently not creating a matrix, but an array - this shouldn't make a difference
+-Fragen:
+Pipeline - Mitteln der Epochen
+    bevor die feature matrix gebildet wird?
+    bevor die Daten klassifierziert werden?
+
+    momentan (stand Masterarbeit: mitteln der Epochen erst nach der berechnung der Wahrscheinlichkeiten)
