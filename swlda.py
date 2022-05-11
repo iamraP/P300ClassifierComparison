@@ -1,5 +1,4 @@
 import numpy as np
-from dataclasses import dataclass,field
 import numpy as np
 from stepwise import stepwisefit
 from scipy import stats
@@ -7,12 +6,12 @@ from scipy import stats
 class swlda:
     def __init__(self, response_window = [0,800],decimation_frequency:int = 20,max_model_features: int = 60, penter: float = 0.1,premove:float = 0.15):
         self.response_window = response_window
-        self.decimation_frequency = decimation_frequency
+        self.decimation_frequency = decimation_frequency # is acturally never used, sinde the resampling happens before entering the dat
         self.max_model_features = max_model_features
         self.penter = penter
         self.premove = premove
 
-    def fit(self,responses, type):
+    def fit(self,responses, type,full_responses):
        # trials, samples, channels = responses.shape
         if not isinstance(responses,np.ndarray):
             responses = responses.to_numpy()
@@ -29,9 +28,15 @@ class swlda:
         if not inmodel.any():
             return 'Could not find an appropriate model.'
 
-        self.weights = b * 10 / abs(b).max() # why?
-
+        #TODO find out what is happening in the next line?
+        self.weights = b * 10 / abs(b).max()
         weighted_features = responses.dot(self.weights)
+
+       #get full response
+        restored_weights = np.repeat(self.weights,round(full_responses.shape[1]/responses.shape[1]))
+        self.weights = restored_weights[:full_responses.shape[1]]
+        weighted_features = full_responses.dot(self.weights)
+
 
         target = weighted_features[type==1]
         nontarget = weighted_features[type==0]

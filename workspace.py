@@ -26,7 +26,7 @@ classification = True #if only analysis is done don't load data in the complex w
 investigate_sessionwise = False  #used for evaluation, figure plotting etc
 investigate_several_sessions = False #set range in script, used for averaging of several sessions
 sess_list = range(1,50)  #range(1,50) #list(range(1,50)) #neues Setup ab Session 21 (12. Messtag)
-data_origin = r"D:\Google Drive\Master\Masterarbeit\Data\mne_raw_pickle"
+data_origin = r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\mne_raw_pickled"
 ################################################
 '''SETTINGS STOP'''
 ################################################
@@ -142,11 +142,18 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
 
             #data_train_res classifiers and evaluate classifiers
             if not resampled_riemann:
-
+                epochs_train = epochs_train.get_data()*1e6
+                trials,channels,samples = epochs_train.shape
+                X_train_full = epochs_train.reshape(trials, channels*samples)
             #SWLDA
                 swlda = sw.swlda()
-                swlda.fit(X_train,y_train)
-                swlda_y_pred_prob = swlda.predict_proba(X_test)
+                swlda.fit(X_train,y_train,X_train_full)
+
+                epochs_test = epochs_test.get_data()*1e6
+                trials,channels,samples = epochs_test.shape
+                X_test_full = epochs_test.reshape(trials, channels*samples)
+
+                swlda_y_pred_prob = swlda.predict_proba(X_test_full)
                 ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
                 temp_df = dp.results_template(ac_swlda, swlda_name, sess)
                 classifier_results = classifier_results.append(temp_df, ignore_index=True)
@@ -217,7 +224,7 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
             # print("The Accuracy with " +fgmdm_name+ " is: {}".format(ac_fgmdm))
 
         df = classifier_results.loc[classifier_results["Ep2Avg"] == 8]
-        classifier_results.to_csv(r"D:\Google Drive\Google Drive\Google Drive\Master\Masterarbeit\Data\Classifier_Results_current\accuracies_swlda.csv")
-        with open(r"D:\Google Drive\Google Drive\Google Drive\Master\Masterarbeit\Data\Classifier_Results\roc_values_swlda.pickle","wb") as file:
+        classifier_results.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\accuracies_swlda.csv",index=False)
+        with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\roc_values_swlda.pickle","wb") as file:
             pickle.dump(roc_values, file)
 

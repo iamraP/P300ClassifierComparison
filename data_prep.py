@@ -317,29 +317,6 @@ def evaluate_independent_epochs(probability_df, info_df):
 
     return evaluation
 
-def evaluate_independent_epochs_swlda(probability_df, info_df):
-    ''' Berechnet die Accuracy aus der gemittelten Wahrscheinlichkeit von 1-8 einzeln evaluierten Epochen (ep2avg), der Tacitlo mit dem maximalsten Wert "gewinnt"'''
-    evaluation = []
-    for ep2avg in range(1,9):
-        eval_array = np.empty((18, 6, 2))
-        for tactilo in range(6):
-            trial_idx = np.split(info_df["epoch"].loc[(info_df["tactilo"] == tactilo + 1)].unique(),18)  # 18 weil 3 Runs a 6 "Runden" pro Taktilo (1*Target, 5*Non-Target)
-            # trial idx gibt an welche epoch zu einem Trial gehören (von dem aktuellen Taktilo)
-            for trial in range(len(trial_idx)):
-                ground_truth = info_df["condition"].loc[info_df["epoch"].isin(trial_idx[trial])].mean()  # bildet den mittelwert aus ep2avg epochen (single value)
-                assert ground_truth == 1 or ground_truth == 0  # make sure the epochs didn't mix
-                prediction = pd.DataFrame(probability_df)[1].loc[info_df["epoch"].isin(trial_idx[trial])][:ep2avg].mean()  # mittelwert aus ep2avg Epochen (single value)
-                eval_array[trial, tactilo, 0] = ground_truth
-                eval_array[trial, tactilo, 1] = prediction
-
-        eval_tactilo = eval_array.argmax(axis=1)
-        eval_tactilo[1,:]=0
-        evaluation.append((eval_tactilo[:, 0] == eval_tactilo[:, 1]).mean())
-
-    return evaluation
-
-
-
 
 
 
