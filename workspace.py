@@ -142,18 +142,10 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
 
             #data_train_res classifiers and evaluate classifiers
             if not resampled_riemann:
-                epochs_train = epochs_train.get_data()*1e6
-                trials,channels,samples = epochs_train.shape
-                X_train_full = epochs_train.reshape(trials, channels*samples)
             #SWLDA
                 swlda = sw.swlda()
-                swlda.fit(X_train,y_train,X_train_full)
-
-                epochs_test = epochs_test.get_data()*1e6
-                trials,channels,samples = epochs_test.shape
-                X_test_full = epochs_test.reshape(trials, channels*samples)
-
-                swlda_y_pred_prob = swlda.predict_proba(X_test_full)
+                swlda.fit(X_train,y_train)
+                swlda_y_pred_prob = swlda.predict_proba(X_test)
                 ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
                 temp_df = dp.results_template(ac_swlda, swlda_name, sess)
                 classifier_results = classifier_results.append(temp_df, ignore_index=True)

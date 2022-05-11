@@ -11,7 +11,7 @@ class swlda:
         self.penter = penter
         self.premove = premove
 
-    def fit(self,responses, type,full_responses):
+    def fit(self,responses, type):
        # trials, samples, channels = responses.shape
         if not isinstance(responses,np.ndarray):
             responses = responses.to_numpy()
@@ -32,10 +32,10 @@ class swlda:
         self.weights = b * 10 / abs(b).max()
         weighted_features = responses.dot(self.weights)
 
-       #get full response
-        restored_weights = np.repeat(self.weights,round(full_responses.shape[1]/responses.shape[1]))
-        self.weights = restored_weights[:full_responses.shape[1]]
-        weighted_features = full_responses.dot(self.weights)
+       # #get full response
+       #  restored_weights = np.repeat(self.weights,round(full_responses.shape[1]/responses.shape[1]))
+       #  self.weights = restored_weights[:full_responses.shape[1]]
+       #  weighted_features = full_responses.dot(self.weights)
 
 
         target = weighted_features[type==1]
