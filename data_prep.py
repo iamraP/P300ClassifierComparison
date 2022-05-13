@@ -14,7 +14,7 @@ import warnings
 warnings.simplefilter(action='ignore')
 
 ''' Data Investigation'''
-def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_amplitude =True,plot_mne =False,plot_woi=False, plot_r2=True,save_averages=False,sess_name='Unknown',mean_amplitude_tactilos=False):
+def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_amplitude =True,plot_mne =True,plot_woi_shift=False, plot_r2=False,save_averages=False,sess_name='Unknown',mean_amplitude_tactilos=False):
     #mne.set_log_level('WARNING')
     col_list = ["#d8b365", "#5ab4ac", "#ef8a62", "#67a9cf"] # colors were choosen to be readable for the colorblind according to the website colorbrewer2 (https://colorbrewer2.org/#type=diverging&scheme=BrBG&n=3)
     raw_list = []
@@ -65,7 +65,7 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
                 for electrode,amp in enumerate(df[0.35: 0.6].mean().to_list()):
                     mean_amplitudes.loc[len(mean_amplitudes)] =[sess,picks[electrode],str(tactilo),amp,"nonTarget"]
 
-        #mean_amplitudes.to_csv(r"D:\Master\Masterarbeit\Data\Amplitudes\average_amplitudes_350_600.csv")
+        mean_amplitudes.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\PUG_average_amplitudes_350_600.csv",index=False)
     if sess_name == 'all':
         sess = 'all'
     for data_path in data_paths:
@@ -80,8 +80,11 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
     event_id.pop('10')
     epochs= mne.Epochs(raw, events, event_id=event_id, tmin=-0.1, tmax=0.8, preload=True,event_repeated='merge',baseline=(None,0),picks=picks,reject=dict(eeg=100e-6))  # timewindow -0.85 so its' 0.8 after resampling baseline=(-0.100,0)
     #epochs = epochs_org.resample(50)
-    nt = epochs['0'].average()._data*1e6 #mne data in Volt! create evoked
-    t = epochs['1'].average()._data*1e6
+    nt = epochs["0"].get_data()*1e6
+    t = epochs["1"].get_data()*1e6
+    nt_avg = epochs['0'].average()._data*1e6 #mne data in Volt! create evoked
+    t_avg = epochs['1'].average()._data*1e6
+
     times = epochs.times
     #epochs.event_id.pop('10')
     new_event_id = {} # empty dictionary
@@ -95,10 +98,10 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
 
 
     if save_averages:
-        t_df =  pd.DataFrame(t.T,index= times)
-        nt_df = pd.DataFrame(nt.T,index =times)
-        t_df.to_csv(os.path.join(r"D:\Master\Masterarbeit\Data\filtered_avg_targets_" + str(sess) + ".csv"))
-        nt_df.to_csv(os.path.join(r"D:\Master\Masterarbeit\Data\filtered_avg_nontargets_" + str(sess) + ".csv"))
+        t_df =  pd.DataFrame(t_avg.T,index= times)
+        nt_df = pd.DataFrame(nt_avg.T,index =times)
+        t_df.to_csv(os.path.join(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\PUG_filtered_avg_targets_" + str(sess) + ".csv"))
+        nt_df.to_csv(os.path.join(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\PUG_filtered_avg_nontargets_" + str(sess) + ".csv"))
 
 
     if plot_r2:
@@ -107,7 +110,7 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
         (n_epochs,n_channels,n_samples) = getData.shape
 
         r_value_mat = np.empty((n_channels,n_samples))
-        r_value_mat[:] = np.nan # empty doesn't create an empty array!!
+        r_value_mat[:] = np.nan # empty doesn't_avg create an empty array!!
         y_mat = np.tile(y.reshape(1,1,-1).T, (1,n_channels, n_samples))  # TODO  should you really use reshape here? check again
 
 
@@ -132,27 +135,37 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
     if plot_mne:
         for electrode in ["Fz","Pz","Cz"]:
             evokeds = [epochs[name].average(picks=[electrode]) for name in ('1', '0')]
+            epochs_tmp = [epochs[name].pick(electrode) for name in ('1', '0')]
             evokeds[0].comment = 'Targets'
             evokeds[1].comment = 'Non-Targets'
-            fig = mne.viz.plot_compare_evokeds(evokeds,show =False, title ="Average over "+electrode+" in sess" +str(sess))
+            #fig = mne.viz.plot_compare_evokeds(evokeds,show =False, title ="Average over "+electrode)
+            fig, ax = plt.subplots(nrows=1, ncols=1)
+            for epo in epochs_tmp:
+                tmp = epo.get_data()
+                mean = np.mean(tmp, axis = 0)
+                ax.plot(mean[0])
+                time = np.arange(0, mean[0].shape[0])
+                std = np.std(tmp, axis = 0)
+                ax.fill_between(time, mean[0] - std[0], mean[0] + std[0], alpha=0.5)
             plt.show()
-            plt.savefig(os.path.join(r"D:\Master\Masterarbeit\Data\Plots\P300_MNE_filtered" + "\P300_MNE_filtered_"+str(sess)+"_"+electrode+".png"))
+           # plt.savefig(os.path.join(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\PUG_MNE_"+electrode+".png"))
+            #plt.savefig(os.path.join(r"D:\Master\Masterarbeit\Data\Plots\P300_MNE_filtered" + "\P300_MNE_filtered_"+str(sess)+"_"+electrode+".png"))
 
-    if plot_woi:
+    if plot_woi_shift:
         for electrode in ["Cz"]:
 
             e = picks.index(electrode)
             fig,(ax,ax2) = plt.subplots(1,2,figsize=(10, 4), sharey=True)
-            ax.plot(times,t[e], label="Target",c=col_list[1])
-            ax.plot(times,nt[e], label="Non-Target", c=col_list[0])
+            ax.plot(times,t_avg[e], label="Target",c=col_list[1])
+            ax.plot(times,nt_avg[e], label="Non-Target", c=col_list[0])
             ax.axvline(x=0, c='k', lw=0.5)
             ax.axhline(y=0, c='k', lw=0.5)
             ax.axvspan(0.3,0.5, facecolor='r', alpha=0.25)
             ax.set_xlabel("seconds")
             ax.set_ylabel("µV")
             ax.margins(x=0)
-            ax2.plot(times,t[e], label="Target",c=col_list[1])
-            ax2.plot(times,nt[e],label="Non-Target", c=col_list[0])
+            ax2.plot(times,t_avg[e], label="Target",c=col_list[1])
+            ax2.plot(times,nt_avg[e],label="Non-Target", c=col_list[0])
             ax2.axvline(x=0, c='k', lw=0.5)
             ax2.axhline(y=0, c='k', lw=0.5)
             ax2.axvspan(0.35,0.60, facecolor='r', alpha=0.25)
@@ -171,8 +184,13 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
         fig, (Fz,Cz,Pz) = plt.subplots(1,3,figsize=(14, 5),sharey=True)
         for e in ["Fz","Pz","Cz"]:
             electrode = picks.index(e)
-            eval(e).plot(times, t[electrode], label="Target",c=col_list[1])
-            eval(e).plot(times, nt[electrode], label="Non-Target", c=col_list[0])
+            eval(e).plot(times, t_avg[electrode], label="Target",c=col_list[1])
+            eval(e).plot(times, nt_avg[electrode], label="Non-Target", c=col_list[0])
+            t_std = np.std(t[:,electrode,:],axis=0)
+            nt_std= np.std(nt[:, electrode, :], axis=0)
+            eval(e).fill_between(times, t_avg[electrode] -t_std, t_avg[electrode]+t_std, alpha=0.3, color=col_list[1])
+            eval(e).fill_between(times, nt_avg[electrode] - nt_std, nt_avg[electrode] + nt_std, alpha=0.3, color=col_list[0])
+            eval(e).plot(times, nt_avg[electrode], label="Non-Target", c=col_list[0])
             eval(e).axvline(x=0, c='k', lw=0.5)
             eval(e).axhline(y=0, c='k', lw=0.5)
             eval(e).axvspan(0.35, 0.6, facecolor='r', alpha=0.25)
