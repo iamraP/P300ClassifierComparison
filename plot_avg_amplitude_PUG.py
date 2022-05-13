@@ -4,7 +4,7 @@ col_list=["#377eb8","#e41a1c"]
 fig, Cz = plt.subplots(1, 1, figsize=(6, 5), sharey=True)
 for e in ["Cz"]:
     electrode = picks.index(e)
-    eval(e).plot(times, t_avg[electrode], label="Target(n="+ str(t.shape[0])+")", c=col_list[1])
+    eval(e).plot(times, t_avg[electrode], label="Target (n="+ str(t.shape[0])+")", c=col_list[1])
     eval(e).plot(times, nt_avg[electrode], label="Non-Target (n="+ str(nt.shape[0])+")", c=col_list[0])
     t_std = np.std(t[:, electrode, :], axis=0)
     nt_std = np.std(nt[:, electrode, :], axis=0)
@@ -20,6 +20,7 @@ for e in ["Cz"]:
     eval(e).margins(x=0)
     eval(e).set_title(e)
 Fz.set_ylabel("µV")
+
 Cz.legend(title="Average over all sessions", loc='center', bbox_to_anchor=(0.5, 1.16), ncol=2)
 # fig.suptitle("Average over all sessions")
 fig.tight_layout()

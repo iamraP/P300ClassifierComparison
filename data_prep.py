@@ -232,6 +232,7 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
     X = epochs.copy().resample(20).get_data() if resampled_riemann else epochs.get_data()
     epochs_for_swlda = epochs.copy()
 
+    #get ground truth
     new_event_id = {} # empty dictionary
     for key, value in epochs.event_id.items(): # set all targets to 1, non_targets to 0
         new_event_id[value] = 0 if key[0] == "0" else 1
@@ -248,7 +249,7 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
     else:
         cov_matrices = cov_estimator.transform(X)
 
-    # Initiate xDawn spatial filter:
+    # Initiate xDawn spatial filter or resample epochs:
 
     if xDawn:
         t =time.time()
@@ -283,7 +284,7 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
             epoch_signal = epoch_complete.drop(columns=['epoch']).to_numpy()
         else:
             epoch_signal = epoch_complete.drop(columns=['time', 'condition', 'epoch']).to_numpy()
-        epoch_signal = epoch_signal.flatten()
+        epoch_signal = epoch_signal.flatten("F")
         if first_round:
             epoch_df =  pd.DataFrame(np.append(epoch_info,epoch_signal)).T
             first_round=False
@@ -295,6 +296,12 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
     x = epoch_df.drop(columns=["condition","tactilo","epoch"])
     return x,y, epochs_for_swlda, epoch_info_df,cov_estimator, cov_matrices,spatial_filter
 
+
+# epochs.plot()
+# fig,ax = plt.subplots()
+# plt.plot(x.mean()[:15])
+# plt.show()
+# #
 
 ''' LOAD INFO'''
 def load_session_dates():
@@ -313,16 +320,15 @@ def load_bci2k_ac():
 
 ''' ACCURACY CALCULATION'''
 
-
-
 def evaluate_independent_epochs(probability_df, info_df):
     ''' Berechnet die Accuracy aus der gemittelten Wahrscheinlichkeit von 1-8 einzeln evaluierten Epochen (ep2avg), der Tacitlo mit dem maximalsten Wert "gewinnt"'''
     evaluation = []
     for ep2avg in range(1,9):
+        #eval array is an array sized (18(runs * #_of_tactors), 6(#_of_tactors), 2(prediction&ground_truth)
         eval_array = np.empty((18, 6, 2))
         for tactilo in range(6):
             trial_idx = np.split(info_df["epoch"].loc[(info_df["tactilo"] == tactilo + 1)].unique(),18)  # 18 weil 3 Runs a 6 "Runden" pro Taktilo (1*Target, 5*Non-Target)
-            # trial idx gibt an welche epoch zu einem Trial gehören (von dem aktuellen Taktilo)
+            # trial idx gibt an welche epochen zu einem Trial gehören (von dem aktuellen Taktilo)
             for trial in range(len(trial_idx)):
                 ground_truth = info_df["condition"].loc[info_df["epoch"].isin(trial_idx[trial])].mean()  # bildet den mittelwert aus ep2avg epochen (single value)
                 assert ground_truth == 1 or ground_truth == 0  # make sure the epochs didn't mix
@@ -332,7 +338,7 @@ def evaluate_independent_epochs(probability_df, info_df):
 
         eval_tactilo = eval_array.argmax(axis=1)
         evaluation.append((eval_tactilo[:, 0] == eval_tactilo[:, 1]).mean())
-
+    ground_truth
     return evaluation
 
 

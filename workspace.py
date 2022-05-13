@@ -22,10 +22,10 @@ sessionwise_calibration = True #False for transfer classifiers
 trans_calib_sess = [1,2,3] # only relevant when  sessionwise_calibration == False
 calib_runs=3 # how many of the runs should be used for calibration? (max=3)
 electrode_list = "all" # which electrodes to include, options: 'all' or ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"]== set of unchanged electrodes
-classification = False #if only analysis is done don't load data in the complex way it's needed for classification
+classification = True #if only analysis is done don't load data in the complex way it's needed for classification
 investigate_sessionwise = False  #used for evaluation, figure plotting etc
-investigate_several_sessions = True #set range in script, used for averaging of several sessions
-sess_list = range(1,27)  #range(1,50) #list(range(1,50)) #neues Setup ab Session 21 (12. Messtag) # for PUG range(1,27)
+investigate_several_sessions = False #set range in script, used for averaging of several sessions
+sess_list = range(1,50)  #range(1,50) #list(range(1,50)) #neues Setup ab Session 21 (12. Messtag) # for PUG range(1,27)
 data_origin = r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\mne_raw_pickled"
 ################################################
 '''SETTINGS STOP'''
