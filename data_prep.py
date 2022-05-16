@@ -224,7 +224,7 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
     raw = mne.concatenate_raws(raw_list) if calib_runs != 1 else raw
     events, event_id = mne.events_from_annotations(raw)
     event_id.pop('10') 
-    epochs = mne.Epochs(raw, events, event_id=event_id, tmin=0, tmax=0.8, preload=True,
+    epochs = mne.Epochs(raw, events, event_id=event_id, tmin=0, tmax=0.85, preload=True,
                         event_repeated='merge',baseline=None,picks=picks)  # timewindow -0.85 so its' 0.8 after resampling baselien=(-0.100,0)
 
     # prepare data for covariance estimation
