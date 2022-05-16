@@ -12,6 +12,7 @@ from pyriemann.classification import FgMDM,MDM
 from sklearn import metrics
 import time
 import swlda as sw
+import spaghettimonster as sp
 
 '''This script was used for testing the classifiers, usining the '''
 ################################################
@@ -78,8 +79,9 @@ roc_values = {"LDA":[],
               'FGMDM_res_xDawn':[]}
 first_session = True
 
-for resampled_riemann in [False,True]: #TODO rechange to [True,False]
-    for xDawn in [True,False]:
+swlda_weights = []
+for resampled_riemann in [False]: #TODO rechange to [True,False]
+    for xDawn in [False]:
         mdm_name = "MDM"
         fgmdm_name = "FGMDM"
         lda_name = "LDA"
@@ -125,13 +127,13 @@ for resampled_riemann in [False,True]: #TODO rechange to [True,False]
                                                                                                                 resampled_riemann = resampled_riemann,
                                                                                                                 xDawn = xDawn,
                                                                                                                 calib_runs=calib_runs)
-                data_path_free = data_origin + r"\Free_S"+str(sess).zfill(3)+".pickle"
-                X_test, y_test,epochs_test, epoch_info_test,cov_estimator, cov_matrices_test,spatial_filter =  dp.load_epochs(data_path_free,
-                                                                                                        cov_estimator=cov_estimator,
-                                                                                                        picks=electrode_list,
-                                                                                                        resampled_riemann=resampled_riemann,
-                                                                                                        xDawn=xDawn,
-                                                                                                        spatial_filter=spatial_filter)
+                # data_path_free = data_origin + r"\Free_S"+str(sess).zfill(3)+".pickle"
+                # X_test, y_test,epochs_test, epoch_info_test,cov_estimator, cov_matrices_test,spatial_filter =  dp.load_epochs(data_path_free,
+                #                                                                                         cov_estimator=cov_estimator,
+                #                                                                                         picks=electrode_list,
+                #                                                                                         resampled_riemann=resampled_riemann,
+                #                                                                                         xDawn=xDawn,
+                #                                                                                         spatial_filter=spatial_filter)
 
 
 
@@ -146,77 +148,83 @@ for resampled_riemann in [False,True]: #TODO rechange to [True,False]
             #SWLDA
                 swlda = sw.swlda()
                 swlda.fit(X_train,y_train)
-                swlda_y_pred_prob = swlda.predict_proba(X_test)
-                ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
-                temp_df = dp.results_template(ac_swlda, swlda_name, sess)
-                classifier_results = classifier_results.append(temp_df, ignore_index=True)
+                swlda_weights.append(swlda.weights)
+        #         swlda_y_pred_prob = swlda.predict_proba(X_test)
+        #         ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
+        #         temp_df = dp.results_template(ac_swlda, swlda_name, sess)
+        #         classifier_results = classifier_results.append(temp_df, ignore_index=True)
+        #
+        #         roc_values[swlda_name].append(metrics.roc_curve(y_test, swlda_y_pred_prob[:, 1]))
+        #         print("The Accuracy with " + swlda_name + " is: {}".format(ac_swlda))
+        #     #LDA
+        #         lda = LinearDiscriminantAnalysis(solver='svd', shrinkage=None , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
+        #         lda.fit(X_train,y_train)
+        #         lda_y_pred_prob = lda.predict_proba(X_test) #returns list : [[nontarget,target],[nt,t],[nt,t]...]
+        #         ac_lda = dp.evaluate_independent_epochs(lda_y_pred_prob,epoch_info_test)
+        #         temp_df = dp.results_template(ac_lda,lda_name,sess)
+        #         classifier_results =classifier_results.append(temp_df,ignore_index=True)
+        #
+        #         roc_values[lda_name].append(metrics.roc_curve(y_test,lda_y_pred_prob[:,1]))
+        #         print("The Accuracy with " + lda_name + " is: {}".format(ac_lda))
+        #     # LDA with feature selection
+        #
+        #     # #select 60 features
+        #     #     selector = SelectKBest(f_classif, k=60)
+        #     #     X_train_select = selector.fit_transform(X_train, y_train)
+        #     #     X_test_select = selector.transform(X_test)
+        #     #
+        #     #     lda_select = LinearDiscriminantAnalysis(solver='svd', shrinkage=None , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
+        #     #     lda_select.fit(X_train_select, y_train)
+        #     #     lda_select_y_pred_prob = lda_select.predict_proba(X_test_select) #returns array : [[nontarget,target],[nt,t],[nt,t]...]
+        #     #     ac_lda_select = dp.evaluate_independent_epochs(lda_select_y_pred_prob,epoch_info_test)
+        #     #     temp_df = dp.results_template(ac_lda_select, lda60_name, sess)
+        #     #     classifier_results =classifier_results.append(temp_df, ignore_index=True)
+        #     #     roc_values[lda60_name].append(metrics.roc_curve(y_test,lda_select_y_pred_prob[:,1]))
+        #     #     print("The Accuracy with " + lda60_name+ " is: {}".format(ac_lda_select))
+        #
+        #     #shrinkage LDA
+        #         lda_shrinkage = LinearDiscriminantAnalysis(solver='lsqr', shrinkage='auto' , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
+        #         lda_shrinkage.fit(X_train,y_train)
+        #         lda_shrinkage_y_pred_prob = lda_shrinkage.predict_proba(X_test) #returns list : [[nontarget,target],[nt,t],[nt,t]...]
+        #         ac_shrink_lda = dp.evaluate_independent_epochs(lda_shrinkage_y_pred_prob,epoch_info_test)
+        #         temp_df = dp.results_template(ac_shrink_lda, shrinklda_name, sess)
+        #         classifier_results =classifier_results.append(temp_df, ignore_index=True)
+        #         roc_values[shrinklda_name].append(metrics.roc_curve(y_test, lda_shrinkage_y_pred_prob[:, 1]))
+        #         print("The Accuracy with " +shrinklda_name + " is: {}".format(ac_shrink_lda))
+        #
+        #
+        #     #Riemann MDM
+        #
+        #     t0=time.time()
+        #     mdm = MDM()
+        #     mdm.fit(cov_matrices_train, y_train)
+        #     mdm_y_pred_prob = mdm.predict_proba(cov_matrices_test)
+        #     ac_mdm = dp.evaluate_independent_epochs(mdm_y_pred_prob,epoch_info_test)
+        #     #accuracy[5].append(ac_mdm)
+        #     temp_df = dp.results_template(ac_mdm, mdm_name, sess)
+        #     classifier_results =classifier_results.append(temp_df, ignore_index=True)
+        #     roc_values[mdm_name].append(metrics.roc_curve(y_test, mdm_y_pred_prob[:, 1]))
+        #     print("The Accuracy with " +mdm_name+ " is: {}".format(ac_mdm))
+        #
+        #
+        #     #MDM with FGDA in tangentspace
+        #     fgmdm = FgMDM()
+        #     fgmdm.fit(cov_matrices_train, y_train)
+        #     fgmdm_y_pred_prob = fgmdm.predict_proba(cov_matrices_test)
+        #     ac_fgmdm = dp.evaluate_independent_epochs(fgmdm_y_pred_prob,epoch_info_test)
+        #     temp_df = dp.results_template(ac_fgmdm, fgmdm_name, sess)
+        #     classifier_results =classifier_results.append(temp_df, ignore_index=True)
+        #     roc_values[fgmdm_name].append(metrics.roc_curve(y_test, fgmdm_y_pred_prob[:, 1]))
+        #
+        #     print("The Accuracy with " +fgmdm_name+ " is: {}".format(ac_fgmdm))
+        #
+        # df = classifier_results.loc[classifier_results["Ep2Avg"] == 8]
+        # classifier_results.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\accuracies_850ms.csv",index=False)
+        # with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\roc_values_swlda.pickle","wb") as file:
+        #     pickle.dump(roc_values, file)
 
-                roc_values[swlda_name].append(metrics.roc_curve(y_test, swlda_y_pred_prob[:, 1]))
-                print("The Accuracy with " + swlda_name + " is: {}".format(ac_swlda))
-            #LDA
-                lda = LinearDiscriminantAnalysis(solver='svd', shrinkage=None , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
-                lda.fit(X_train,y_train)
-                lda_y_pred_prob = lda.predict_proba(X_test) #returns list : [[nontarget,target],[nt,t],[nt,t]...]
-                ac_lda = dp.evaluate_independent_epochs(lda_y_pred_prob,epoch_info_test)
-                temp_df = dp.results_template(ac_lda,lda_name,sess)
-                classifier_results =classifier_results.append(temp_df,ignore_index=True)
 
-                roc_values[lda_name].append(metrics.roc_curve(y_test,lda_y_pred_prob[:,1]))
-                print("The Accuracy with " + lda_name + " is: {}".format(ac_lda))
-            # LDA with feature selection
-
-            # #select 60 features
-            #     selector = SelectKBest(f_classif, k=60)
-            #     X_train_select = selector.fit_transform(X_train, y_train)
-            #     X_test_select = selector.transform(X_test)
-            #
-            #     lda_select = LinearDiscriminantAnalysis(solver='svd', shrinkage=None , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
-            #     lda_select.fit(X_train_select, y_train)
-            #     lda_select_y_pred_prob = lda_select.predict_proba(X_test_select) #returns array : [[nontarget,target],[nt,t],[nt,t]...]
-            #     ac_lda_select = dp.evaluate_independent_epochs(lda_select_y_pred_prob,epoch_info_test)
-            #     temp_df = dp.results_template(ac_lda_select, lda60_name, sess)
-            #     classifier_results =classifier_results.append(temp_df, ignore_index=True)
-            #     roc_values[lda60_name].append(metrics.roc_curve(y_test,lda_select_y_pred_prob[:,1]))
-            #     print("The Accuracy with " + lda60_name+ " is: {}".format(ac_lda_select))
-
-            #shrinkage LDA
-                lda_shrinkage = LinearDiscriminantAnalysis(solver='lsqr', shrinkage='auto' , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
-                lda_shrinkage.fit(X_train,y_train)
-                lda_shrinkage_y_pred_prob = lda_shrinkage.predict_proba(X_test) #returns list : [[nontarget,target],[nt,t],[nt,t]...]
-                ac_shrink_lda = dp.evaluate_independent_epochs(lda_shrinkage_y_pred_prob,epoch_info_test)
-                temp_df = dp.results_template(ac_shrink_lda, shrinklda_name, sess)
-                classifier_results =classifier_results.append(temp_df, ignore_index=True)
-                roc_values[shrinklda_name].append(metrics.roc_curve(y_test, lda_shrinkage_y_pred_prob[:, 1]))
-                print("The Accuracy with " +shrinklda_name + " is: {}".format(ac_shrink_lda))
-
-
-            #Riemann MDM
-
-            t0=time.time()
-            mdm = MDM()
-            mdm.fit(cov_matrices_train, y_train)
-            mdm_y_pred_prob = mdm.predict_proba(cov_matrices_test)
-            ac_mdm = dp.evaluate_independent_epochs(mdm_y_pred_prob,epoch_info_test)
-            #accuracy[5].append(ac_mdm)
-            temp_df = dp.results_template(ac_mdm, mdm_name, sess)
-            classifier_results =classifier_results.append(temp_df, ignore_index=True)
-            roc_values[mdm_name].append(metrics.roc_curve(y_test, mdm_y_pred_prob[:, 1]))
-            print("The Accuracy with " +mdm_name+ " is: {}".format(ac_mdm))
-
-
-            #MDM with FGDA in tangentspace
-            fgmdm = FgMDM()
-            fgmdm.fit(cov_matrices_train, y_train)
-            fgmdm_y_pred_prob = fgmdm.predict_proba(cov_matrices_test)
-            ac_fgmdm = dp.evaluate_independent_epochs(fgmdm_y_pred_prob,epoch_info_test)
-            temp_df = dp.results_template(ac_fgmdm, fgmdm_name, sess)
-            classifier_results =classifier_results.append(temp_df, ignore_index=True)
-            roc_values[fgmdm_name].append(metrics.roc_curve(y_test, fgmdm_y_pred_prob[:, 1]))
-
-            print("The Accuracy with " +fgmdm_name+ " is: {}".format(ac_fgmdm))
-
-        df = classifier_results.loc[classifier_results["Ep2Avg"] == 8]
-        classifier_results.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\accuracies_850ms.csv",index=False)
-        with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\roc_values_swlda.pickle","wb") as file:
-            pickle.dump(roc_values, file)
+        with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\swlda_weights.pickle","wb") as file:
+            pickle.dump(swlda_weights, file)
+        sp.spaghetti_code(2)
 

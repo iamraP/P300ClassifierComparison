@@ -1,3 +1,4 @@
 data_thesis
 __pycache__
 ignore
+*.dat
