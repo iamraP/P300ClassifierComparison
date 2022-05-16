@@ -6,7 +6,7 @@ from scipy import stats
 class swlda:
     def __init__(self, response_window = [0,800],decimation_frequency:int = 20,max_model_features: int = 60, penter: float = 0.1,premove:float = 0.15):
         self.response_window = response_window
-        self.decimation_frequency = decimation_frequency # is acturally never used, sinde the resampling happens before entering the dat
+        self.decimation_frequency = decimation_frequency # is actually never used, sinde the resampling happens before entering the data
         self.max_model_features = max_model_features
         self.penter = penter
         self.premove = premove
@@ -29,7 +29,9 @@ class swlda:
             return 'Could not find an appropriate model.'
 
         #TODO find out what is happening in the next line?
-        self.weights = b * 10 / abs(b).max()
+        self.weights = b * 10 / abs(b).max() # scale values between -10 and 10
+        self.weights = self.weights.flatten() * inmodel
+
         weighted_features = responses.dot(self.weights)
 
        # #get full response
@@ -60,7 +62,7 @@ class swlda:
 
         # Bayes for prediction
         #TODO find out if you should use 1/6 or 1/2 for target probability and find out if it makes sense to set NaN values 0
-        # 1/2 yields better results, but I guess it should be 1/6
-        P_tar_X = (P_X_tar * (1 / 2)) / (P_X_tar * (1 /2) + P_X_ntar * (1 / 2)) # probability of target, given the feature set
+
+        P_tar_X = (P_X_tar * (1 / 6)) / (P_X_tar * (1 /6) + P_X_ntar * (5 / 6)) # probability of target, given the feature set
         P_tar_X = np.nan_to_num(P_tar_X)
-        return np.squeeze(np.array([1 - P_tar_X, P_tar_X])).swapaxes(0, 1) #return probability in the same way as numpy
+        return np.squeeze(np.array([1 - P_tar_X, P_tar_X])).swapaxes(0, 1) #return probability in the same way as sklearn

@@ -227,7 +227,6 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
     epochs = mne.Epochs(raw, events, event_id=event_id, tmin=0, tmax=0.8, preload=True,
                         event_repeated='merge',baseline=None,picks=picks)  # timewindow -0.85 so its' 0.8 after resampling baselien=(-0.100,0)
 
-
     # prepare data for covariance estimation
     X = epochs.copy().resample(20).get_data() if resampled_riemann else epochs.get_data()
     epochs_for_swlda = epochs.copy()

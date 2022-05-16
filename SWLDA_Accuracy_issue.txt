@@ -31,13 +31,20 @@ Accuracy Calculation still differs from BCI2000 even if same classifier is loade
 	did not change anything in classification
 
 
+
 Resampling:
 Py3GUI creates one sample less (410 samples, decimated by 26, 290 (15) last fit)
-
-
-TODO:
 - compare resampling during calculation of swlda-featureweights to resampling during response collection (my script)
     of course it's different - use mne resampled data to create feature matrix - currently not creating a matrix, but an array - this shouldn't make a difference
+- tried different timings 0,800 0,850 or 0,900
+    -> 850 has lowest deviation from BCI2000
+    -> 900 has highest accuracy
+    -> 800 thats how we always did it and I dont like change
+
+TODO:
+
+
+
 -Fragen:
 Pipeline - Mitteln der Epochen
     bevor die feature matrix gebildet wird?
