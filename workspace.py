@@ -13,6 +13,7 @@ from sklearn import metrics
 import time
 import swlda as sw
 import spaghettimonster as sp
+import swlda_old as sw_old
 
 '''This script was used for testing the classifiers, usining the '''
 ################################################
@@ -27,7 +28,7 @@ classification = True #if only analysis is done don't load data in the complex w
 investigate_sessionwise = False  #used for evaluation, figure plotting etc
 investigate_several_sessions = False #set range in script, used for averaging of several sessions
 sess_list = range(1,50)  #range(1,50) #list(range(1,50)) #neues Setup ab Session 21 (12. Messtag) # for PUG range(1,27)
-data_origin = r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\mne_raw_pickled"
+data_origin = r"D:\Google Drive\Master\Masterarbeit\Data\mne_raw_pickle"
 ################################################
 '''SETTINGS STOP'''
 ################################################
@@ -80,6 +81,7 @@ roc_values = {"LDA":[],
 first_session = True
 
 swlda_weights = []
+channel_list = []
 for resampled_riemann in [False]: #TODO rechange to [True,False]
     for xDawn in [False]:
         mdm_name = "MDM"
@@ -146,9 +148,16 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
             #data_train_res classifiers and evaluate classifiers
             if not resampled_riemann:
             #SWLDA
-                swlda = sw.swlda()
-                swlda.fit(X_train,y_train)
-                swlda_weights.append(swlda.weights)
+                # swlda = sw.swlda()
+                # swlda.fit(X_train, y_train)
+
+                data_train = epochs_train.get_data().swapaxes(1, 2) * 1e6
+                channels, weights, weights_resampled,ett = sw_old.swlda(data_train, y_train, 512, [0, 800], 20)
+
+                swlda_weights.append(weights)
+                channel_list.append(channels)
+                # full_weight_matrix = np.zeros((390,12))
+                # full_weight_matrix[weights[:, 1].astype(int), weights[:, 0].astype(int) - 1] = weights[:, 3]
         #         swlda_y_pred_prob = swlda.predict_proba(X_test)
         #         ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
         #         temp_df = dp.results_template(ac_swlda, swlda_name, sess)
@@ -224,7 +233,9 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
         #     pickle.dump(roc_values, file)
 
 
-        with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\swlda_weights.pickle","wb") as file:
+        with open(r"D:\Google Drive\Master\Masterarbeit\Software\P300ClassifierComparison\minimal_swlda\data\swlda_weights_resampled_by_py3gui_dec_freq26_later.pickle","wb") as file:
             pickle.dump(swlda_weights, file)
+        with open(r"D:\Google Drive\Master\Masterarbeit\Software\P300ClassifierComparison\minimal_swlda\data\swlda_channels_resampled_by_py3gui_dec_freq26_later.pickle","wb") as file:
+            pickle.dump(channel_list, file)
         sp.spaghetti_code(2)
 

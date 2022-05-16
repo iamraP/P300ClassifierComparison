@@ -42,8 +42,13 @@ Py3GUI creates one sample less (410 samples, decimated by 26, 290 (15) last fit)
     -> 800 thats how we always did it and I dont like change
 
 TODO:
+Classifier Matrizen BCI2000
+    super weirder kram: manchmal veränderte Anzahl an Samples, manchmal Channel...
+    Channels: nie 12 channel gebraucht, trotzdem meistens 12 channels, manchmal aber auch nicht
+    Samples: Vermutung wenn die letzten samples = 0 dann raus - auch nicht wahr...
+    manchmal sind die Gewichte deckungsgleich, manchmal passen sie überhaupt nicht...
 
-
+Feature weights scheinen identisch zu sein, sofern nicht geresampelt wird - channel stimmen noch nicht überein
 
 -Fragen:
 Pipeline - Mitteln der Epochen

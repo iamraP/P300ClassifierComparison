@@ -50,13 +50,12 @@ def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
     #    dec_factor (number of samples that should be decimated into one)
     #    trials, samples, channels
 
-        indices = np.arange(response_window[0], response_window[1] - dec_factor,dec_factor, dtype = int)
+        indices = np.arange(response_window[0], response_window[1] - dec_factor,dec_factor + 1, dtype = int)
         downsampled = np.zeros((trials, indices.size, channels))
         for i in range(indices.size):
             index = indices[i]
             downsampled[:, i, :] =  responses[:, index:index + dec_factor, :].mean(axis = 1)
 
-    response_20Hz = downsampled
     # ``downsampled'' is now (trials x indices.size x channels).
 
     target = type.nonzero()[0]
@@ -77,6 +76,7 @@ def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
         return 'Could not find an appropriate model.'
 
     b = b * 10 / abs(b).max()
+    weight_array = b.flatten()*inmodel
     b = b.reshape((channels, -1))
     inmodel = inmodel.reshape((channels, -1)).nonzero()
     whichchannels = np.unique(inmodel[0])
@@ -93,17 +93,18 @@ def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
     weights[:, 2] = 1 # channel out (for P300, this is always 1)
     weights[:, 3] = b[inmodel]
 
-    restored_weights = np.tile(weights, (1, dec_factor)).reshape((-1, 4))
-    for i in range(0, restored_weights.shape[0], dec_factor):
-        start_val = restored_weights[i, 1] * dec_factor + 1 # 1-based
-        restored_weights[i:i + dec_factor, 1] = \
-            np.arange(start_val, start_val + dec_factor)
+
+    restored_weights = np.tile(weights, (1, 26)).reshape((-1, 4))
+    for i in range(0, restored_weights.shape[0], 26):
+        start_val = restored_weights[i, 1] * 26 + 1 # 1-based
+        restored_weights[i:i + 26, 1] = \
+            np.arange(start_val, start_val + 26)
     restored_weights = restored_weights[
         restored_weights[:, 1] <= response_window[1]
     ] # remove anything past where we actually recorded data
 
     # channels is zero based
-    return whichchannels , restored_weights,weights,response_20Hz
+    return whichchannels , restored_weights,weights,weight_array
 
 def load_weights(fname):
     f = open(fname, 'rb')
