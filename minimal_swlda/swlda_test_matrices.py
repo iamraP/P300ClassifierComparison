@@ -1,9 +1,11 @@
-
+import matplotlib.pyplot as plt
 
 import py3gui as p3
 import pickle
 import numpy as np
 import pandas as pd
+import seaborn
+import matplotlib.pyplot as plt
 
 
 
@@ -21,9 +23,18 @@ sess_list = np.delete(range(1,50),excluded_sessions)
 for i,sess in enumerate(sess_list):
 
     #data = load_data(r"D:\dat_files\all_files\tacFreeS001R01.dat",[0,800])
-    classifier = p3.load_weights(r"data/P3Classifier_sess" + str(sess)+".prm")
+    classifier,channels_bci = p3.load_weights(r"data/P3Classifier_sess" + str(sess)+".prm")
+    channels_bci = [int(i)-1 for i in channels_bci]
     print("Session {} : {}".format(sess,classifier.shape))
-    print("{} channels included".format(len(channels[i])))
+    print("Py3 channels: {}".format((channels[i])))
+    print("BCI channels: {}".format((channels_bci)))
+
+    if classifier.shape != (390,12):
+        classifier_full = np.zeros((390 ,12)) # create empty matrix
+        classifier = np.append(classifier,np.zeros((390 -classifier.shape[0],classifier.shape[1])),axis=0) # stretch matrix to full size, size was predetermined by latest weighted sample so it should be fine to fill up with zeros
+        classifier_full[:, channels_bci] = classifier[:,classifier.sum(axis=0) != 0]  # take only the channels which have weights to build classifier matrix
+        classifier = classifier_full
+
 
     weights = py3gui[i]
     full_weight_matrix = np.zeros((classifier.shape))
@@ -32,13 +43,24 @@ for i,sess in enumerate(sess_list):
     except IndexError:
         full_weight_matrix[weights[:, 1].astype(int) - (390-classifier.shape[0]+1), weights[:, 0].astype(int) - 1] = weights[:, 3]
     test = classifier - full_weight_matrix
-    test1 = test[abs(test) > 0.3]
-    print("Numbers of features:\nBCI2000: {} \nPy3GUI: {}\ndiffered >0.3: {} ".format(len(np.unique(classifier))-1,len(np.unique(full_weight_matrix))-1,len(test1)/26))
+    test1 = test[abs(test) > 1]
+    print("Numbers of features:\nBCI2000: {} \nPy3GUI: {}\ndiffered >1: {} ".format(len(np.unique(classifier))-1,len(np.unique(full_weight_matrix))-1,len(test1)/26))
     print("___________________")
+
+    fig,(ax1,ax2,ax3) = plt.subplots(nrows=1,ncols=3,figsize=(20,10))
+    seaborn.heatmap(abs(classifier),ax=ax1,cmap='Reds')
+    ax1.set_title("BCI2000")
+    seaborn.heatmap(abs(full_weight_matrix),ax=ax2,cmap='Blues')
+    ax2.set_title("Py3GUI")
+    seaborn.heatmap(abs(classifier),ax=ax3,alpha =0.5,cmap='Reds')
+    seaborn.heatmap(abs(full_weight_matrix),ax=ax3, alpha=0.5,cmap='Blues')
+    ax3.set_title("Overlay")
+    fig.suptitle("Session"+str(sess))
+    plt.savefig(r"D:\Google Drive\Master\Masterarbeit\Graphics\compare_matrices\matrix_new"+str(sess))
 
 
 bci2k = classifier[0::24].flatten('F')
-python = python_swlda[sess]
+python = python_swlda[i]
 python_restored = python.reshape(classifier[0::24].shape)
 bci2k_nonflat = classifier[0::24]
 

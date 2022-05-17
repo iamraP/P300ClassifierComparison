@@ -143,11 +143,13 @@ def load_weights(fname):
 
     samples = (np.array(params['Classifier'])[:, 1]).astype(int) - 1
     channels = np.array(params['TransmitChList'])[(np.array(params['Classifier'])[:, 0]).astype(int) - 1].astype(int)-1
-    classifier = np.zeros((samples.max() + 1, channels.max() + 1))
+    channel_list = np.array(params['TransmitChList'])
+    classifier = np.zeros((samples.max() + 1, channels.max() + 1)) #sample/channel shape determiniert durch höchsten wert
     classifier[samples, channels] = np.array(params['Classifier'])[:,3]
-
+    
+    
 #modified version, doesn't check for the errors
-    return classifier
+    return classifier,channel_list
 
 
 
