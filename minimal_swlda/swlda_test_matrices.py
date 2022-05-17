@@ -16,6 +16,10 @@ with open(r"data\swlda_weights_resampled_by_py3gui_dec_freq26_later.pickle", "rb
     py3gui = np.array(pickle.load(file))
 with open(r"data\swlda_channels_resampled_by_py3gui_dec_freq26_later.pickle", "rb") as file:
     channels = np.array(pickle.load(file))
+with open(r"data\swlda_weights_resampled_by_mne_SR26.pickle", "rb") as file:
+    mne = np.array(pickle.load(file))
+
+
 
 excluded_sessions = np.array([4,7,10,11,12,16,18,19,20,32])-1
 sess_list = np.delete(range(1,50),excluded_sessions)
@@ -47,16 +51,19 @@ for i,sess in enumerate(sess_list):
     print("Numbers of features:\nBCI2000: {} \nPy3GUI: {}\ndiffered >1: {} ".format(len(np.unique(classifier))-1,len(np.unique(full_weight_matrix))-1,len(test1)/26))
     print("___________________")
 
-    fig,(ax1,ax2,ax3) = plt.subplots(nrows=1,ncols=3,figsize=(20,10))
+    fig,(ax1,ax2,ax3,ax4) = plt.subplots(nrows=1,ncols=4,figsize=(30,10))
     seaborn.heatmap(abs(classifier),ax=ax1,cmap='Reds')
     ax1.set_title("BCI2000")
     seaborn.heatmap(abs(full_weight_matrix),ax=ax2,cmap='Blues')
     ax2.set_title("Py3GUI")
-    seaborn.heatmap(abs(classifier),ax=ax3,alpha =0.5,cmap='Reds')
-    seaborn.heatmap(abs(full_weight_matrix),ax=ax3, alpha=0.5,cmap='Blues')
-    ax3.set_title("Overlay")
+    seaborn.heatmap(abs(mne[i]),ax=ax3,cmap='YlGn')
+    ax3.set_title("MNE resampled")
+    seaborn.heatmap(abs(classifier),ax=ax4,alpha =0.3,cmap='Reds')
+    seaborn.heatmap(abs(full_weight_matrix),ax=ax4, alpha=0.3,cmap='Blues')
+    seaborn.heatmap(abs(mne[i]), ax=ax4, alpha=0.3, cmap='YlGn')
+    ax4.set_title("Overlay")
     fig.suptitle("Session"+str(sess))
-    plt.savefig(r"D:\Google Drive\Master\Masterarbeit\Graphics\compare_matrices\matrix_new"+str(sess))
+    plt.savefig(r"D:\Google Drive\Master\Masterarbeit\Graphics\compare_matrices\matrix_with_mne_"+str(sess))
 
 
 bci2k = classifier[0::24].flatten('F')

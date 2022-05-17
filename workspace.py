@@ -148,14 +148,21 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
             #data_train_res classifiers and evaluate classifiers
             if not resampled_riemann:
             #SWLDA
-                # swlda = sw.swlda()
-                # swlda.fit(X_train, y_train)
+                swlda = sw.swlda()
+                swlda.fit(X_train, y_train)
 
-                data_train = epochs_train.get_data().swapaxes(1, 2) * 1e6
-                channels, weights, weights_resampled,ett = sw_old.swlda(data_train, y_train, 512, [0, 800], 20)
+                # data_train = epochs_train.get_data().swapaxes(1, 2) * 1e6
+                # channels, weights, weights_resampled,ett = sw_old.swlda(data_train, y_train, 512, [0, 800], 20)
 
-                swlda_weights.append(weights)
-                channel_list.append(channels)
+                samples = swlda.weights.shape[0]
+                resampling_rate =samples / 12
+                weights_restored = np.zeros((390,12))
+                for i,channel in enumerate(np.arange(0, samples, resampling_rate)):
+                    weights_restored[:,i]= np.repeat(swlda.weights[int(channel):int(channel+resampling_rate)],26)[-390:]
+
+
+                swlda_weights.append(weights_restored)
+                #channel_list.append(channels)
                 # full_weight_matrix = np.zeros((390,12))
                 # full_weight_matrix[weights[:, 1].astype(int), weights[:, 0].astype(int) - 1] = weights[:, 3]
         #         swlda_y_pred_prob = swlda.predict_proba(X_test)
@@ -233,9 +240,9 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
         #     pickle.dump(roc_values, file)
 
 
-        with open(r"D:\Google Drive\Master\Masterarbeit\Software\P300ClassifierComparison\minimal_swlda\data\swlda_weights_resampled_by_py3gui_dec_freq26_later.pickle","wb") as file:
+        with open(r"D:\Google Drive\Master\Masterarbeit\Software\P300ClassifierComparison\minimal_swlda\data\swlda_weights_resampled_by_mne_SR26.pickle","wb") as file:
             pickle.dump(swlda_weights, file)
-        with open(r"D:\Google Drive\Master\Masterarbeit\Software\P300ClassifierComparison\minimal_swlda\data\swlda_channels_resampled_by_py3gui_dec_freq26_later.pickle","wb") as file:
-            pickle.dump(channel_list, file)
+        # with open(r"D:\Google Drive\Master\Masterarbeit\Software\P300ClassifierComparison\minimal_swlda\data\swlda_channels_resampled_by_py3gui_dec_freq26_later.pickle","wb") as file:
+        #     pickle.dump(channel_list, file)
         sp.spaghetti_code(2)
 
