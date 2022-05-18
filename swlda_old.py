@@ -78,7 +78,7 @@ def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
     b = b * 10 / abs(b).max()
     weight_array = b.flatten()*inmodel
     b = b.reshape((channels, -1))
-    inmodel = inmodel.reshape((channels, -1)).nonzero()
+    inmodel = inmodel.reshape((channels, -1)).nonzero()# gives back the indices of the features
     whichchannels = np.unique(inmodel[0])
     inv_channel_map = np.zeros(whichchannels.max() + 1)
     inv_channel_map[whichchannels] = np.arange(1, whichchannels.size + 1)
@@ -94,17 +94,17 @@ def swlda(responses, type, sampling_rate, response_window, decimation_frequency,
     weights[:, 3] = b[inmodel]
 
 
-    restored_weights = np.tile(weights, (1, 26)).reshape((-1, 4))
-    for i in range(0, restored_weights.shape[0], 26):
-        start_val = restored_weights[i, 1] * 26 + 1 # 1-based
-        restored_weights[i:i + 26, 1] = \
-            np.arange(start_val, start_val + 26)
+    restored_weights = np.tile(weights, (1, dec_factor)).reshape((-1, 4))
+    for i in range(0, restored_weights.shape[0], dec_factor):
+        start_val = restored_weights[i, 1] * dec_factor + 1 # 1-based
+        restored_weights[i:i + dec_factor, 1] = \
+            np.arange(start_val, start_val + dec_factor)
     restored_weights = restored_weights[
         restored_weights[:, 1] <= response_window[1]
     ] # remove anything past where we actually recorded data
 
     # channels is zero based
-    return whichchannels , restored_weights,weights,weight_array
+    return whichchannels , restored_weights,weights,dec_factor
 
 def load_weights(fname):
     f = open(fname, 'rb')

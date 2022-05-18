@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-import py3gui as p3
+import minimal_swlda.py3gui as p3
 import pickle
 import numpy as np
 import pandas as pd

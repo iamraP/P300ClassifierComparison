@@ -129,13 +129,13 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
                                                                                                                 resampled_riemann = resampled_riemann,
                                                                                                                 xDawn = xDawn,
                                                                                                                 calib_runs=calib_runs)
-                data_path_free = data_origin + r"\Free_S"+str(sess).zfill(3)+".pickle"
-                X_test, y_test,epochs_test, epoch_info_test,cov_estimator, cov_matrices_test,spatial_filter =  dp.load_epochs(data_path_free,
-                                                                                                        cov_estimator=cov_estimator,
-                                                                                                        picks=electrode_list,
-                                                                                                        resampled_riemann=resampled_riemann,
-                                                                                                        xDawn=xDawn,
-                                                                                                        spatial_filter=spatial_filter)
+                # data_path_free = data_origin + r"\Free_S"+str(sess).zfill(3)+".pickle"
+                # X_test, y_test,epochs_test, epoch_info_test,cov_estimator, cov_matrices_test,spatial_filter =  dp.load_epochs(data_path_free,
+                #                                                                                         cov_estimator=cov_estimator,
+                #                                                                                         picks=electrode_list,
+                #                                                                                         resampled_riemann=resampled_riemann,
+                #                                                                                         xDawn=xDawn,
+                #                                                                                         spatial_filter=spatial_filter)
 
 
 
@@ -148,38 +148,23 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
             #data_train_res classifiers and evaluate classifiers
             if not resampled_riemann:
             #SWLDA
-                swlda = sw.swlda()
-                #swlda.fit(X_train, y_train)
+                # swlda = sw.swlda()
+                # swlda.fit(X_train, y_train)
 
                 data_train = epochs_train.get_data().swapaxes(1, 2) * 1e6
-                channels, weights, weights_resampled,dec_factor = sw_old.swlda(data_train, y_train, 512, [0, 800], 20)
+                channels, weights, weights_resampled,ett = sw_old.swlda(data_train, y_train, 512, [0, 800], 20)
 
-                full_weight_matrix = np.zeros((16, 12))
-                full_weight_matrix[weights_resampled[:, 1].astype(int)+1, channels[weights_resampled[:, 0].astype(int) - 1]] = weights_resampled[:, 3]
-
-                swlda.weights = full_weight_matrix.flatten('F')
-
-                #calculate parameters externally
-                weighted_features = X_train.dot(swlda.weights)
-                target = weighted_features[y_train == 1]
-                nontarget = weighted_features[y_train== 0]
-                swlda.target_std = target.std()
-                swlda.target_mean = target.mean()
-                swlda.nontarget_std = nontarget.std()
-                swlda.nontarget_mean = nontarget.mean()
-
-                swlda_weights.append(swlda.weights)
-
-                #channel_list.append(channels)
+                swlda_weights.append(weights)
+                channel_list.append(channels)
                 # full_weight_matrix = np.zeros((390,12))
                 # full_weight_matrix[weights[:, 1].astype(int), weights[:, 0].astype(int) - 1] = weights[:, 3]
-                swlda_y_pred_prob = swlda.predict_proba(X_test)
-                ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
-                temp_df = dp.results_template(ac_swlda, swlda_name, sess)
-                classifier_results = classifier_results.append(temp_df, ignore_index=True)
-
-                #roc_values[swlda_name].append(metrics.roc_curve(y_test, swlda_y_pred_prob[:, 1]))
-                print("The Accuracy with " + swlda_name + " is: {}".format(ac_swlda))
+        #         swlda_y_pred_prob = swlda.predict_proba(X_test)
+        #         ac_swlda = dp.evaluate_independent_epochs(swlda_y_pred_prob, epoch_info_test)
+        #         temp_df = dp.results_template(ac_swlda, swlda_name, sess)
+        #         classifier_results = classifier_results.append(temp_df, ignore_index=True)
+        #
+        #         roc_values[swlda_name].append(metrics.roc_curve(y_test, swlda_y_pred_prob[:, 1]))
+        #         print("The Accuracy with " + swlda_name + " is: {}".format(ac_swlda))
         #     #LDA
         #         lda = LinearDiscriminantAnalysis(solver='svd', shrinkage=None , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
         #         lda.fit(X_train,y_train)
@@ -243,14 +228,14 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
         #     print("The Accuracy with " +fgmdm_name+ " is: {}".format(ac_fgmdm))
         #
         # df = classifier_results.loc[classifier_results["Ep2Avg"] == 8]
-        classifier_results.to_csv(r"created_data\accuracies_swlda_resampled_by_Py3GUI.csv",index=False)
+        # classifier_results.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\accuracies_850ms.csv",index=False)
         # with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\roc_values_swlda.pickle","wb") as file:
         #     pickle.dump(roc_values, file)
 
 
-        with open(r"created_data\swlda_weightsresampled_by_Py3GUI_dec_factor.pickle","wb") as file:
+        with open(r"created_data\swlda_weights_resampled_by_py3gui_dec_freq26_later_test.pickle","wb") as file:
             pickle.dump(swlda_weights, file)
-        # with open(r"created_data\swlda_channels_resampled_by_py3gui_dec_freq26_later.pickle","wb") as file:
-        #     pickle.dump(channel_list, file)
+        with open(r"created_data\swlda_channels_resampled_by_py3gui_dec_freq26_later_tets.pickle","wb") as file:
+            pickle.dump(channel_list, file)
         sp.spaghetti_code(2)
 

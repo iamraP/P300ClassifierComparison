@@ -48,7 +48,10 @@ Classifier Matrizen BCI2000
     Samples: Vermutung wenn die letzten samples = 0 dann raus - auch nicht wahr...
     manchmal sind die Gewichte deckungsgleich, manchmal passen sie überhaupt nicht...
 
-Feature weights scheinen identisch zu sein, sofern nicht geresampelt wird - channel stimmen noch nicht überein
+Feature weights scheinen identisch zu sein, sofern nicht geresampelt wird
+
+vgl resampling mit mne und resampling via py3gui
+-> matrizen annähernd gleich, shape/gewichte nicht identisch, außreißer liegen an den selben stellen (eg. sess1 sample 120: letzten werte extrem hoch)
 
 -Fragen:
 Pipeline - Mitteln der Epochen
