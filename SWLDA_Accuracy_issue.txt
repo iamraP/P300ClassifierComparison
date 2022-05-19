@@ -51,7 +51,7 @@ Classifier Matrizen BCI2000
 Feature weights scheinen identisch zu sein, sofern nicht geresampelt wird
 
 vgl resampling mit mne und resampling via py3gui
--> matrizen annähernd gleich, shape/gewichte nicht identisch, außreißer liegen an den selben stellen (eg. sess1 sample 120: letzten werte extrem hoch)
+-> matrizen annähernd gleich, shape/gewichte nicht identisch, außreißer liegen an den selben stellen
 
 -Fragen:
 Pipeline - Mitteln der Epochen

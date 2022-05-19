@@ -257,7 +257,7 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
             filtered_epochs = spatial_filter.fit_transform(epochs.get_data(),y=y)
         else:
             filtered_epochs = spatial_filter.transform(epochs.get_data())
-        print("spatial filtering for resampled epochs took: {}".format(time.time()-t))
+        #print("spatial filtering for resampled epochs took: {}".format(time.time()-t))
 
         edf_td = epochs.to_data_frame(time_format='timedelta')
         edf_filtered = edf_td[["time", "condition", "epoch"]]
@@ -343,11 +343,12 @@ def evaluate_independent_epochs(probability_df, info_df):
 
 
 
-def results_template(accuracy,classifer,session, ep2avg=range(1,9)):
+def results_template(accuracy,classifer,session, condition,ep2avg=range(1,9)):
     #template for saving the results in a unified manner
-    temp_df = pd.DataFrame(columns=["Accuracy", "Classifier", "Session", "Ep2Avg"])
+    temp_df = pd.DataFrame(columns=["Accuracy", "Classifier", "Session","Condition", "Ep2Avg"])
     temp_df["Accuracy"] = accuracy
     temp_df["Classifier"] = classifer
     temp_df["Session"] = session
     temp_df["Ep2Avg"] = ep2avg
+    temp_df["Condition"] = condition
     return temp_df

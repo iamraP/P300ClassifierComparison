@@ -33,6 +33,8 @@ data_origin = r"C:\Users\map92fg\Documents\Software\P300_Classification\data_the
 '''SETTINGS STOP'''
 ################################################
 
+
+
 ################################################
 '''Investigation'''
 ################################################
@@ -228,8 +230,8 @@ for resampled_riemann in [False]: #TODO rechange to [True,False]
         #     print("The Accuracy with " +fgmdm_name+ " is: {}".format(ac_fgmdm))
         #
         # df = classifier_results.loc[classifier_results["Ep2Avg"] == 8]
-        # classifier_results.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\accuracies_850ms.csv",index=False)
-        # with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classsifier_Results\roc_values_swlda.pickle","wb") as file:
+        # classifier_results.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classifier_Results\accuracies_850ms.csv",index=False)
+        # with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\Classifier_Results\roc_values_swlda.pickle","wb") as file:
         #     pickle.dump(roc_values, file)
 
 
