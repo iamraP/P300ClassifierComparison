@@ -119,7 +119,7 @@ for condition in conditions:
 
     swlda_weights = []
     channel_list = []
-    for resampled_riemann in [True,False]: #TODO rechange to [True,False]
+    for resampled_riemann in [False,True]: #TODO rechange to [True,False]
         for xDawn in [True,False]:
             mdm_name = "MDM"
             fgmdm_name = "FGMDM"
@@ -243,11 +243,12 @@ for condition in conditions:
                 #print("The Accuracy with " +fgmdm_name+ " is: {}".format(ac_fgmdm))
 
                 pbar_total.update(total+1)
-                pbar_condition.update(condition_tqdm + 1)
 
-            classifier_results.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Classifier_Results\accuracies_testing.csv",index=False)
-            with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Classifier_Results\roc_values_testing.pickle","wb") as file:
+
+            classifier_results.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Classifier_Results\accuracies_19_05_22_V2.csv",index=False)
+            with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Classifier_Results\roc_values_19_05_22_V2.pickle","wb") as file:
                 pickle.dump(roc_values, file)
             sp.spaghetti_code(2)
+            pbar_condition.update(condition_tqdm +156)
     sp.spaghetti_code(1)
-print("It took: {} s to run the entire script".format(round((time.time()-t)/60)))
+print("It took: {} min to run the entire script".format(round((time.time()-t)/60)))

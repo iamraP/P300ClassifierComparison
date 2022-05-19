@@ -343,12 +343,13 @@ def evaluate_independent_epochs(probability_df, info_df):
 
 
 
-def results_template(accuracy,classifer,session, condition,ep2avg=range(1,9)):
+def results_template(accuracy,classifier,session, condition,ep2avg=range(1,9)):
     #template for saving the results in a unified manner
     temp_df = pd.DataFrame(columns=["Accuracy", "Classifier", "Session","Condition", "Ep2Avg"])
-    temp_df["Accuracy"] = accuracy
-    temp_df["Classifier"] = classifer
-    temp_df["Session"] = session
+
     temp_df["Ep2Avg"] = ep2avg
+    temp_df["Classifier"] = classifier
+    temp_df["Session"] = session
     temp_df["Condition"] = condition
+    temp_df["Accuracy"] = accuracy
     return temp_df
