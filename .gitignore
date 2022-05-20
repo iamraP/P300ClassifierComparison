@@ -3,3 +3,4 @@ __pycache__
 ignore
 *.dat
 .idea/.name
+./created_data/Graphics/Amplitudes

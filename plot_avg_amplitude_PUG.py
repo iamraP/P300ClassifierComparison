@@ -1,3 +1,5 @@
+# lodaded data via the workspace, executed in data_prep
+
 import matplotlib.pyplot as plt
 
 col_list=["#377eb8","#e41a1c"]
@@ -19,10 +21,10 @@ for e in ["Cz"]:
     eval(e).set_ylabel("µV")
     eval(e).margins(x=0)
     eval(e).set_title(e)
-Fz.set_ylabel("µV")
+    eval(e).set_ylabel("µV")
 
-Cz.legend(title="Average over all sessions", loc='center', bbox_to_anchor=(0.5, 1.16), ncol=2)
+Cz.legend(title="Average of Session 1", loc='center', bbox_to_anchor=(0.5, 1.16), ncol=2)
 # fig.suptitle("Average over all sessions")
 fig.tight_layout()
 #plt.show()
-plt.savefig(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\PUG_average_Cz.svg",format="svg")
+plt.savefig(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Graphics\PUG_average_Cz_Session1.svg",format="svg")
