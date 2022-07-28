@@ -29,7 +29,7 @@ class swlda:
             swlda.weights = None
             return 'Could not find an appropriate model.'
 
-        #TODO find out what is happening in the next line?
+
         self.weights = b * 10 / abs(b).max() # scale values between -10 and 10
         self.weights = self.weights.flatten() * inmodel
 

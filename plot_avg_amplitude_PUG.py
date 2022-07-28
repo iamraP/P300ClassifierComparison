@@ -1,4 +1,4 @@
-# lodaded data via the workspace, executed in data_prep
+# lodaded data via the workspace, executed in data_prep in debug mode (to adjust)
 
 import matplotlib.pyplot as plt
 

@@ -1,3 +1,5 @@
+''' code adapted from Talia Stocks: https://github.com/taliastocks/Py3GUI '''
+
 import numpy as np
 import scipy
 import scipy.stats
