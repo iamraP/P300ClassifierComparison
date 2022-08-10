@@ -245,8 +245,8 @@ for condition in conditions:
                 pbar_total.update(total+1)
 
 
-            classifier_results.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Classifier_Results\accuracies_19_05_22_V2.csv",index=False)
-            with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Classifier_Results\roc_values_19_05_22_V2.pickle","wb") as file:
+            classifier_results.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Classifier_Results\accuracies_10_08_22_complete.csv",index=False)
+            with open(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Classifier_Results\roc_values_10_08_22_complete.pickle","wb") as file:
                 pickle.dump(roc_values, file)
             sp.spaghetti_code(2)
             pbar_condition.update(condition_tqdm +156)
