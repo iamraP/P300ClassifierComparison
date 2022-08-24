@@ -14,7 +14,7 @@ import warnings
 warnings.simplefilter(action='ignore')
 
 ''' Data Investigation'''
-def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_amplitude = False, plot_amplitude_pug =True,plot_mne =False,plot_woi_shift=False, plot_r2=False,save_averages=False,sess_name='Unknown',mean_amplitude_tactilos=False):
+def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_amplitude = True, plot_amplitude_pug =True ,plot_mne =False,plot_woi_shift=False, plot_r2=False,save_averages=True,sess_name='Unknown',mean_amplitude_tactilos=True):
     #mne.set_log_level('WARNING')
     col_list = ["#d8b365", "#5ab4ac", "#ef8a62", "#67a9cf"] # colors were choosen to be readable for the colorblind according to the website colorbrewer2 (https://colorbrewer2.org/#type=diverging&scheme=BrBG&n=3)
     raw_list = []
@@ -64,8 +64,9 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
                 df.index = epochs.times
                 for electrode,amp in enumerate(df[0.35: 0.6].mean().to_list()):
                     mean_amplitudes.loc[len(mean_amplitudes)] =[sess,picks[electrode],str(tactilo),amp,"nonTarget"]
+    if sess_name == "all":
+        mean_amplitudes.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\average_amplitudes_350_600.csv",index=False)
 
-       # mean_amplitudes.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\PUG_average_amplitudes_350_600.csv",index=False)
     if sess_name == 'all':
         sess = 'all'
     for data_path in data_paths:
@@ -100,8 +101,8 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
     if save_averages:
         t_df =  pd.DataFrame(t_avg.T,index= times)
         nt_df = pd.DataFrame(nt_avg.T,index =times)
-        t_df.to_csv(os.path.join(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\PUG_filtered_avg_targets_" + str(sess) + ".csv"))
-        nt_df.to_csv(os.path.join(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\PUG_filtered_avg_nontargets_" + str(sess) + ".csv"))
+        t_df.to_csv(os.path.join(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\filtered_avg_targets_" + str(sess) + ".csv"))
+        nt_df.to_csv(os.path.join(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\filtered_avg_nontargets_" + str(sess) + ".csv"))
 
 
     if plot_r2:
@@ -232,7 +233,7 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
         fig.tight_layout()
         # plt.show()
         plt.savefig(
-            r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Graphics\Amplitudes\PUG_average_Cz_Session"+str(sess_name)+".svg",
+            r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Graphics\Amplitudes\average_Cz_Session"+str(sess_name)+".svg",
             format="svg", transparent=True)
 
 
