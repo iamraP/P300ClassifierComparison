@@ -80,7 +80,7 @@ roc_values = {"LDA": [],
 
 
 total = 0
-pbar_total = tqdm(desc="Total", total=624)
+pbar_total = tqdm(desc="Total", total=6)
 # loop for getting every condition in one run - spagetthi-deluxe
 classifier_accuracy = pd.DataFrame(columns=["Accuracy", "Classifier", "Session","Condition", "Ep2Avg"])
 classifier_roc = pd.DataFrame(columns=["Classifier", "Session","Condition", "Treshold","FPR","TPR"]) #fpr: false positive rate, tpr: true positive rate
@@ -116,7 +116,12 @@ for condition in conditions:
         sess_list = range(21,50)  # range(1,50) #list(range(1,50)) #neues Setup ab Session 21 (12. Messtag) # for PUG range(1,27)
 
     condition_tqdm = 0
-    pbar_condition = tqdm(desc=condition, total=156)
+    if "_A" in condition:
+        pbar_condition = tqdm(desc=condition, total=144,position=0,leave=True)
+    elif "_B" in condition:
+        pbar_condition = tqdm(desc=condition, total=392,position=0,leave=True)
+    else:
+        pbar_condition = tqdm(desc=condition, total=546,position=0,leave=True)
 
     dates = []
 
@@ -124,7 +129,7 @@ for condition in conditions:
 
     swlda_weights = []
     channel_list = []
-    for resampled_riemann in [False,True]: #TODO rechange to [True,False]
+    for resampled_riemann in [True,False]:
         for xDawn in [True,False]:
             mdm_name = "MDM"
             fgmdm_name = "FGMDM"
@@ -202,6 +207,7 @@ for condition in conditions:
                     temp_roc_df = dp.roc_template(roc_swlda, swlda_name, sess, condition)
                     classifier_roc = classifier_roc.append(temp_roc_df,ignore_index=True)
                     #print("The Accuracy with " + swlda_name + " is: {}".format(ac_swlda))
+                    pbar_condition.update(condition_tqdm + 1)
 
                 #LDA
                     lda = LinearDiscriminantAnalysis(solver='svd', shrinkage=None , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
@@ -215,6 +221,7 @@ for condition in conditions:
                     temp_roc_df = dp.roc_template(roc_lda, lda_name, sess, condition)
                     classifier_roc = classifier_roc.append(temp_roc_df,ignore_index=True)
                     #print("The Accuracy with " + lda_name + " is: {}".format(ac_lda))
+                    pbar_condition.update(condition_tqdm + 1)
 
                 #shrinkage LDA
                     shrinklda = LinearDiscriminantAnalysis(solver='lsqr', shrinkage='auto' , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
@@ -228,6 +235,7 @@ for condition in conditions:
                     temp_roc_df = dp.roc_template(roc_shrinklda, shrinklda_name, sess, condition)
                     classifier_roc = classifier_roc.append(temp_roc_df,ignore_index=True)
                     #print("The Accuracy with " +shrinklda_name + " is: {}".format(ac_shrink_lda))
+                    pbar_condition.update(condition_tqdm + 1)
 
 
                 #Riemann MDM
@@ -244,7 +252,7 @@ for condition in conditions:
                 temp_roc_df = dp.roc_template(roc_mdm, mdm_name, sess, condition)
                 classifier_roc = classifier_roc.append(temp_roc_df,ignore_index=True)
                 #print("The Accuracy with " +mdm_name+ " is: {}".format(ac_mdm))
-
+                pbar_condition.update(condition_tqdm + 1)
 
                 #MDM with FGDA in tangentspace
                 fgmdm = FgMDM()
@@ -258,13 +266,13 @@ for condition in conditions:
                 temp_roc_df = dp.roc_template(roc_fgmdm, mdm_name, sess, condition)
                 classifier_roc = classifier_roc.append(temp_roc_df,ignore_index=True)
 
+                pbar_condition.update(condition_tqdm + 1)
+
                 #print("The Accuracy with " +fgmdm_name+ " is: {}".format(ac_fgmdm))
 
-                pbar_total.update(total+1)
-
+            pbar_total.update(total + 1)
             classifier_roc.to_csv(r"created_data\Classifier_Results\roc.csv",index=False)
             classifier_accuracy.to_csv(r"created_data\Classifier_Results\accuracies.csv",index=False)
-            sp.spaghetti_code(2)
-            pbar_condition.update(condition_tqdm +156)
-    sp.spaghetti_code(1)
+            #sp.spaghetti_code(2)
+    #sp.spaghetti_code(1)
 print("It took: {} min to run the entire script".format(round((time.time()-t)/60)))
