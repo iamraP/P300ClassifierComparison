@@ -385,3 +385,15 @@ def results_template(accuracy,classifier,session, condition,ep2avg=range(1,9)):
     temp_df["Condition"] = condition
     temp_df["Accuracy"] = accuracy
     return temp_df
+
+def roc_template(roc,classifier,session, condition):
+    #template for saving the results in a unified manner
+    temp_df = pd.DataFrame(columns=["Classifier", "Session","Condition", "Treshold","FPR","TPR"]) #fpr: false positive rate, tpr: true positive rate
+
+    temp_df["FPR"] = roc[0]
+    temp_df["TPR"] = roc[1]
+    temp_df["Treshold"] = roc[2]
+    temp_df["Classifier"] = classifier
+    temp_df["Session"] = session
+    temp_df["Condition"] = condition
+    return temp_df

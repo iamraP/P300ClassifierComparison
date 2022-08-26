@@ -1,0 +1,312 @@
+1           28          Motor 1Motor 2Motor 2Motor 6Motor 6Motor 3Motor 1Motor 6Motor 3Motor 6Motor 4Motor 2Motor 4Motor 4Motor 2Motor 5Motor 5Motor 2
+2           39          Motor 1Motor 2Motor 2Motor 6Motor 4Motor 3Motor 1Motor 6Motor 3Motor 4Motor 4Motor 6Motor 2Motor 4Motor 2Motor 5Motor 5Motor 3
+3           33          Motor 1Motor 5Motor 2Motor 6Motor 2Motor 3Motor 1Motor 6Motor 3Motor 2Motor 4Motor 4Motor 2Motor 2Motor 2Motor 4Motor 5Motor 5
+4           33          Motor 1Motor 5Motor 3Motor 6Motor 6Motor 5Motor 1Motor 3Motor 3Motor 2Motor 6Motor 4Motor 1Motor 3Motor 2Motor 5Motor 5Motor 3
+5           50          Motor 1Motor 3Motor 3Motor 6Motor 6Motor 5Motor 1Motor 3Motor 3Motor 4Motor 6Motor 6Motor 4Motor 2Motor 3Motor 5Motor 5Motor 3
+6           56          Motor 1Motor 2Motor 3Motor 6Motor 6Motor 3Motor 1Motor 3Motor 3Motor 4Motor 6Motor 6Motor 4Motor 2Motor 3Motor 5Motor 5Motor 3
+7           56          Motor 1Motor 2Motor 3Motor 6Motor 5Motor 3Motor 1Motor 6Motor 3Motor 4Motor 6Motor 2Motor 4Motor 2Motor 3Motor 5Motor 5Motor 5
+8           67          Motor 1Motor 2Motor 3Motor 3Motor 5Motor 3Motor 1Motor 3Motor 3Motor 4Motor 6Motor 6Motor 4Motor 2Motor 3Motor 4Motor 5Motor 5
+1           11          Motor 1Motor 5Motor 6Motor 1Motor 6Motor 2Motor 1Motor 5Motor 5Motor 6Motor 6Motor 3Motor 3Motor 5Motor 6Motor 3Motor 6Motor 4
+2           22          Motor 1Motor 5Motor 6Motor 6Motor 6Motor 2Motor 5Motor 5Motor 3Motor 4Motor 6Motor 3Motor 3Motor 5Motor 3Motor 6Motor 6Motor 3
+3           28          Motor 1Motor 5Motor 3Motor 1Motor 6Motor 2Motor 5Motor 5Motor 3Motor 4Motor 6Motor 3Motor 3Motor 5Motor 3Motor 6Motor 6Motor 1
+4           22          Motor 2Motor 5Motor 3Motor 6Motor 6Motor 2Motor 5Motor 5Motor 3Motor 4Motor 6Motor 3Motor 3Motor 5Motor 3Motor 3Motor 6Motor 1
+5           28          Motor 1Motor 5Motor 3Motor 6Motor 6Motor 2Motor 5Motor 5Motor 3Motor 4Motor 6Motor 3Motor 3Motor 5Motor 3Motor 3Motor 6Motor 1
+6           28          Motor 1Motor 5Motor 3Motor 6Motor 6Motor 2Motor 5Motor 5Motor 3Motor 4Motor 1Motor 3Motor 3Motor 5Motor 3Motor 6Motor 6Motor 1
+7           33          Motor 1Motor 5Motor 3Motor 6Motor 3Motor 2Motor 5Motor 5Motor 3Motor 4Motor 1Motor 3Motor 3Motor 2Motor 3Motor 3Motor 6Motor 1
+8           33          Motor 1Motor 5Motor 3Motor 6Motor 1Motor 2Motor 5Motor 5Motor 3Motor 4Motor 1Motor 3Motor 3Motor 1Motor 3Motor 3Motor 5Motor 1
+1           11          Motor 4Motor 6Motor 5Motor 2Motor 1Motor 5Motor 4Motor 1Motor 5Motor 4Motor 6Motor 4Motor 6Motor 3Motor 4Motor 4Motor 6Motor 3
+2           22          Motor 4Motor 6Motor 4Motor 3Motor 5Motor 1Motor 1Motor 1Motor 4Motor 5Motor 2Motor 6Motor 6Motor 2Motor 1Motor 2Motor 2Motor 3
+3           17          Motor 6Motor 3Motor 2Motor 5Motor 4Motor 2Motor 3Motor 6Motor 3Motor 5Motor 2Motor 6Motor 5Motor 2Motor 1Motor 2Motor 2Motor 3
+4           17          Motor 2Motor 6Motor 2Motor 5Motor 6Motor 2Motor 1Motor 6Motor 6Motor 5Motor 2Motor 6Motor 5Motor 2Motor 1Motor 2Motor 2Motor 2
+5           17          Motor 2Motor 5Motor 2Motor 3Motor 6Motor 2Motor 1Motor 6Motor 6Motor 5Motor 2Motor 6Motor 5Motor 2Motor 6Motor 2Motor 2Motor 4
+6           17          Motor 2Motor 3Motor 2Motor 3Motor 6Motor 2Motor 1Motor 6Motor 4Motor 5Motor 2Motor 6Motor 6Motor 2Motor 6Motor 2Motor 2Motor 3
+7           22          Motor 5Motor 2Motor 2Motor 3Motor 6Motor 4Motor 1Motor 6Motor 4Motor 5Motor 6Motor 6Motor 5Motor 2Motor 4Motor 2Motor 2Motor 3
+8           17          Motor 5Motor 3Motor 5Motor 3Motor 6Motor 1Motor 1Motor 6Motor 4Motor 5Motor 6Motor 6Motor 5Motor 2Motor 4Motor 2Motor 2Motor 3
+1           22          Motor 2Motor 2Motor 1Motor 2Motor 3Motor 1Motor 1Motor 4Motor 2Motor 5Motor 5Motor 4Motor 1Motor 4Motor 1Motor 3Motor 1Motor 1
+2           28          Motor 2Motor 2Motor 1Motor 2Motor 3Motor 1Motor 1Motor 4Motor 2Motor 2Motor 5Motor 6Motor 1Motor 4Motor 1Motor 3Motor 1Motor 1
+3           17          Motor 2Motor 3Motor 1Motor 2Motor 3Motor 1Motor 1Motor 4Motor 2Motor 1Motor 5Motor 3Motor 1Motor 4Motor 2Motor 3Motor 1Motor 1
+4           22          Motor 2Motor 2Motor 1Motor 2Motor 3Motor 1Motor 1Motor 4Motor 4Motor 5Motor 5Motor 3Motor 1Motor 4Motor 1Motor 3Motor 1Motor 1
+5           17          Motor 2Motor 2Motor 1Motor 2Motor 3Motor 1Motor 1Motor 4Motor 4Motor 5Motor 5Motor 3Motor 6Motor 4Motor 5Motor 2Motor 1Motor 1
+6           11          Motor 2Motor 2Motor 1Motor 2Motor 3Motor 1Motor 1Motor 4Motor 4Motor 5Motor 6Motor 3Motor 6Motor 4Motor 5Motor 2Motor 1Motor 1
+7           11          Motor 2Motor 2Motor 1Motor 2Motor 3Motor 1Motor 1Motor 3Motor 4Motor 5Motor 6Motor 5Motor 6Motor 4Motor 5Motor 2Motor 1Motor 1
+8           17          Motor 2Motor 2Motor 1Motor 2Motor 3Motor 1Motor 1Motor 3Motor 4Motor 5Motor 5Motor 5Motor 6Motor 4Motor 2Motor 2Motor 1Motor 1
+1           33          Motor 4Motor 4Motor 5Motor 1Motor 5Motor 6Motor 6Motor 2Motor 5Motor 1Motor 1Motor 6Motor 2Motor 2Motor 4Motor 2Motor 1Motor 6
+2           33          Motor 4Motor 2Motor 4Motor 5Motor 5Motor 2Motor 2Motor 2Motor 5Motor 3Motor 1Motor 6Motor 2Motor 4Motor 4Motor 2Motor 5Motor 6
+3           39          Motor 3Motor 2Motor 4Motor 5Motor 5Motor 6Motor 6Motor 2Motor 1Motor 3Motor 1Motor 5Motor 2Motor 2Motor 2Motor 2Motor 5Motor 6
+4           33          Motor 3Motor 2Motor 4Motor 5Motor 5Motor 6Motor 6Motor 2Motor 1Motor 3Motor 6Motor 6Motor 3Motor 2Motor 2Motor 2Motor 3Motor 4
+5           28          Motor 3Motor 2Motor 2Motor 3Motor 5Motor 2Motor 1Motor 4Motor 1Motor 3Motor 6Motor 6Motor 3Motor 2Motor 2Motor 2Motor 3Motor 4
+6           44          Motor 3Motor 2Motor 2Motor 3Motor 4Motor 6Motor 1Motor 2Motor 1Motor 3Motor 6Motor 6Motor 3Motor 2Motor 5Motor 2Motor 5Motor 6
+7           44          Motor 3Motor 2Motor 4Motor 5Motor 5Motor 6Motor 1Motor 2Motor 1Motor 4Motor 6Motor 4Motor 3Motor 4Motor 5Motor 2Motor 5Motor 6
+8           33          Motor 3Motor 2Motor 4Motor 5Motor 4Motor 6Motor 4Motor 4Motor 1Motor 6Motor 6Motor 6Motor 3Motor 4Motor 3Motor 2Motor 5Motor 6
+1           22          Motor 1Motor 1Motor 2Motor 2Motor 3Motor 6Motor 6Motor 6Motor 6Motor 2Motor 1Motor 6Motor 3Motor 5Motor 1Motor 3Motor 2Motor 6
+2           22          Motor 1Motor 1Motor 2Motor 5Motor 1Motor 6Motor 3Motor 6Motor 5Motor 2Motor 1Motor 6Motor 3Motor 6Motor 1Motor 5Motor 2Motor 6
+3           39          Motor 1Motor 1Motor 2Motor 5Motor 5Motor 6Motor 3Motor 6Motor 3Motor 2Motor 1Motor 6Motor 3Motor 6Motor 4Motor 4Motor 2Motor 6
+4           56          Motor 1Motor 1Motor 2Motor 6Motor 5Motor 6Motor 6Motor 2Motor 3Motor 4Motor 5Motor 6Motor 4Motor 6Motor 4Motor 4Motor 2Motor 6
+5           50          Motor 1Motor 1Motor 2Motor 4Motor 5Motor 6Motor 6Motor 2Motor 3Motor 6Motor 1Motor 6Motor 1Motor 6Motor 4Motor 5Motor 2Motor 6
+6           44          Motor 1Motor 1Motor 2Motor 4Motor 5Motor 6Motor 6Motor 2Motor 3Motor 2Motor 1Motor 2Motor 1Motor 6Motor 4Motor 5Motor 2Motor 6
+7           44          Motor 1Motor 1Motor 2Motor 4Motor 5Motor 6Motor 3Motor 2Motor 3Motor 2Motor 1Motor 1Motor 1Motor 6Motor 4Motor 5Motor 2Motor 6
+8           67          Motor 1Motor 2Motor 2Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 1Motor 1Motor 1Motor 6Motor 4Motor 4Motor 2Motor 6
+1           17          Motor 2Motor 6Motor 1Motor 4Motor 6Motor 5Motor 4Motor 1Motor 4Motor 3Motor 2Motor 3Motor 4Motor 2Motor 6Motor 4Motor 2Motor 4
+2           22          Motor 5Motor 6Motor 1Motor 4Motor 2Motor 6Motor 4Motor 1Motor 4Motor 3Motor 1Motor 3Motor 5Motor 2Motor 3Motor 1Motor 2Motor 4
+3           17          Motor 5Motor 6Motor 3Motor 4Motor 2Motor 5Motor 4Motor 1Motor 4Motor 3Motor 1Motor 3Motor 5Motor 2Motor 6Motor 5Motor 2Motor 4
+4           22          Motor 5Motor 6Motor 3Motor 4Motor 2Motor 5Motor 4Motor 1Motor 4Motor 3Motor 1Motor 3Motor 5Motor 2Motor 3Motor 1Motor 2Motor 4
+5           11          Motor 5Motor 6Motor 1Motor 3Motor 2Motor 5Motor 4Motor 1Motor 3Motor 3Motor 1Motor 5Motor 5Motor 2Motor 6Motor 3Motor 2Motor 4
+6           17          Motor 5Motor 5Motor 3Motor 3Motor 2Motor 5Motor 4Motor 1Motor 3Motor 3Motor 1Motor 5Motor 5Motor 2Motor 6Motor 1Motor 2Motor 4
+7           22          Motor 4Motor 2Motor 3Motor 3Motor 2Motor 5Motor 4Motor 1Motor 3Motor 3Motor 1Motor 5Motor 5Motor 2Motor 5Motor 5Motor 1Motor 4
+8           33          Motor 1Motor 2Motor 3Motor 3Motor 3Motor 5Motor 4Motor 1Motor 3Motor 3Motor 1Motor 5Motor 1Motor 2Motor 5Motor 3Motor 1Motor 4
+1           22          Motor 1Motor 6Motor 6Motor 2Motor 2Motor 6Motor 3Motor 2Motor 4Motor 6Motor 1Motor 4Motor 6Motor 2Motor 2Motor 1Motor 1Motor 5
+2           28          Motor 1Motor 5Motor 6Motor 2Motor 1Motor 6Motor 3Motor 2Motor 3Motor 3Motor 5Motor 4Motor 6Motor 6Motor 2Motor 1Motor 1Motor 4
+3           39          Motor 1Motor 2Motor 6Motor 4Motor 2Motor 6Motor 5Motor 2Motor 3Motor 3Motor 5Motor 4Motor 6Motor 6Motor 2Motor 1Motor 1Motor 3
+4           39          Motor 1Motor 2Motor 6Motor 4Motor 1Motor 6Motor 5Motor 2Motor 3Motor 3Motor 5Motor 4Motor 6Motor 6Motor 2Motor 1Motor 1Motor 3
+5           61          Motor 1Motor 2Motor 3Motor 4Motor 1Motor 6Motor 5Motor 2Motor 3Motor 3Motor 5Motor 1Motor 1Motor 6Motor 2Motor 1Motor 5Motor 6
+6           61          Motor 1Motor 2Motor 3Motor 4Motor 1Motor 6Motor 1Motor 2Motor 3Motor 6Motor 5Motor 3Motor 1Motor 6Motor 2Motor 3Motor 5Motor 3
+7           72          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 3Motor 5Motor 6Motor 1Motor 6Motor 2Motor 1Motor 5Motor 3
+8           61          Motor 1Motor 2Motor 3Motor 4Motor 1Motor 6Motor 1Motor 2Motor 3Motor 6Motor 5Motor 6Motor 5Motor 6Motor 2Motor 1Motor 5Motor 5
+1           22          Motor 5Motor 6Motor 6Motor 1Motor 4Motor 5Motor 2Motor 2Motor 1Motor 1Motor 5Motor 2Motor 5Motor 2Motor 3Motor 2Motor 6Motor 2
+2           44          Motor 6Motor 2Motor 5Motor 1Motor 4Motor 5Motor 4Motor 2Motor 1Motor 4Motor 5Motor 2Motor 1Motor 2Motor 3Motor 2Motor 6Motor 6
+3           39          Motor 5Motor 6Motor 2Motor 1Motor 4Motor 5Motor 1Motor 2Motor 1Motor 4Motor 5Motor 2Motor 1Motor 3Motor 3Motor 2Motor 6Motor 6
+4           39          Motor 5Motor 2Motor 2Motor 2Motor 6Motor 5Motor 1Motor 2Motor 1Motor 3Motor 5Motor 2Motor 1Motor 3Motor 3Motor 2Motor 6Motor 6
+5           50          Motor 5Motor 2Motor 2Motor 2Motor 6Motor 5Motor 1Motor 2Motor 1Motor 3Motor 5Motor 2Motor 1Motor 2Motor 3Motor 4Motor 6Motor 6
+6           61          Motor 5Motor 2Motor 5Motor 2Motor 6Motor 5Motor 1Motor 2Motor 6Motor 4Motor 5Motor 2Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6
+7           61          Motor 5Motor 2Motor 5Motor 2Motor 6Motor 2Motor 1Motor 2Motor 6Motor 4Motor 5Motor 2Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6
+8           50          Motor 5Motor 2Motor 5Motor 2Motor 6Motor 3Motor 1Motor 2Motor 6Motor 2Motor 5Motor 2Motor 1Motor 2Motor 3Motor 2Motor 5Motor 6
+1           6           Motor 5Motor 6Motor 1Motor 5Motor 3Motor 2Motor 4Motor 3Motor 5Motor 3Motor 4Motor 5Motor 3Motor 6Motor 3Motor 2Motor 3Motor 5
+2           39          Motor 5Motor 2Motor 3Motor 5Motor 3Motor 2Motor 1Motor 5Motor 5Motor 3Motor 4Motor 2Motor 1Motor 2Motor 3Motor 2Motor 6Motor 6
+3           28          Motor 5Motor 2Motor 3Motor 5Motor 3Motor 2Motor 1Motor 5Motor 5Motor 3Motor 1Motor 2Motor 1Motor 2Motor 1Motor 2Motor 6Motor 5
+4           22          Motor 5Motor 2Motor 4Motor 5Motor 3Motor 2Motor 1Motor 5Motor 5Motor 1Motor 1Motor 2Motor 1Motor 2Motor 1Motor 2Motor 3Motor 5
+5           44          Motor 5Motor 2Motor 3Motor 5Motor 5Motor 2Motor 4Motor 2Motor 5Motor 1Motor 3Motor 2Motor 1Motor 2Motor 3Motor 2Motor 5Motor 1
+6           56          Motor 5Motor 2Motor 3Motor 5Motor 5Motor 6Motor 1Motor 2Motor 5Motor 1Motor 1Motor 1Motor 1Motor 2Motor 3Motor 2Motor 5Motor 1
+7           56          Motor 5Motor 2Motor 3Motor 5Motor 5Motor 6Motor 1Motor 2Motor 5Motor 1Motor 1Motor 2Motor 1Motor 2Motor 3Motor 2Motor 5Motor 1
+8           44          Motor 5Motor 3Motor 3Motor 5Motor 5Motor 6Motor 1Motor 2Motor 5Motor 1Motor 1Motor 3Motor 1Motor 2Motor 1Motor 2Motor 5Motor 1
+1           6           Motor 2Motor 6Motor 6Motor 6Motor 2Motor 3Motor 5Motor 3Motor 1Motor 6Motor 2Motor 1Motor 3Motor 5Motor 4Motor 5Motor 5Motor 4
+2           0           Motor 2Motor 6Motor 4Motor 3Motor 2Motor 3Motor 5Motor 3Motor 6Motor 6Motor 2Motor 1Motor 2Motor 1Motor 4Motor 5Motor 1Motor 4
+3           0           Motor 3Motor 6Motor 4Motor 3Motor 6Motor 3Motor 5Motor 3Motor 6Motor 6Motor 2Motor 5Motor 2Motor 1Motor 4Motor 5Motor 1Motor 4
+4           17          Motor 1Motor 6Motor 4Motor 3Motor 6Motor 3Motor 1Motor 3Motor 6Motor 6Motor 2Motor 2Motor 6Motor 1Motor 4Motor 4Motor 1Motor 4
+5           22          Motor 1Motor 6Motor 4Motor 3Motor 6Motor 3Motor 1Motor 2Motor 6Motor 3Motor 2Motor 2Motor 1Motor 1Motor 1Motor 3Motor 1Motor 4
+6           22          Motor 1Motor 6Motor 4Motor 3Motor 6Motor 3Motor 1Motor 2Motor 2Motor 3Motor 2Motor 5Motor 1Motor 1Motor 1Motor 2Motor 1Motor 4
+7           22          Motor 5Motor 6Motor 4Motor 3Motor 6Motor 3Motor 1Motor 2Motor 3Motor 3Motor 2Motor 2Motor 1Motor 1Motor 4Motor 1Motor 1Motor 4
+8           22          Motor 1Motor 6Motor 6Motor 3Motor 6Motor 3Motor 1Motor 2Motor 2Motor 4Motor 2Motor 2Motor 6Motor 1Motor 1Motor 1Motor 1Motor 4
+1           28          Motor 1Motor 6Motor 3Motor 4Motor 1Motor 3Motor 4Motor 3Motor 2Motor 1Motor 2Motor 5Motor 1Motor 2Motor 5Motor 6Motor 1Motor 2
+2           50          Motor 1Motor 6Motor 3Motor 4Motor 6Motor 5Motor 1Motor 3Motor 2Motor 4Motor 5Motor 6Motor 1Motor 2Motor 5Motor 1Motor 2Motor 2
+3           56          Motor 2Motor 6Motor 3Motor 4Motor 5Motor 5Motor 1Motor 3Motor 2Motor 3Motor 5Motor 6Motor 1Motor 2Motor 5Motor 4Motor 5Motor 2
+4           67          Motor 2Motor 6Motor 3Motor 4Motor 5Motor 5Motor 1Motor 3Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 5Motor 4Motor 5Motor 2
+5           67          Motor 2Motor 6Motor 3Motor 4Motor 5Motor 5Motor 1Motor 3Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 5Motor 4Motor 5Motor 2
+6           67          Motor 2Motor 2Motor 3Motor 4Motor 5Motor 5Motor 1Motor 3Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 5Motor 4Motor 2Motor 2
+7           72          Motor 2Motor 6Motor 3Motor 4Motor 5Motor 6Motor 1Motor 3Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 5Motor 4Motor 2Motor 6
+8           67          Motor 2Motor 6Motor 1Motor 4Motor 5Motor 6Motor 1Motor 3Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 1Motor 4Motor 5Motor 2
+1           39          Motor 5Motor 2Motor 2Motor 5Motor 5Motor 1Motor 3Motor 1Motor 2Motor 3Motor 2Motor 6Motor 1Motor 1Motor 3Motor 3Motor 5Motor 6
+2           22          Motor 2Motor 2Motor 1Motor 5Motor 2Motor 3Motor 2Motor 1Motor 2Motor 4Motor 2Motor 6Motor 3Motor 4Motor 3Motor 3Motor 2Motor 4
+3           33          Motor 2Motor 2Motor 5Motor 5Motor 2Motor 3Motor 5Motor 1Motor 2Motor 2Motor 1Motor 6Motor 1Motor 2Motor 3Motor 3Motor 5Motor 4
+4           28          Motor 2Motor 2Motor 5Motor 5Motor 2Motor 3Motor 5Motor 1Motor 2Motor 4Motor 1Motor 6Motor 1Motor 4Motor 3Motor 3Motor 6Motor 4
+5           50          Motor 2Motor 2Motor 1Motor 5Motor 2Motor 3Motor 6Motor 2Motor 2Motor 4Motor 1Motor 6Motor 1Motor 2Motor 3Motor 3Motor 5Motor 6
+6           44          Motor 2Motor 2Motor 5Motor 5Motor 3Motor 3Motor 6Motor 2Motor 2Motor 2Motor 1Motor 6Motor 1Motor 2Motor 3Motor 3Motor 5Motor 6
+7           72          Motor 2Motor 2Motor 3Motor 4Motor 3Motor 3Motor 1Motor 2Motor 2Motor 4Motor 1Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6
+8           67          Motor 2Motor 2Motor 3Motor 4Motor 3Motor 3Motor 1Motor 3Motor 2Motor 4Motor 1Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6
+1           22          Motor 6Motor 3Motor 1Motor 5Motor 1Motor 2Motor 3Motor 1Motor 4Motor 4Motor 3Motor 1Motor 1Motor 2Motor 3Motor 6Motor 4Motor 5
+2           28          Motor 5Motor 2Motor 1Motor 5Motor 1Motor 3Motor 3Motor 2Motor 4Motor 4Motor 3Motor 1Motor 1Motor 2Motor 1Motor 6Motor 4Motor 5
+3           33          Motor 5Motor 2Motor 1Motor 5Motor 1Motor 3Motor 3Motor 2Motor 5Motor 4Motor 3Motor 6Motor 1Motor 2Motor 1Motor 6Motor 4Motor 5
+4           39          Motor 5Motor 2Motor 1Motor 4Motor 5Motor 2Motor 3Motor 2Motor 5Motor 4Motor 3Motor 1Motor 1Motor 2Motor 1Motor 6Motor 4Motor 5
+5           50          Motor 1Motor 2Motor 1Motor 4Motor 5Motor 3Motor 3Motor 2Motor 5Motor 4Motor 3Motor 1Motor 1Motor 2Motor 3Motor 6Motor 4Motor 5
+6           50          Motor 5Motor 2Motor 1Motor 4Motor 5Motor 3Motor 3Motor 2Motor 5Motor 4Motor 3Motor 6Motor 1Motor 2Motor 3Motor 6Motor 4Motor 5
+7           61          Motor 1Motor 2Motor 1Motor 4Motor 5Motor 3Motor 1Motor 2Motor 5Motor 4Motor 3Motor 6Motor 1Motor 2Motor 3Motor 6Motor 4Motor 5
+8           56          Motor 1Motor 2Motor 1Motor 4Motor 5Motor 3Motor 1Motor 2Motor 5Motor 4Motor 3Motor 4Motor 1Motor 2Motor 3Motor 6Motor 4Motor 5
+1           22          Motor 2Motor 6Motor 4Motor 4Motor 5Motor 3Motor 1Motor 1Motor 2Motor 5Motor 1Motor 2Motor 6Motor 2Motor 4Motor 5Motor 1Motor 4
+2           33          Motor 1Motor 2Motor 4Motor 4Motor 5Motor 3Motor 1Motor 3Motor 2Motor 5Motor 3Motor 3Motor 6Motor 2Motor 5Motor 5Motor 1Motor 4
+3           44          Motor 2Motor 2Motor 1Motor 4Motor 5Motor 4Motor 1Motor 3Motor 3Motor 4Motor 3Motor 3Motor 6Motor 2Motor 5Motor 4Motor 1Motor 2
+4           56          Motor 1Motor 6Motor 3Motor 4Motor 5Motor 6Motor 1Motor 3Motor 2Motor 4Motor 3Motor 1Motor 3Motor 2Motor 1Motor 4Motor 1Motor 6
+5           67          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 3Motor 5Motor 4Motor 3Motor 6Motor 3Motor 2Motor 5Motor 4Motor 1Motor 6
+6           67          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 3Motor 5Motor 4Motor 3Motor 6Motor 3Motor 2Motor 1Motor 4Motor 1Motor 6
+7           72          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 3Motor 3Motor 4Motor 3Motor 6Motor 3Motor 2Motor 1Motor 4Motor 1Motor 6
+8           72          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 3Motor 3Motor 4Motor 3Motor 6Motor 3Motor 2Motor 1Motor 4Motor 1Motor 6
+1           22          Motor 3Motor 3Motor 6Motor 6Motor 6Motor 4Motor 1Motor 3Motor 3Motor 5Motor 2Motor 3Motor 3Motor 1Motor 6Motor 2Motor 5Motor 6
+2           39          Motor 3Motor 3Motor 6Motor 6Motor 6Motor 2Motor 1Motor 3Motor 1Motor 4Motor 2Motor 3Motor 1Motor 2Motor 3Motor 4Motor 3Motor 6
+3           56          Motor 1Motor 5Motor 6Motor 4Motor 1Motor 4Motor 1Motor 3Motor 1Motor 4Motor 2Motor 6Motor 3Motor 2Motor 3Motor 4Motor 5Motor 6
+4           78          Motor 1Motor 5Motor 2Motor 4Motor 6Motor 6Motor 1Motor 2Motor 3Motor 4Motor 2Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6
+5           78          Motor 1Motor 6Motor 6Motor 4Motor 6Motor 6Motor 1Motor 2Motor 3Motor 4Motor 2Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6
+6           72          Motor 1Motor 6Motor 6Motor 4Motor 6Motor 6Motor 1Motor 2Motor 3Motor 4Motor 2Motor 6Motor 1Motor 2Motor 3Motor 5Motor 5Motor 6
+7           78          Motor 1Motor 6Motor 2Motor 4Motor 6Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 3Motor 6
+8           83          Motor 1Motor 3Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 1Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 3Motor 6
+1           44          Motor 4Motor 4Motor 4Motor 5Motor 5Motor 6Motor 1Motor 5Motor 3Motor 4Motor 2Motor 6Motor 1Motor 4Motor 1Motor 1Motor 5Motor 1
+2           39          Motor 4Motor 4Motor 4Motor 5Motor 1Motor 6Motor 1Motor 5Motor 3Motor 4Motor 2Motor 6Motor 1Motor 1Motor 3Motor 1Motor 6Motor 1
+3           39          Motor 4Motor 4Motor 4Motor 5Motor 5Motor 6Motor 1Motor 5Motor 1Motor 4Motor 3Motor 6Motor 1Motor 1Motor 3Motor 1Motor 6Motor 1
+4           39          Motor 5Motor 4Motor 4Motor 5Motor 5Motor 3Motor 1Motor 2Motor 1Motor 4Motor 2Motor 6Motor 1Motor 1Motor 4Motor 1Motor 5Motor 1
+5           50          Motor 5Motor 4Motor 5Motor 5Motor 5Motor 1Motor 1Motor 2Motor 1Motor 4Motor 4Motor 6Motor 1Motor 1Motor 3Motor 4Motor 5Motor 1
+6           39          Motor 5Motor 4Motor 1Motor 5Motor 5Motor 5Motor 1Motor 5Motor 6Motor 4Motor 4Motor 6Motor 1Motor 1Motor 3Motor 1Motor 5Motor 1
+7           56          Motor 3Motor 4Motor 1Motor 4Motor 5Motor 5Motor 1Motor 2Motor 6Motor 4Motor 4Motor 6Motor 1Motor 1Motor 3Motor 4Motor 4Motor 6
+8           78          Motor 1Motor 2Motor 1Motor 4Motor 5Motor 3Motor 1Motor 2Motor 6Motor 4Motor 5Motor 6Motor 1Motor 1Motor 3Motor 4Motor 5Motor 6
+1           28          Motor 4Motor 5Motor 4Motor 2Motor 5Motor 4Motor 2Motor 3Motor 2Motor 2Motor 5Motor 1Motor 1Motor 5Motor 1Motor 4Motor 5Motor 2
+2           22          Motor 1Motor 5Motor 4Motor 2Motor 5Motor 4Motor 2Motor 3Motor 2Motor 6Motor 3Motor 1Motor 1Motor 5Motor 1Motor 5Motor 5Motor 2
+3           33          Motor 1Motor 5Motor 4Motor 2Motor 5Motor 4Motor 2Motor 3Motor 2Motor 4Motor 3Motor 4Motor 1Motor 5Motor 1Motor 4Motor 5Motor 2
+4           39          Motor 1Motor 5Motor 4Motor 2Motor 5Motor 4Motor 2Motor 3Motor 2Motor 4Motor 3Motor 5Motor 1Motor 2Motor 1Motor 4Motor 5Motor 4
+5           56          Motor 1Motor 4Motor 4Motor 2Motor 5Motor 6Motor 1Motor 3Motor 2Motor 4Motor 3Motor 6Motor 1Motor 2Motor 1Motor 4Motor 5Motor 4
+6           39          Motor 1Motor 4Motor 4Motor 2Motor 5Motor 6Motor 2Motor 3Motor 2Motor 4Motor 3Motor 5Motor 1Motor 5Motor 5Motor 4Motor 5Motor 4
+7           50          Motor 1Motor 2Motor 4Motor 2Motor 5Motor 6Motor 2Motor 3Motor 2Motor 4Motor 3Motor 6Motor 1Motor 5Motor 5Motor 4Motor 5Motor 4
+8           56          Motor 1Motor 2Motor 4Motor 2Motor 5Motor 6Motor 2Motor 3Motor 2Motor 4Motor 3Motor 6Motor 1Motor 2Motor 5Motor 4Motor 5Motor 4
+1           17          Motor 5Motor 2Motor 2Motor 5Motor 2Motor 4Motor 3Motor 5Motor 4Motor 2Motor 1Motor 5Motor 1Motor 1Motor 3Motor 3Motor 2Motor 5
+2           33          Motor 5Motor 2Motor 2Motor 4Motor 6Motor 4Motor 1Motor 5Motor 1Motor 2Motor 1Motor 5Motor 1Motor 1Motor 3Motor 3Motor 2Motor 6
+3           28          Motor 5Motor 2Motor 1Motor 4Motor 2Motor 2Motor 3Motor 5Motor 1Motor 2Motor 1Motor 5Motor 1Motor 3Motor 3Motor 3Motor 2Motor 6
+4           33          Motor 5Motor 2Motor 1Motor 4Motor 2Motor 4Motor 3Motor 5Motor 1Motor 2Motor 1Motor 6Motor 1Motor 3Motor 3Motor 3Motor 2Motor 6
+5           44          Motor 1Motor 2Motor 3Motor 4Motor 2Motor 4Motor 3Motor 2Motor 1Motor 2Motor 1Motor 6Motor 3Motor 3Motor 3Motor 3Motor 2Motor 6
+6           61          Motor 1Motor 2Motor 2Motor 4Motor 2Motor 4Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 3Motor 6Motor 3Motor 3Motor 2Motor 6
+7           83          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 3Motor 2Motor 3Motor 3Motor 2Motor 6
+8           67          Motor 5Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 2Motor 5Motor 4Motor 3Motor 2Motor 3Motor 3Motor 2Motor 6
+1           33          Motor 2Motor 2Motor 3Motor 4Motor 5Motor 4Motor 4Motor 4Motor 2Motor 5Motor 3Motor 5Motor 2Motor 2Motor 3Motor 1Motor 3Motor 3
+2           28          Motor 3Motor 4Motor 2Motor 4Motor 5Motor 4Motor 4Motor 4Motor 2Motor 4Motor 3Motor 6Motor 4Motor 2Motor 6Motor 1Motor 3Motor 3
+3           50          Motor 1Motor 4Motor 2Motor 4Motor 5Motor 4Motor 4Motor 4Motor 2Motor 4Motor 5Motor 6Motor 1Motor 1Motor 3Motor 4Motor 3Motor 3
+4           33          Motor 5Motor 4Motor 2Motor 4Motor 5Motor 4Motor 4Motor 4Motor 2Motor 4Motor 3Motor 6Motor 4Motor 1Motor 3Motor 4Motor 3Motor 3
+5           56          Motor 5Motor 3Motor 2Motor 4Motor 5Motor 4Motor 4Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 1Motor 3Motor 4Motor 3Motor 3
+6           56          Motor 5Motor 3Motor 3Motor 4Motor 5Motor 4Motor 4Motor 4Motor 3Motor 4Motor 5Motor 6Motor 4Motor 2Motor 3Motor 4Motor 3Motor 3
+7           56          Motor 5Motor 3Motor 3Motor 4Motor 5Motor 4Motor 4Motor 4Motor 3Motor 4Motor 5Motor 6Motor 4Motor 2Motor 3Motor 4Motor 3Motor 4
+8           61          Motor 5Motor 3Motor 3Motor 4Motor 5Motor 4Motor 4Motor 2Motor 3Motor 4Motor 3Motor 6Motor 1Motor 2Motor 3Motor 4Motor 3Motor 4
+1           17          Motor 6Motor 2Motor 6Motor 6Motor 4Motor 1Motor 4Motor 2Motor 4Motor 6Motor 1Motor 6Motor 6Motor 3Motor 6Motor 5Motor 6Motor 2
+2           28          Motor 6Motor 2Motor 6Motor 6Motor 4Motor 1Motor 4Motor 2Motor 4Motor 6Motor 4Motor 6Motor 1Motor 3Motor 6Motor 5Motor 6Motor 6
+3           39          Motor 2Motor 2Motor 3Motor 6Motor 4Motor 5Motor 4Motor 2Motor 4Motor 6Motor 4Motor 6Motor 1Motor 3Motor 6Motor 4Motor 6Motor 6
+4           44          Motor 1Motor 2Motor 3Motor 6Motor 4Motor 1Motor 4Motor 2Motor 6Motor 6Motor 4Motor 6Motor 1Motor 3Motor 6Motor 4Motor 6Motor 6
+5           39          Motor 1Motor 2Motor 3Motor 6Motor 4Motor 1Motor 4Motor 2Motor 6Motor 6Motor 4Motor 1Motor 1Motor 3Motor 6Motor 4Motor 6Motor 6
+6           39          Motor 1Motor 2Motor 3Motor 6Motor 4Motor 1Motor 4Motor 2Motor 6Motor 6Motor 4Motor 1Motor 1Motor 3Motor 6Motor 4Motor 6Motor 6
+7           56          Motor 1Motor 2Motor 3Motor 6Motor 4Motor 1Motor 1Motor 2Motor 6Motor 4Motor 4Motor 6Motor 1Motor 3Motor 6Motor 4Motor 6Motor 6
+8           61          Motor 1Motor 2Motor 3Motor 6Motor 4Motor 1Motor 1Motor 2Motor 2Motor 4Motor 4Motor 6Motor 1Motor 3Motor 3Motor 4Motor 6Motor 6
+1           28          Motor 6Motor 2Motor 4Motor 5Motor 4Motor 5Motor 1Motor 4Motor 3Motor 3Motor 2Motor 3Motor 6Motor 4Motor 2Motor 2Motor 5Motor 6
+2           17          Motor 2Motor 1Motor 1Motor 6Motor 4Motor 5Motor 5Motor 4Motor 1Motor 4Motor 2Motor 3Motor 6Motor 4Motor 4Motor 2Motor 5Motor 6
+3           22          Motor 1Motor 1Motor 2Motor 6Motor 4Motor 4Motor 2Motor 4Motor 1Motor 4Motor 2Motor 3Motor 6Motor 4Motor 4Motor 2Motor 5Motor 6
+4           44          Motor 1Motor 4Motor 4Motor 6Motor 4Motor 4Motor 6Motor 2Motor 3Motor 4Motor 5Motor 6Motor 6Motor 4Motor 2Motor 2Motor 5Motor 6
+5           56          Motor 1Motor 2Motor 4Motor 6Motor 4Motor 4Motor 2Motor 2Motor 3Motor 4Motor 5Motor 6Motor 6Motor 4Motor 3Motor 2Motor 5Motor 6
+6           61          Motor 1Motor 2Motor 4Motor 6Motor 4Motor 4Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 6Motor 4Motor 3Motor 2Motor 5Motor 6
+7           72          Motor 1Motor 2Motor 4Motor 4Motor 4Motor 4Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 6Motor 4Motor 3Motor 4Motor 5Motor 6
+8           61          Motor 1Motor 2Motor 2Motor 6Motor 4Motor 4Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 6Motor 4Motor 3Motor 2Motor 5Motor 6
+1           28          Motor 3Motor 6Motor 6Motor 2Motor 5Motor 5Motor 1Motor 2Motor 1Motor 2Motor 5Motor 3Motor 4Motor 5Motor 2Motor 6Motor 5Motor 3
+2           33          Motor 3Motor 4Motor 6Motor 2Motor 5Motor 5Motor 1Motor 2Motor 1Motor 4Motor 4Motor 3Motor 3Motor 2Motor 2Motor 1Motor 5Motor 3
+3           44          Motor 3Motor 3Motor 3Motor 2Motor 5Motor 3Motor 1Motor 2Motor 1Motor 4Motor 3Motor 3Motor 1Motor 2Motor 3Motor 1Motor 6Motor 3
+4           44          Motor 3Motor 3Motor 3Motor 2Motor 5Motor 5Motor 1Motor 2Motor 2Motor 4Motor 3Motor 3Motor 1Motor 2Motor 3Motor 1Motor 6Motor 3
+5           56          Motor 1Motor 3Motor 3Motor 2Motor 5Motor 6Motor 1Motor 2Motor 2Motor 4Motor 1Motor 3Motor 1Motor 2Motor 3Motor 1Motor 6Motor 3
+6           56          Motor 1Motor 3Motor 3Motor 2Motor 5Motor 4Motor 1Motor 2Motor 2Motor 4Motor 1Motor 3Motor 1Motor 2Motor 3Motor 1Motor 6Motor 6
+7           67          Motor 1Motor 3Motor 3Motor 2Motor 5Motor 4Motor 1Motor 2Motor 3Motor 4Motor 5Motor 3Motor 1Motor 2Motor 3Motor 1Motor 6Motor 6
+8           61          Motor 1Motor 3Motor 3Motor 6Motor 5Motor 4Motor 1Motor 2Motor 3Motor 4Motor 6Motor 3Motor 1Motor 2Motor 3Motor 1Motor 6Motor 6
+1           33          Motor 6Motor 2Motor 6Motor 4Motor 5Motor 6Motor 2Motor 2Motor 6Motor 2Motor 2Motor 4Motor 4Motor 4Motor 4Motor 3Motor 5Motor 2
+2           39          Motor 4Motor 2Motor 3Motor 4Motor 5Motor 6Motor 2Motor 3Motor 6Motor 2Motor 2Motor 4Motor 1Motor 3Motor 2Motor 3Motor 5Motor 2
+3           67          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 5Motor 2Motor 3Motor 4Motor 2Motor 6Motor 1Motor 3Motor 4Motor 3Motor 5Motor 2
+4           67          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 5Motor 5Motor 2Motor 3Motor 4Motor 6Motor 6Motor 1Motor 3Motor 4Motor 3Motor 5Motor 6
+5           78          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 5Motor 2Motor 3Motor 4Motor 6Motor 6Motor 1Motor 1Motor 5Motor 4Motor 5Motor 6
+6           67          Motor 1Motor 2Motor 3Motor 4Motor 1Motor 6Motor 3Motor 2Motor 3Motor 4Motor 2Motor 4Motor 1Motor 3Motor 1Motor 4Motor 5Motor 6
+7           78          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 3Motor 2Motor 3Motor 4Motor 2Motor 4Motor 1Motor 2Motor 2Motor 4Motor 5Motor 6
+8           78          Motor 1Motor 2Motor 3Motor 4Motor 4Motor 6Motor 1Motor 2Motor 3Motor 6Motor 2Motor 6Motor 1Motor 2Motor 1Motor 4Motor 5Motor 6
+1           22          Motor 1Motor 6Motor 1Motor 1Motor 3Motor 2Motor 1Motor 2Motor 6Motor 3Motor 6Motor 3Motor 1Motor 4Motor 6Motor 6Motor 6Motor 3
+2           44          Motor 1Motor 2Motor 1Motor 4Motor 6Motor 2Motor 1Motor 2Motor 3Motor 6Motor 4Motor 3Motor 1Motor 4Motor 3Motor 6Motor 2Motor 3
+3           50          Motor 1Motor 2Motor 3Motor 1Motor 3Motor 6Motor 2Motor 2Motor 3Motor 3Motor 4Motor 3Motor 1Motor 2Motor 3Motor 6Motor 2Motor 3
+4           61          Motor 1Motor 5Motor 3Motor 4Motor 5Motor 6Motor 2Motor 2Motor 3Motor 3Motor 4Motor 6Motor 1Motor 2Motor 3Motor 6Motor 2Motor 3
+5           67          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 2Motor 2Motor 3Motor 3Motor 4Motor 3Motor 1Motor 2Motor 3Motor 6Motor 3Motor 6
+6           83          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 2Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 6Motor 4Motor 6
+7           94          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 3Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6
+8           78          Motor 1Motor 2Motor 3Motor 4Motor 5Motor 4Motor 1Motor 2Motor 6Motor 3Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 6Motor 6
+1           33          Motor 4Motor 2Motor 4Motor 4Motor 3Motor 6Motor 6Motor 5Motor 1Motor 4Motor 5Motor 3Motor 6Motor 1Motor 5Motor 1Motor 5Motor 4
+2           44          Motor 4Motor 2Motor 1Motor 1Motor 5Motor 6Motor 1Motor 6Motor 1Motor 4Motor 2Motor 2Motor 1Motor 6Motor 5Motor 4Motor 5Motor 2
+3           50          Motor 4Motor 2Motor 4Motor 1Motor 5Motor 6Motor 1Motor 6Motor 2Motor 4Motor 4Motor 6Motor 1Motor 5Motor 5Motor 4Motor 5Motor 2
+4           33          Motor 4Motor 2Motor 4Motor 1Motor 4Motor 6Motor 5Motor 6Motor 1Motor 4Motor 4Motor 6Motor 1Motor 5Motor 5Motor 1Motor 5Motor 4
+5           56          Motor 1Motor 2Motor 6Motor 3Motor 4Motor 6Motor 1Motor 6Motor 3Motor 4Motor 4Motor 6Motor 1Motor 5Motor 5Motor 4Motor 5Motor 4
+6           61          Motor 4Motor 2Motor 6Motor 6Motor 4Motor 6Motor 1Motor 2Motor 2Motor 4Motor 2Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 4
+7           72          Motor 4Motor 2Motor 3Motor 2Motor 5Motor 6Motor 1Motor 2Motor 1Motor 4Motor 5Motor 6Motor 3Motor 2Motor 3Motor 4Motor 5Motor 4
+8           72          Motor 4Motor 2Motor 3Motor 2Motor 5Motor 6Motor 1Motor 2Motor 1Motor 4Motor 5Motor 4Motor 1Motor 2Motor 3Motor 4Motor 5Motor 4
+1           22          Motor 4Motor 5Motor 4Motor 5Motor 5Motor 3Motor 1Motor 5Motor 3Motor 2Motor 6Motor 4Motor 3Motor 2Motor 5Motor 1Motor 3Motor 4
+2           39          Motor 4Motor 2Motor 1Motor 5Motor 5Motor 3Motor 1Motor 2Motor 3Motor 4Motor 1Motor 5Motor 3Motor 2Motor 5Motor 1Motor 3Motor 5
+3           50          Motor 4Motor 4Motor 1Motor 5Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 5Motor 1Motor 2Motor 5Motor 1Motor 3Motor 5
+4           61          Motor 4Motor 4Motor 1Motor 5Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 1Motor 3Motor 5
+5           67          Motor 5Motor 2Motor 1Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 5Motor 1Motor 2Motor 3Motor 1Motor 3Motor 5
+6           89          Motor 1Motor 2Motor 1Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 1Motor 5Motor 6
+7           89          Motor 1Motor 2Motor 1Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 1Motor 5Motor 6
+8           89          Motor 1Motor 2Motor 1Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 4Motor 5Motor 6Motor 1Motor 2Motor 3Motor 1Motor 5Motor 6
+1           33          LSchulterLSchulterLHandLSchulterLSchulterLSchulterRHandNackenNackenRHandBrustNackenLSchulterBrustNackenBrustRSchulterLSchulter
+2           33          LHandLSchulterLHandLSchulterNackenLSchulterRHandNackenRHandRHandBrustNackenLSchulterRHandNackenBrustBrustLSchulter
+3           33          LHandLHandLHandLSchulterNackenLSchulterRHandNackenNackenRHandBrustNackenLSchulterRHandNackenBrustBrustLSchulter
+4           56          LHandRSchulterLHandLSchulterBrustLSchulterRHandNackenNackenRHandBrustNackenLSchulterRHandLHandBrustBrustNacken
+5           67          LSchulterRSchulterLHandLSchulterBrustLSchulterRHandNackenLHandRHandBrustNackenLSchulterRHandLHandBrustBrustNacken
+6           67          LHandRSchulterLHandLSchulterBrustLSchulterRHandNackenLHandRHandBrustNackenLSchulterRSchulterLHandBrustBrustNacken
+7           67          LHandRSchulterLHandLSchulterBrustLSchulterRHandNackenLHandRHandBrustNackenLSchulterRSchulterLHandBrustBrustNacken
+8           61          LSchulterRSchulterLHandLSchulterBrustLSchulterRHandNackenNackenRHandBrustNackenLSchulterRSchulterNackenBrustBrustNacken
+1           11          Motor 6Motor 2Motor 3Motor 1Motor 4Motor 1Motor 4Motor 5Motor 1Motor 1Motor 1Motor 3Motor 3Motor 1Motor 5Motor 5Motor 1Motor 5
+2           22          Motor 6Motor 2Motor 3Motor 3Motor 4Motor 1Motor 1Motor 1Motor 2Motor 2Motor 1Motor 4Motor 1Motor 1Motor 5Motor 5Motor 1Motor 4
+3           33          Motor 6Motor 2Motor 3Motor 4Motor 4Motor 6Motor 1Motor 5Motor 2Motor 2Motor 1Motor 4Motor 1Motor 1Motor 5Motor 5Motor 1Motor 4
+4           33          Motor 3Motor 2Motor 3Motor 1Motor 4Motor 6Motor 1Motor 5Motor 2Motor 2Motor 1Motor 6Motor 1Motor 1Motor 4Motor 5Motor 1Motor 4
+5           44          Motor 6Motor 2Motor 3Motor 4Motor 4Motor 6Motor 1Motor 5Motor 1Motor 2Motor 1Motor 6Motor 1Motor 2Motor 4Motor 5Motor 1Motor 4
+6           56          Motor 1Motor 2Motor 3Motor 4Motor 4Motor 6Motor 1Motor 5Motor 3Motor 2Motor 1Motor 6Motor 1Motor 2Motor 4Motor 5Motor 1Motor 4
+7           56          Motor 1Motor 2Motor 3Motor 4Motor 4Motor 6Motor 1Motor 5Motor 1Motor 4Motor 1Motor 6Motor 1Motor 2Motor 4Motor 5Motor 1Motor 4
+8           50          Motor 1Motor 2Motor 3Motor 4Motor 4Motor 3Motor 1Motor 5Motor 3Motor 2Motor 1Motor 6Motor 1Motor 2Motor 4Motor 5Motor 1Motor 4
+1           17          LSchulterBrustRHandRSchulterLHandBrustLHandNackenLHandLSchulterLHandLHandRSchulterLHandNackenLSchulterLSchulterNacken
+2           11          LSchulterBrustBrustRSchulterLHandBrustRHandBrustNackenLSchulterLHandRHandBrustBrustNackenLSchulterLHandNacken
+3           11          LSchulterLHandBrustRSchulterLHandBrustRHandBrustNackenLSchulterLHandRHandBrustBrustNackenLSchulterLHandNacken
+4           11          LSchulterLHandRHandRSchulterLHandBrustRHandLHandNackenLSchulterNackenRHandRSchulterBrustNackenLSchulterLHandNacken
+5           28          LSchulterLHandBrustRSchulterLHandNackenRHandBrustLHandLSchulterNackenRHandRSchulterRSchulterNackenLSchulterRSchulterNacken
+6           28          LSchulterLHandBrustRSchulterLHandNackenRHandBrustLHandLSchulterNackenRHandBrustRSchulterNackenLSchulterRSchulterNacken
+7           44          LSchulterLHandLHandRSchulterLHandNackenLSchulterRSchulterLHandLSchulterNackenLHandBrustRSchulterNackenLSchulterRSchulterNacken
+8           50          LSchulterLHandLHandRSchulterLHandNackenLSchulterRSchulterLHandLSchulterNackenLHandLSchulterRSchulterNackenLSchulterRSchulterNacken
+1           33          LHandRHandLSchulterNackenNackenNackenLSchulterBrustLHandRHandRSchulterLHandBrustLHandBrustRHandNackenNacken
+2           28          LHandRHandLHandNackenLSchulterNackenLSchulterBrustLHandNackenRSchulterLHandBrustLHandBrustRSchulterNackenNacken
+3           33          LHandNackenLHandNackenLSchulterNackenLSchulterBrustLHandNackenRSchulterLHandBrustLHandNackenRHandNackenNacken
+4           33          LHandNackenLHandNackenLSchulterNackenLSchulterBrustLHandNackenLSchulterLHandNackenLHandBrustRHandNackenNacken
+5           39          LHandNackenLHandNackenNackenNackenLSchulterBrustLHandRHandRSchulterNackenNackenLHandBrustRSchulterNackenNacken
+6           39          LHandNackenLHandNackenNackenNackenLSchulterBrustLHandRHandRSchulterLHandNackenLHandNackenRHandNackenNacken
+7           67          LHandNackenLHandNackenBrustNackenLSchulterRSchulterLHandRHandLSchulterNackenNackenLHandLHandRHandBrustNacken
+8           61          LHandNackenLHandNackenBrustNackenLSchulterRSchulterLHandRHandBrustNackenNackenLHandLHandRHandRHandRHand
+1           39          RSchulterBrustLHandRHandBrustRHandRHandBrustLHandRSchulterLHandRHandLHandRSchulterLHandNackenBrustLHand
+2           50          RSchulterBrustRSchulterRHandLHandRHandRHandLSchulterLHandRSchulterBrustNackenLSchulterRSchulterLHandLSchulterBrustNacken
+3           56          RSchulterBrustRSchulterRHandBrustNackenRHandLSchulterLHandRSchulterBrustBrustLSchulterRSchulterLHandLSchulterBrustNacken
+4           67          RSchulterBrustLHandRHandBrustNackenLSchulterLSchulterLHandRSchulterBrustBrustLSchulterRSchulterLHandNackenBrustNacken
+5           67          LHandRSchulterLHandRHandRHandNackenRHandRSchulterLHandRSchulterBrustBrustLSchulterRSchulterLHandRSchulterBrustNacken
+6           67          LSchulterRSchulterLHandRHandBrustNackenLSchulterLHandLHandLSchulterBrustBrustLSchulterRSchulterRSchulterRSchulterRSchulterNacken
+7           67          LHandBrustLHandRHandBrustNackenLSchulterLHandLHandLSchulterBrustBrustLSchulterRSchulterLHandRSchulterBrustNacken
+8           67          LHandBrustLHandRHandBrustNackenLSchulterLHandLHandLSchulterBrustBrustLSchulterRSchulterLHandRSchulterBrustNacken
+1           17          BrustLHandNackenLSchulterNackenLHandLSchulterRSchulterRSchulterRSchulterRHandLSchulterLSchulterLHandNackenRSchulterRSchulterBrust
+2           11          BrustLSchulterNackenLSchulterLHandRHandLSchulterLHandBrustLSchulterRHandBrustLSchulterLHandNackenRSchulterRSchulterBrust
+3           33          BrustLSchulterNackenRHandLHandRHandLSchulterLHandLHandLSchulterRHandNackenLSchulterRSchulterRHandLHandRSchulterRHand
+4           39          LSchulterLSchulterNackenRHandLHandLHandLSchulterLHandNackenLSchulterRHandNackenLSchulterRSchulterRHandRHandRSchulterRSchulter
+5           56          LSchulterLSchulterBrustRHandLHandNackenLSchulterLHandLHandLSchulterRSchulterNackenLSchulterRSchulterLHandRHandRSchulterRSchulter
+6           44          LSchulterLSchulterNackenRHandLHandLHandLSchulterRSchulterNackenLSchulterLHandBrustLSchulterRSchulterLHandRHandRSchulterRSchulter
+7           61          LSchulterLSchulterLHandRHandLHandLHandLSchulterLHandLHandLSchulterLHandNackenLSchulterRSchulterLHandRHandRHandNacken
+8           61          LSchulterRSchulterLHandRHandLHandBrustLSchulterRSchulterNackenLSchulterBrustNackenLSchulterRSchulterRHandRHandRSchulterRSchulter
+1           28          LHandRSchulterLHandRHandLHandBrustNackenLHandNackenLHandLHandLSchulterLHandRHandLHandRSchulterLSchulterNacken
+2           33          RSchulterRSchulterLHandRHandLHandBrustLSchulterRHandNackenLHandRSchulterBrustLHandLHandLHandRSchulterLSchulterNacken
+3           44          RSchulterRSchulterLHandRHandLHandBrustLSchulterRHandNackenRSchulterBrustNackenLHandLHandNackenRHandLSchulterNacken
+4           56          RSchulterRSchulterLHandRHandLHandBrustLSchulterRHandRSchulterRSchulterBrustNackenLHandLHandLHandRHandBrustNacken
+5           56          RSchulterRSchulterLHandRHandLHandBrustLSchulterRHandRSchulterRSchulterBrustNackenLHandLHandLHandRHandBrustNacken
+6           72          LSchulterRSchulterLHandRHandBrustBrustLSchulterRSchulterRSchulterLHandBrustNackenLHandLHandLHandRHandBrustNacken
+7           67          LSchulterRSchulterLHandRHandBrustBrustLSchulterRSchulterRSchulterLHandRHandNackenLHandLHandLHandRHandBrustNacken
+8           78          LSchulterRSchulterLHandRHandBrustNackenLSchulterRSchulterRSchulterRHandRHandNackenLHandLHandLHandRHandBrustNacken
+1           28          RHandBrustBrustLHandRSchulterNackenLHandRHandNackenRSchulterBrustRSchulterRHandBrustLHandRHandLHandNacken
+2           33          RHandRSchulterBrustLHandLHandNackenLSchulterRHandNackenRSchulterLHandBrustRSchulterBrustLHandRSchulterBrustNacken
+3           50          LSchulterRSchulterBrustLHandLSchulterLHandLSchulterRHandNackenRSchulterBrustRHandRSchulterRSchulterLHandRHandBrustNacken
+4           56          LSchulterRSchulterLHandLHandLSchulterRHandLSchulterLSchulterNackenRSchulterBrustBrustRSchulterRSchulterLHandRHandBrustNacken
+5           61          LSchulterRSchulterLHandLHandLSchulterNackenLSchulterRHandNackenRSchulterBrustBrustRSchulterRSchulterLHandRHandBrustNacken
+6           67          LSchulterRSchulterLHandLHandBrustNackenLSchulterRSchulterNackenRSchulterBrustBrustRSchulterRSchulterLHandRSchulterBrustNacken
+7           67          LSchulterRSchulterLHandLHandBrustNackenLSchulterRSchulterLSchulterRSchulterBrustBrustRSchulterRSchulterLHandRSchulterBrustNacken
+8           83          LSchulterRSchulterLHandLHandBrustNackenLSchulterRSchulterLHandRSchulterBrustNackenRSchulterRSchulterLHandRHandBrustNacken
+1           28          RHandLSchulterBrustBrustBrustNackenRSchulterLSchulterBrustRHandLSchulterBrustLSchulterNackenLSchulterLHandNackenNacken
+2           28          RHandNackenBrustBrustBrustNackenRHandLSchulterBrustRHandLSchulterBrustLSchulterLHandRHandRSchulterNackenNacken
+3           44          RHandNackenLHandBrustBrustNackenLSchulterNackenBrustRHandLSchulterBrustLSchulterLHandRHandRHandRHandNacken
+4           44          NackenNackenBrustBrustBrustNackenRHandRSchulterBrustRHandBrustBrustLSchulterLHandRHandRHandLHandNacken
+5           44          RHandRSchulterBrustBrustBrustNackenRHandRHandBrustRHandBrustBrustLSchulterNackenRHandRHandLHandNacken
+6           50          RHandRSchulterBrustBrustBrustNackenLSchulterRHandBrustRHandBrustBrustLSchulterNackenRHandRHandLHandNacken
+7           72          LSchulterRSchulterLHandRHandBrustNackenLSchulterRSchulterBrustRHandBrustBrustLSchulterNackenRHandRHandLHandNacken
+8           67          LSchulterRSchulterLHandBrustBrustNackenLSchulterRSchulterRHandRHandBrustLSchulterLSchulterNackenRHandRHandLHandNacken
+1           22          RHandLHandLHandLHandLHandBrustRSchulterRSchulterBrustBrustRSchulterNackenLSchulterRHandBrustBrustRSchulterLHand
+2           17          LSchulterLHandRSchulterLHandRSchulterRSchulterRSchulterRSchulterBrustBrustRSchulterNackenRSchulterRHandBrustBrustRSchulterLHand
+3           28          NackenLHandRSchulterLHandLSchulterRSchulterRSchulterRSchulterLHandRHandRSchulterNackenRSchulterRHandBrustBrustBrustLHand
+4           39          NackenLHandLHandLHandLSchulterRSchulterRSchulterRSchulterLHandRHandBrustNackenRSchulterRHandBrustBrustBrustLHand
+5           44          NackenLHandLHandLHandLSchulterRSchulterRSchulterRSchulterLHandRHandBrustNackenRSchulterRHandBrustRHandBrustLHand
+6           56          NackenLHandLHandLHandLSchulterRSchulterRSchulterRSchulterLHandRHandBrustNackenLSchulterRSchulterBrustRHandBrustLHand
+7           44          LSchulterLHandLHandLHandNackenRSchulterLSchulterLHandLHandRHandLHandNackenRSchulterRHandBrustRHandBrustLHand
+8           61          LSchulterRSchulterLHandLHandBrustRSchulterLSchulterLHandLHandRHandLHandNackenLSchulterRHandBrustRHandBrustLHand
+1           22          LHandLHandLHandBrustRSchulterNackenRHandRHandLHandBrustNackenNackenNackenNackenRSchulterBrustRSchulterRHand
+2           22          LSchulterBrustNackenBrustRHandNackenRHandRHandBrustBrustBrustRHandNackenNackenLSchulterRHandRSchulterRHand
+3           17          NackenBrustNackenBrustRSchulterNackenLHandRHandBrustBrustBrustRHandNackenLHandRSchulterRHandRSchulterRSchulter
+4           33          LSchulterBrustNackenBrustBrustNackenRHandRHandBrustBrustLSchulterNackenNackenRSchulterLSchulterRHandRSchulterBrust
+5           39          LSchulterRSchulterLHandBrustRSchulterRSchulterRHandRSchulterBrustBrustLSchulterNackenNackenRSchulterLSchulterRHandRSchulterBrust
+6           56          LSchulterRSchulterLHandBrustRSchulterRSchulterLSchulterRSchulterBrustBrustBrustNackenNackenRSchulterLSchulterRHandBrustBrust
+7           56          LSchulterRSchulterLHandBrustRSchulterRSchulterRHandRSchulterLHandRHandBrustNackenNackenBrustLSchulterRHandBrustBrust
+8           61          LSchulterBrustLHandBrustRSchulterNackenLSchulterRSchulterLHandRHandBrustNackenNackenBrustLSchulterRHandBrustBrust
+1           39          LSchulterNackenNackenRSchulterLSchulterBrustLSchulterLHandBrustRHandLSchulterBrustNackenRSchulterLHandRHandNackenNacken
+2           39          BrustLSchulterNackenRSchulterLSchulterBrustLSchulterNackenBrustRHandLSchulterBrustBrustRSchulterLHandRHandBrustNacken
+3           50          NackenLSchulterNackenRSchulterLSchulterBrustLSchulterRSchulterBrustRHandBrustLHandNackenRSchulterLHandRHandBrustNacken
+4           61          LHandRSchulterNackenRSchulterLSchulterBrustLSchulterRSchulterBrustRHandBrustLHandLSchulterRSchulterLHandRHandBrustNacken
+5           61          LSchulterRSchulterNackenRSchulterLSchulterBrustLSchulterRSchulterBrustRHandBrustRSchulterNackenRSchulterLHandRHandBrustNacken
+6           61          LSchulterRSchulterNackenRSchulterLSchulterBrustLSchulterRSchulterBrustRHandBrustRSchulterNackenRSchulterLHandRHandBrustNacken
+7           61          LSchulterRSchulterNackenRHandLSchulterBrustLSchulterRSchulterBrustRHandBrustRSchulterNackenRSchulterBrustRHandBrustNacken
+8           72          LSchulterRSchulterNackenRHandLSchulterNackenLSchulterRSchulterLHandRHandBrustRSchulterNackenRSchulterBrustRHandBrustNacken
