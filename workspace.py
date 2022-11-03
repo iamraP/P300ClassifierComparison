@@ -47,7 +47,7 @@ if investigate_sessionwise:
         data_path_free = data_origin + r"\Free_S" + str(sess).zfill(3) + ".pickle"
         data_path.append(data_path_free)
         data_path.append(data_path_calib)
-        dp.investigate(data_path, sess_name=sess)
+        dp.investigate(data_path, sess_name=str(sess))
 if investigate_several_sessions:
     data_path = []
     for sess in sess_list:
