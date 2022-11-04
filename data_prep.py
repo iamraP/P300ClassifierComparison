@@ -14,13 +14,16 @@ import warnings
 warnings.simplefilter(action='ignore')
 
 ''' Data Investigation'''
-def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_amplitude = True, plot_amplitude_pug =True ,plot_mne =False,plot_woi_shift=False, plot_r2=False,save_averages=True,sess_name='Unknown',mean_amplitude_tactilos=True):
-    #mne.set_log_level('WARNING')
+def investigate(data_paths,sess_name='Unknown', picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],electrodes_to_plot = ["Cz"],plot_amplitude = True, plot_amplitude_pug =True ,plot_mne =False,plot_woi_shift=False, plot_r2=False,save_averages=True,mean_amplitude_tactilos=True):
+    mne.set_log_level('WARNING')
     col_list = ["#d8b365", "#5ab4ac", "#ef8a62", "#67a9cf"] # colors were choosen to be readable for the colorblind according to the website colorbrewer2 (https://colorbrewer2.org/#type=diverging&scheme=BrBG&n=3)
     raw_list = []
     if not isinstance(data_paths,list):
         data_paths = [data_paths]
 
+    num_tactilos = 4 if "4tac" in sess_name else 6
+
+    #calculate the mean amplitudes of tactilos, only saved if "all" included in session name
     if mean_amplitude_tactilos:
         mean_amplitudes = pd.DataFrame(columns=["Session","Electrode","Tactilo","Mean Amplitude","Condition"])
 
@@ -43,7 +46,7 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
                                 tmin=-0.1, tmax=0.8, #epochs of 900ms starting 100ms before stimulus onset
                                 preload=True,
                                 event_repeated='merge',
-                                baseline=(None, 0), #baseline correction with the first 100ms
+                                baseline=(None, 0), #baseline correction with the first 100ms ( If a tuple (a, b), the interval is between a and b (in seconds), including the endpoints. If a is None, the beginning of the data is used)
                                 picks=picks,
                                 reject=dict(eeg=100e-6)) # reject trials with peak-to-peak amplitudes of 100microVolt
             rejected = 0
@@ -52,23 +55,23 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
                     continue
                 if entry[0] in picks:
                     rejected += 1
-            for tactilo in range(1,7):
+            for tactilo in range(1,num_tactilos+1):
                 target_tac = '1/10'+str(tactilo)
                 df =pd.DataFrame((epochs[target_tac].average()._data*1e6).T)
                 df.index = epochs.times
                 for electrode,amp in enumerate(df[0.35: 0.6].mean().to_list()):
                     mean_amplitudes.loc[len(mean_amplitudes)] =[sess,picks[electrode],str(tactilo),amp,"Target"]
-            for tactilo in range(1,7):
+            for tactilo in range(1,num_tactilos+1):
                 non_target_tac = '0/10'+str(tactilo)
                 df =pd.DataFrame((epochs[non_target_tac].average()._data*1e6).T)
                 df.index = epochs.times
                 for electrode,amp in enumerate(df[0.35: 0.6].mean().to_list()):
                     mean_amplitudes.loc[len(mean_amplitudes)] =[sess,picks[electrode],str(tactilo),amp,"nonTarget"]
-    if sess_name == "all":
-        mean_amplitudes.to_csv(r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\average_amplitudes_350_600.csv",index=False)
+    if "all" in sess_name:
+        mean_amplitudes.to_csv(r"created_data\average_amplitudes_350_600_"+sess_name+".csv",index=False)
 
-    if sess_name == 'all':
-        sess = 'all'
+    if "all" in sess_name:
+        sess = sess_name
     for data_path in data_paths:
         with open(data_path, "rb") as file:
             data_tuple = pickle.load(file)
@@ -101,8 +104,8 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
     if save_averages:
         t_df =  pd.DataFrame(t_avg.T,index= times)
         nt_df = pd.DataFrame(nt_avg.T,index =times)
-        t_df.to_csv(os.path.join(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\filtered_avg_targets_" + str(sess) + ".csv"))
-        nt_df.to_csv(os.path.join(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\filtered_avg_nontargets_" + str(sess) + ".csv"))
+        t_df.to_csv(os.path.join(r"created_data\Amplitudes\filtered_avg_targets_" + sess_name + ".csv"))
+        nt_df.to_csv(os.path.join(r"created_data\Amplitudes\filtered_avg_nontargets_" + sess_name + ".csv"))
 
 
     if plot_r2:
@@ -112,7 +115,7 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
 
         r_value_mat = np.empty((n_channels,n_samples))
         r_value_mat[:] = np.nan # empty doesn't_avg create an empty array!!
-        y_mat = np.tile(y.reshape(1,1,-1).T, (1,n_channels, n_samples))  # TODO  should you really use reshape here? check again
+        y_mat = np.tile(y.reshape(1,1,-1).T, (1,n_channels, n_samples))
 
 
         for timepoint in range(n_samples):
@@ -131,26 +134,7 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
         ax.set_xlabel("seconds")
         ax.set_ylabel("Electrodes")
         ax.set_title("R² of session "+str(sess))
-        plt.savefig(os.path.join(r"D:\Master\Masterarbeit\Data\Plots\R2_filtered" + "\R2_filtered_"+str(sess)+".png"))
-
-    if plot_mne:
-        for electrode in ["Fz","Pz","Cz"]:
-            evokeds = [epochs[name].average(picks=[electrode]) for name in ('1', '0')]
-            epochs_tmp = [epochs[name].pick(electrode) for name in ('1', '0')]
-            evokeds[0].comment = 'Targets'
-            evokeds[1].comment = 'Non-Targets'
-            #fig = mne.viz.plot_compare_evokeds(evokeds,show =False, title ="Average over "+electrode)
-            fig, ax = plt.subplots(nrows=1, ncols=1)
-            for epo in epochs_tmp:
-                tmp = epo.get_data()
-                mean = np.mean(tmp, axis = 0)
-                ax.plot(mean[0])
-                time = np.arange(0, mean[0].shape[0])
-                std = np.std(tmp, axis = 0)
-                ax.fill_between(time, mean[0] - std[0], mean[0] + std[0], alpha=0.5)
-            plt.show()
-           # plt.savefig(os.path.join(r"C:\Users\map92fg\Documents\Software\P300_Classification\data_thesis\PUG_MNE_"+electrode+".png"))
-            #plt.savefig(os.path.join(r"D:\Master\Masterarbeit\Data\Plots\P300_MNE_filtered" + "\P300_MNE_filtered_"+str(sess)+"_"+electrode+".png"))
+        plt.savefig(os.path.join(r"created_data\Graphics\R2\R2_filtered_"+str(sess)+".png"))
 
     if plot_woi_shift:
         for electrode in ["Cz"]:
@@ -181,60 +165,34 @@ def investigate(data_paths,picks= ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"],plot_am
             plt.show()
 
     if plot_amplitude:
-
-        fig, (Fz,Cz,Pz) = plt.subplots(1,3,figsize=(14, 5),sharey=True)
-        for e in ["Fz","Pz","Cz"]:
-            electrode = picks.index(e)
-            eval(e).plot(times, t_avg[electrode], label="Target",c=col_list[1])
-            eval(e).plot(times, nt_avg[electrode], label="Non-Target", c=col_list[0])
-            t_std = np.std(t[:,electrode,:],axis=0)
-            nt_std= np.std(nt[:, electrode, :], axis=0)
-            eval(e).fill_between(times, t_avg[electrode] -t_std, t_avg[electrode]+t_std, alpha=0.3, color=col_list[1])
-            eval(e).fill_between(times, nt_avg[electrode] - nt_std, nt_avg[electrode] + nt_std, alpha=0.3, color=col_list[0])
-            eval(e).plot(times, nt_avg[electrode], label="Non-Target", c=col_list[0])
-            eval(e).axvline(x=0, c='k', lw=0.5)
-            eval(e).axhline(y=0, c='k', lw=0.5)
-            eval(e).axvspan(0.35, 0.6, facecolor='r', alpha=0.25)
-            eval(e).set_xlabel("seconds")
-
-            eval(e).margins(x=0)
-            eval(e).set_title(e)
-        Fz.set_ylabel("µV")
-        Cz.legend(title = "Average over all sessions",loc='center',bbox_to_anchor=(0.5, 1.16),ncol=2)
-        #fig.suptitle("Average over all sessions")
-        fig.tight_layout()
-        plt.show()
-
-    if plot_amplitude_pug:
         col_list = ["#377eb8", "#e41a1c"]
-        fig, Cz = plt.subplots(1, 1, figsize=(6, 5), sharey=True)
-        for e in ["Cz"]:
+
+        for e in electrodes_to_plot:
+            fig, ax = plt.subplots(1, 1, figsize=(6, 5), sharey=True)
             electrode = picks.index(e)
-            eval(e).plot(times, t_avg[electrode], label="Target (n=" + str(t.shape[0]) + ")", c=col_list[1])
-            eval(e).plot(times, nt_avg[electrode], label="Non-Target (n=" + str(nt.shape[0]) + ")", c=col_list[0])
+            ax.plot(times, t_avg[electrode], label="Target (n=" + str(t.shape[0]) + ")", c=col_list[1])
+            ax.plot(times, nt_avg[electrode], label="Non-Target (n=" + str(nt.shape[0]) + ")", c=col_list[0])
             t_std = np.std(t[:, electrode, :], axis=0)
             nt_std = np.std(nt[:, electrode, :], axis=0)
             t_ci = 1.96 * t_std / np.sqrt(t.shape[0])
             nt_ci = 1.96 * nt_std / np.sqrt(nt.shape[0])
-            eval(e).fill_between(times, t_avg[electrode] - t_ci, t_avg[electrode] + t_ci, alpha=0.3, color=col_list[1])
-            eval(e).fill_between(times, nt_avg[electrode] - nt_ci, nt_avg[electrode] + nt_ci, alpha=0.3,
+            ax.fill_between(times, t_avg[electrode] - t_ci, t_avg[electrode] + t_ci, alpha=0.3, color=col_list[1])
+            ax.fill_between(times, nt_avg[electrode] - nt_ci, nt_avg[electrode] + nt_ci, alpha=0.3,
                                  color=col_list[0])
-            eval(e).axvline(x=0, c='k', lw=0.5)
-            eval(e).axhline(y=0, c='k', lw=0.5)
-            eval(e).axvspan(0.35, 0.6, facecolor="#808080", alpha=0.3)
-            eval(e).set_xlabel("seconds")
-            eval(e).set_ylabel("µV")
-            eval(e).margins(x=0)
-            eval(e).set_title(e)
-            eval(e).set_ylabel("µV")
+            ax.axvline(x=0, c='k', lw=0.5)
+            ax.axhline(y=0, c='k', lw=0.5)
+            ax.axvspan(0.35, 0.6, facecolor="#808080", alpha=0.3)
+            ax.set_xlabel("seconds")
+            ax.set_ylabel("µV")
+            ax.margins(x=0)
+            ax.set_title
+            ax.set_ylabel("µV")
 
-        Cz.legend(title="Average of Session "+str(sess_name), loc='center', bbox_to_anchor=(0.5, 1.16), ncol=2)
-        # fig.suptitle("Average over all sessions")
-        fig.tight_layout()
-        # plt.show()
-        plt.savefig(
-            r"C:\Users\map92fg\Documents\Software\P300_Classification\created_data\Graphics\Amplitudes\average_Cz_Session"+str(sess_name)+".svg",
-            format="svg", transparent=True)
+            ax.legend(title="Average of Session "+sess_name + " at " + e, loc='center', bbox_to_anchor=(0.5, 1.16), ncol=2)
+            # fig.suptitle("Average over all sessions")
+            fig.tight_layout()
+            # plt.show()
+            plt.savefig(r"created_data\Graphics\Amplitudes\average_"+e+"_Session_"+sess_name+".svg", format="svg", transparent=True)
 
 
 
