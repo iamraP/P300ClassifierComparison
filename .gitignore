@@ -3,4 +3,7 @@ __pycache__
 ignore
 *.dat
 .idea/.name
-./created_data/Graphics/Amplitudes
+created_data/
+*.ipynb filter=strip-notebook-output 
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
