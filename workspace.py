@@ -1,19 +1,13 @@
 #from __future__ import print_function
-import numpy as np
-import time
 import data_prep as dp
-import matplotlib.pyplot as plt
 import pandas as pd
-import pickle
 import numpy as np
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.feature_selection import f_classif,SelectKBest
 from pyriemann.classification import FgMDM,MDM
 from sklearn import metrics
+import csv
 import time
 import swlda as sw
-import spaghettimonster as sp
-import swlda_old as sw_old
 from tqdm.auto import tqdm
 
 t =time.time()
@@ -23,13 +17,13 @@ t =time.time()
 excluded_sessions = [4,7,10,11,12,16,18,19,20,32] #some sessions were training session which followed after the standard protocol (they happend on the same day and are excluded from analysis)
 sessionwise_calibration = True #False for transfer classifiers
 trans_calib_sess = [1,2,3] # only relevant when  sessionwise_calibration == False
-calib_runs=3 # how many of the runs should be used for calibration? (max=3)
+calib_runs=3 # how many of the runs should be used for calibration? (max=3), this will be overwritten later if classification is selected
 electrode_list = "all" # which electrodes to include, options: 'all' or ["Fz","Fc1","Fc2","C3","Cz","C4","Pz"]== set of unchanged electrodes
 classification = True #if only analysis is done don't load data in the complex way it's needed for classification
 investigate_sessionwise = False  #used for evaluation, figure plotting etc
 investigate_several_sessions = False #set range in script, used for averaging of several sessions
-sess_list = range(1,50)  #range(1,50) #list(range(1,50)) #neues Setup ab Session 21 (12. Messtag) # for PUG range(1,27)
-data_origin = r"data_thesis\mne_raw_pickled"
+sess_list = [1]#range(1,50)  #range(1,50) #list(range(1,50)) #neues Setup ab Session 21 (12. Messtag) # for PUG range(1,27)
+data_origin = r"data_thesis"
 ################################################
 '''SETTINGS STOP'''
 ################################################
@@ -193,6 +187,7 @@ for condition in conditions:
                 #data_train_res classifiers and evaluate classifiers
                 if not resampled_riemann:
                 #SWLDA
+                    t0 = time.time()
                     swlda = sw.swlda()
                     swlda.fit(X_train, y_train)
                     if swlda.weights is None:
@@ -203,6 +198,12 @@ for condition in conditions:
                         roc_values[swlda_name].append(metrics.roc_curve(y_test, swlda_y_pred_prob[:, 1]))
                     temp_df = dp.results_template(ac_swlda, swlda_name, sess, condition)
                     classifier_accuracy = classifier_accuracy.append(temp_df, ignore_index=True)
+
+                    t1 = time.time()
+                    with open('classifer_times.csv', 'a') as f:
+                        writer = csv.writer(f)
+                        writer.writerow([condition,sess,swlda_name, t1 - t0])
+
                     roc_swlda = metrics.roc_curve(y_test, swlda_y_pred_prob[:, 1])
                     temp_roc_df = dp.roc_template(roc_swlda, swlda_name, sess, condition)
                     classifier_roc = classifier_roc.append(temp_roc_df,ignore_index=True)
@@ -210,12 +211,18 @@ for condition in conditions:
                     pbar_condition.update(condition_tqdm + 1)
 
                 #LDA
+                    t0 = time.time()
                     lda = LinearDiscriminantAnalysis(solver='svd', shrinkage=None , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
                     lda.fit(X_train,y_train)
                     lda_y_pred_prob = lda.predict_proba(X_test) #returns list : [[nontarget,target],[nt,t],[nt,t]...]
                     ac_lda = dp.evaluate_independent_epochs(lda_y_pred_prob,epoch_info_test)
                     temp_df = dp.results_template(ac_lda,lda_name, sess, condition)
                     classifier_accuracy =classifier_accuracy.append(temp_df,ignore_index=True)
+
+                    t1 = time.time()
+                    with open('classifer_times.csv', 'a') as f:
+                        writer = csv.writer(f)
+                        writer.writerow([condition,sess,lda_name, t1 - t0])
 
                     roc_lda = metrics.roc_curve(y_test, lda_y_pred_prob[:, 1])
                     temp_roc_df = dp.roc_template(roc_lda, lda_name, sess, condition)
@@ -224,12 +231,18 @@ for condition in conditions:
                     pbar_condition.update(condition_tqdm + 1)
 
                 #shrinkage LDA
+                    t0 = time.time()
                     shrinklda = LinearDiscriminantAnalysis(solver='lsqr', shrinkage='auto' , priors=None, n_components=None, store_covariance=None, tol=0.0001, covariance_estimator=None)
                     shrinklda.fit(X_train,y_train)
                     shrinklda_y_pred_prob = shrinklda.predict_proba(X_test) #returns list : [[nontarget,target],[nt,t],[nt,t]...]
                     ac_shrinklda = dp.evaluate_independent_epochs(shrinklda_y_pred_prob,epoch_info_test)
                     temp_df = dp.results_template(ac_shrinklda, shrinklda_name, sess, condition)
                     classifier_accuracy =classifier_accuracy.append(temp_df, ignore_index=True)
+
+                    t1 = time.time()
+                    with open('classifer_times.csv', 'a') as f:
+                        writer = csv.writer(f)
+                        writer.writerow([condition,sess,shrinklda_name, t1 - t0])
 
                     roc_shrinklda = metrics.roc_curve(y_test, shrinklda_y_pred_prob[:, 1])
                     temp_roc_df = dp.roc_template(roc_shrinklda, shrinklda_name, sess, condition)
@@ -240,25 +253,40 @@ for condition in conditions:
 
                 #Riemann MDM
 
-                t0=time.time()
+                t0 = time.time()
                 mdm = MDM()
                 mdm.fit(cov_matrices_train, y_train)
                 mdm_y_pred_prob = mdm.predict_proba(cov_matrices_test)
                 ac_mdm = dp.evaluate_independent_epochs(mdm_y_pred_prob,epoch_info_test)
+
+                t1 = time.time()
+                with open('classifer_times.csv', 'a') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([condition,sess,mdm_name,t1-t0])
                 #accuracy[5].append(ac_mdm)
                 temp_df = dp.results_template(ac_mdm, mdm_name, sess, condition)
-                classifier_results =classifier_results.append(temp_df, ignore_index=True)
+                classifier_accuracy =classifier_accuracy.append(temp_df, ignore_index=True)
                 roc_values[mdm_name].append(metrics.roc_curve(y_test, mdm_y_pred_prob[:, 1]))
+
                 #print("The Accuracy with " +mdm_name+ " is: {}".format(ac_mdm))
                 pbar_condition.update(condition_tqdm + 1)
 
+
+
                 #MDM with FGDA in tangentspace
+                t0 = time.time()
                 fgmdm = FgMDM()
                 fgmdm.fit(cov_matrices_train, y_train)
                 fgmdm_y_pred_prob = fgmdm.predict_proba(cov_matrices_test)
                 ac_fgmdm = dp.evaluate_independent_epochs(fgmdm_y_pred_prob,epoch_info_test)
                 temp_df = dp.results_template(ac_fgmdm, fgmdm_name, sess, condition)
                 classifier_accuracy =classifier_accuracy.append(temp_df, ignore_index=True)
+
+
+                t1 = time.time()
+                with open('classifer_times.csv', 'a') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([fgmdm_name,t1-t0])
 
                 roc_fgmdm = metrics.roc_curve(y_test, fgmdm_y_pred_prob[:, 1])
                 temp_roc_df = dp.roc_template(roc_fgmdm, mdm_name, sess, condition)
@@ -269,8 +297,8 @@ for condition in conditions:
                 #print("The Accuracy with " +fgmdm_name+ " is: {}".format(ac_fgmdm))
 
             pbar_total.update(total + 1)
-            classifier_roc.to_csv(r"created_data\Classifier_Results\roc.csv",index=False)
-            classifier_accuracy.to_csv(r"created_data\Classifier_Results\accuracies.csv",index=False)
+            #classifier_roc.to_csv(r"created_data\Classifier_Results\roc.csv",index=False)
+            #classifier_accuracy.to_csv(r"created_data\Classifier_Results\accuracies.csv",index=False)
             #sp.spaghetti_code(2)
     #sp.spaghetti_code(1)
 print("It took: {} min to run the entire script".format(round((time.time()-t)/60)))

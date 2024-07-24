@@ -7,3 +7,5 @@ created_data/
 *.ipynb filter=strip-notebook-output 
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+/Alt/*
+created_data_LIS/*
