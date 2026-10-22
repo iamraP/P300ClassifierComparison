@@ -252,7 +252,7 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
         edf_td = epochs.to_data_frame(time_format='timedelta')
         edf_filtered = edf_td[["time", "condition", "epoch"]]
         feature_names = ["feature_" + str(i) for i in range(filtered_epochs.shape[1])]
-        edf_filtered[feature_names] = filtered_epochs.reshape(edf_td.shape[0],filtered_epochs.shape[1]) # TODO  should you really use reshape here? check again
+        edf_filtered[feature_names] = filtered_epochs.transpose(0, 2, 1).reshape(edf_td.shape[0], filtered_epochs.shape[1])
         edf=edf_filtered
     else:
         epochs_resampled = epochs.copy().resample(20)

@@ -26,7 +26,7 @@ class swlda:
             penter=self.penter, premove=self.premove
         )
         if not inmodel.any():
-            swlda.weights = None
+            self.weights = None
             return 'Could not find an appropriate model.'
 
 
