@@ -218,7 +218,11 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
                         event_repeated='merge',baseline=None,picks=picks)  # timewindow -0.85 so its' 0.8 after resampling baselien=(-0.100,0)
 
     # prepare data for covariance estimation
-    X = epochs.copy().resample(20).get_data() if resampled_riemann else epochs.get_data()
+    epochs_20 = epochs.copy().resample(20)
+    X_20 = epochs_20.get_data()
+
+    X = X_20 if resampled_riemann else epochs.get_data()
+
     epochs_for_swlda = epochs.copy()
 
     #get ground truth
@@ -241,22 +245,18 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
     # Initiate xDawn spatial filter or resample epochs:
 
     if xDawn:
-        t =time.time()
-        if not spatial_filter:
+        if spatial_filter is None:
             spatial_filter = Xdawn(nfilter=2)
-            filtered_epochs = spatial_filter.fit_transform(epochs.get_data(),y=y)
+            filtered_epochs = spatial_filter.fit_transform(X_20,y=y)
         else:
-            filtered_epochs = spatial_filter.transform(epochs.get_data())
-        #print("spatial filtering for resampled epochs took: {}".format(time.time()-t))
+            filtered_epochs = spatial_filter.transform(X_20)
 
-        edf_td = epochs.to_data_frame(time_format='timedelta')
-        edf_filtered = edf_td[["time", "condition", "epoch"]]
+        edf_td = epochs_20.to_data_frame(time_format='timedelta')
+        edf = edf_td[["time", "condition", "epoch"]]
         feature_names = ["feature_" + str(i) for i in range(filtered_epochs.shape[1])]
-        edf_filtered[feature_names] = filtered_epochs.transpose(0, 2, 1).reshape(edf_td.shape[0], filtered_epochs.shape[1])
-        edf=edf_filtered
+        edf[feature_names] = filtered_epochs.transpose(0, 2, 1).reshape(edf_td.shape[0], filtered_epochs.shape[1])
     else:
-        epochs_resampled = epochs.copy().resample(20)
-        edf = epochs_resampled.to_data_frame(time_format='timedelta')
+        edf = epochs_20.to_data_frame(time_format='timedelta')
 
     edf = edf.set_index("time", drop=False)
 
@@ -267,12 +267,7 @@ def load_epochs(data_paths, cov_estimator=None,picks = 'all', resampled_riemann 
         if epoch_complete['condition'].unique() =='10': #kic
             continue
         epoch_info = np.array([epoch_complete['condition'].iloc[0][0], epoch_complete['condition'].iloc[0][-1], epoch_complete['epoch'].iloc[0]],dtype=int)
-        if xDawn:
-            epoch_complete = epoch_complete.resample("50ms").mean()
-            epoch_complete = epoch_complete[:-1] # drop 800ms time point to be consistent with the resampling done by mne
-            epoch_signal = epoch_complete.drop(columns=['epoch']).to_numpy()
-        else:
-            epoch_signal = epoch_complete.drop(columns=['time', 'condition', 'epoch']).to_numpy()
+        epoch_signal = epoch_complete.drop(columns=['time', 'condition', 'epoch']).to_numpy()
         epoch_signal = epoch_signal.flatten("F")
         if first_round:
             epoch_df =  pd.DataFrame(np.append(epoch_info,epoch_signal)).T
